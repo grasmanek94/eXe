@@ -32,7 +32,15 @@
 auto MakeVersion = [&](unsigned long long year, unsigned long long month, unsigned long long day, unsigned long long hour, unsigned long long minute){ return minute + (hour * 100) + (day * 10000) + (month * 1000000) + (year * 100000000); };
 unsigned long long Exe24ModCurrentVersion = MakeVersion(2015, 1, 13, 11, 27);
 
-std::set<boost::asio::ip::address_v4> IP_SUPER_WHITELIST;
+//IP's that can join the game even if (host)banned
+std::set<boost::asio::ip::address_v4> IP_SUPER_WHITELIST =
+{
+	#ifndef _LOCALHOST_DEBUG
+	boost::asio::ip::address_v4::from_string("127.0.0.1"),		//localhost
+	//boost::asio::ip::address_v4::from_string("123.45.67.89"),	//another ip
+	#include "ipwhitelist.inline"
+	#endif
+};
 
 static const std::vector<char> charset = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
 static const unsigned char PASSWD_CHARS = 31;
@@ -239,12 +247,6 @@ public:
 	{
 		gtLog(LOG_OTHER, "Server is starting");
 
-#ifndef _LOCALHOST_DEBUG
-		IP_SUPER_WHITELIST.insert(boost::asio::ip::address_v4::from_string("127.0.0.1"));//localhost
-		IP_SUPER_WHITELIST.insert(boost::asio::ip::address_v4::from_string("82.169.83.65"));//gamer, west, raptor, arcade
-		IP_SUPER_WHITELIST.insert(boost::asio::ip::address_v4::from_string("82.173.123.128"));//gamer, west, raptor, arcade
-		IP_SUPER_WHITELIST.insert(boost::asio::ip::address_v4::from_string("82.46.75.39"));//IceCube
-#endif
 		if (!userdb)
 		{
 #if defined(DATABASE_MYSQL)

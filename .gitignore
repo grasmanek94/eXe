@@ -205,8 +205,9 @@ FakesAssemblies/
 # automatic versioning
 auto_version.h
 
-# ignore colden coins data file
+# ignore data files
 GoldCoinsAchievements.inline
+ipwhitelist.inline
 
 # boost errors fix
 !/boost_extract/boost/preprocessor/debug/

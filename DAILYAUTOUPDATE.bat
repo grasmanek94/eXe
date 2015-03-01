@@ -9,6 +9,7 @@ cd /d %~dp0
 cd src/gamemode
 copy /b VERSION.cxx +,,
 type nul >>GoldCoinsAchievements.inline & copy GoldCoinsAchievements.inline +,,
+type nul >>ipwhitelist.inline & copy ipwhitelist.inline +,,
 echo updated version...
 cd /d %~dp0
 echo compiling...

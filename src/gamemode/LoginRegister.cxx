@@ -48,7 +48,9 @@ bool CheckCommandAllowed(int playerid, int this_restrictions, bool showmessage)
 	if (Player[playerid].CommandMute > timenow && !bIsBitEnabled(this_restrictions, RESTRICTION_CAN_USE_WHILE_MUTED))
 	{
 		if (showmessage)
+		{
 			fixSendClientMessageF(playerid, -1, L_cmdchatmute, true, true, ((Player[playerid].CommandMute - timenow) / 1000) + 1);
+		}
 		return false;
 	}
 
@@ -57,14 +59,18 @@ bool CheckCommandAllowed(int playerid, int this_restrictions, bool showmessage)
 		(bIsBitEnabled(this_restrictions, RESTRICTION_NOT_IN_A_GAME) || (GetCommandPermissionGameID(this_restrictions) != Player[playerid].CurrentGameID->CurrentGameID && GetCommandPermissionGameID(this_restrictions) != 0)))
 	{
 		if (showmessage)
+		{
 			fixSendClientMessage(playerid, -1, L_commandrestriction_game);
+		}
 		return false;
 	}else
 	if (bIsBitEnabled(this_restrictions, RESTRICTION_ONLY_IN_A_GAME) && 
 		Player[playerid].CurrentGameID == nullptr)
 	{
 		if (showmessage)
+		{
 			fixSendClientMessage(playerid, -1, L_commandrestriction_onlyingame);
+		}
 		return false;
 	}
 
@@ -72,7 +78,9 @@ bool CheckCommandAllowed(int playerid, int this_restrictions, bool showmessage)
 		Zabawy::IsPlayerStaging(playerid))
 	{
 		if (showmessage)
+		{
 			fixSendClientMessage(playerid, -1, L_commandrestriction_game);
+		}
 		return false;
 	}
 
@@ -80,7 +88,9 @@ bool CheckCommandAllowed(int playerid, int this_restrictions, bool showmessage)
 		state != PLAYER_STATE_ONFOOT)
 	{
 		if (showmessage)
+		{
 			fixSendClientMessage(playerid, -1, L_commandrestriction_onlyonfoot);
+		}
 		return false;
 	}
 
@@ -89,7 +99,9 @@ bool CheckCommandAllowed(int playerid, int this_restrictions, bool showmessage)
 		state != PLAYER_STATE_PASSENGER)
 	{
 		if (showmessage)
+		{
 			fixSendClientMessage(playerid, -1, L_commandrestriction_onlyinvehicle);
+		}
 		return false;
 	}
 
@@ -97,7 +109,9 @@ bool CheckCommandAllowed(int playerid, int this_restrictions, bool showmessage)
 		state != PLAYER_STATE_DRIVER)
 	{
 		if (showmessage)
+		{
 			fixSendClientMessage(playerid, -1, L_commandrestriction_onlyasdriver);
+		}
 		return false;
 	}
 
@@ -105,7 +119,9 @@ bool CheckCommandAllowed(int playerid, int this_restrictions, bool showmessage)
 		!Player[playerid].IsLoggedIn)
 	{
 		if (showmessage)
+		{
 			fixSendClientMessage(playerid, -1, L_commandrestriction_onlyloggedin);
+		}
 		return false;
 	}
 
@@ -116,7 +132,9 @@ bool CheckCommandAllowed(int playerid, int this_restrictions, bool showmessage)
 		))
 	{
 		if (showmessage)
+		{
 			fixSendClientMessage(playerid, -1, L_commandrestriction_onlyinmafia);
+		}
 		return false;
 	}
 
@@ -124,7 +142,9 @@ bool CheckCommandAllowed(int playerid, int this_restrictions, bool showmessage)
 		Player[playerid].Mafia != nullptr)
 	{
 		if (showmessage)
+		{
 			fixSendClientMessage(playerid, -1, L_commandrestriction_notinmafia);
+		}
 		return false;
 	}
 
@@ -135,7 +155,9 @@ bool CheckCommandAllowed(int playerid, int this_restrictions, bool showmessage)
 		))
 	{
 		if (showmessage)
+		{
 			fixSendClientMessage(playerid, -1, L_commandrestriction_onlyincar);
+		}
 		return false;
 	}
 
@@ -146,7 +168,9 @@ bool CheckCommandAllowed(int playerid, int this_restrictions, bool showmessage)
 		))
 	{
 		if (showmessage)
+		{
 			fixSendClientMessage(playerid, -1, L_commandrestriction_onlyinairplane);
+		}
 		return false;
 	}
 
@@ -157,7 +181,9 @@ bool CheckCommandAllowed(int playerid, int this_restrictions, bool showmessage)
 		))
 	{
 		if (showmessage)
+		{
 			fixSendClientMessage(playerid, -1, L_commandrestriction_onlyinhelicopter);
+		}
 		return false;
 	}
 
@@ -165,7 +191,9 @@ bool CheckCommandAllowed(int playerid, int this_restrictions, bool showmessage)
 		(!Player[playerid].IsRegistered || !Player[playerid].DataLoaded))
 	{
 		if (showmessage)
+		{
 			fixSendClientMessage(playerid, -1, L_commandrestriction_onlyregisteredanddataloaded);
+		}
 		return false;
 	}
 
@@ -173,7 +201,9 @@ bool CheckCommandAllowed(int playerid, int this_restrictions, bool showmessage)
 		Player[playerid].LastDamageTime > timenow)
 	{
 		if (showmessage)
+		{
 			fixSendClientMessageF(playerid, -1, L_commandrestriction_afterfight, true, true, ((Player[playerid].LastDamageTime - timenow) / 1000) + 1);
+		}
 		return false;
 	}
 
@@ -181,7 +211,9 @@ bool CheckCommandAllowed(int playerid, int this_restrictions, bool showmessage)
 		Player[playerid].ChatMute > timenow)
 	{
 		if (showmessage)
-			fixSendClientMessageF(playerid, -1, L_cmdchatmute, true, true, ((Player[playerid].CommandMute - Functions::GetTime()) / 1000)+1);
+		{
+			fixSendClientMessageF(playerid, -1, L_cmdchatmute, true, true, ((Player[playerid].CommandMute - Functions::GetTime()) / 1000) + 1);
+		}
 		return false;
 	}
 
@@ -189,7 +221,9 @@ bool CheckCommandAllowed(int playerid, int this_restrictions, bool showmessage)
 		!Player[playerid].Spawned)
 	{
 		if (showmessage)
+		{
 			fixSendClientMessage(playerid, -1, L_commandrestriction_spawned);
+		}
 		return false;
 	}
 
@@ -210,7 +244,9 @@ bool CheckCommandAllowed(int playerid, int this_restrictions, bool showmessage)
 		state != PLAYER_STATE_ONFOOT)
 	{
 		if (showmessage)
+		{
 			fixSendClientMessage(playerid, -1, L_commandrestriction_vehorfoot);
+		}
 		return false;
 	}
 
@@ -237,6 +273,18 @@ void ShowUpdatePasswordDialog(int playerid)
 	ShowPlayerCustomDialog(playerid, "updatepasswd", DIALOG_STYLE_PASSWORD, TranslateP(playerid, L_updatepass_title), TranslateP(playerid, L_register_text), TranslateP(playerid, L_Confirm), TranslateP(playerid, L_Cancel));
 }
 
+void PerformPlayerSkinIdCheck(int playerid)
+{
+	if (Player[playerid].statistics.SkinModelID >= 0 && Player[playerid].statistics.SkinModelID < 300)
+	{
+		safeSetSpawnInfo(playerid, NO_TEAM, Player[playerid].statistics.SkinModelID, 0.0, 0.0, 3.0, 0.0, 0, 0, 0, 0, 0, 0);
+	}
+	else
+	{
+		safeSetSpawnInfo(playerid, NO_TEAM, 0, 0.0, 0.0, 3.0, 0.0, 0, 0, 0, 0, 0, 0);
+	}
+}
+
 class LoginRegisterProcessor : public Extension::Base
 {
 public:
@@ -250,7 +298,9 @@ public:
 	bool OnPlayerUpdate(int playerid)
 	{
 		if (Player[playerid].IsRegistered)
+		{
 			return Player[playerid].IsLoggedIn;
+		}
 		return true;
 	}
 	bool OnPlayerDataAcquired(int playerid, int result)
@@ -305,13 +355,19 @@ public:
 	bool Test(int playerid)
 	{
 		if (!Player[playerid].AquiredData)//aby ju¿ siê 2 dialogi nie miesza³y
+		{
 			return false;
+		}
 		if (Player[playerid].IsRegistered && !Player[playerid].IsLoggedIn)
 		{
 			if (Player[playerid].LanguageChosen)
+			{
 				ShowLoginDialog(playerid);
+			}
 			else
+			{
 				ShowPlayerZeroDialog(playerid, "languagechooser");
+			}
 			return false;
 		}
 		return true;
@@ -331,10 +387,7 @@ public:
 	}
 	bool OnPlayerSpawn(int playerid)
 	{
-		if (Player[playerid].statistics.SkinModelID >= 0 && Player[playerid].statistics.SkinModelID < 300)
-			SetPlayerSkin(playerid, Player[playerid].statistics.SkinModelID);
-		else
-			SetPlayerSkin(playerid, 0);
+		PerformPlayerSkinIdCheck(playerid);
 		return true;
 	}
 	bool OnPlayerCommandReceived(int playerid, std::string& command, std::string& params, int min_execute_level, int this_restrictions)
@@ -377,14 +430,7 @@ static void SAMPGDK_CALL SpawnPlayerOnClassRequest(int timerid, void *param)
 void SpawnPlayerAnyway(int playerid)
 {
 	TogglePlayerSpectating(playerid, true);
-	if (Player[playerid].statistics.SkinModelID >= 0 && Player[playerid].statistics.SkinModelID <= 300)
-	{
-		safeSetSpawnInfo(playerid, NO_TEAM, Player[playerid].statistics.SkinModelID, 0.0, 0.0, 3.0, 0.0, 0, 0, 0, 0, 0, 0);
-	}
-	else
-	{
-		safeSetSpawnInfo(playerid, NO_TEAM, 0, 0.0, 0.0, 3.0, 0.0, 0, 0, 0, 0, 0, 0);
-	}
+	PerformPlayerSkinIdCheck(playerid);
 	sampgdk_SetTimerEx(1, false, SpawnPlayerOnClassRequest, (void*)playerid, nullptr);
 }
 
@@ -400,9 +446,13 @@ ZERO_DIALOG(languagechooser)
 		AddPlayerToLanguage(playerid, listitem);
 
 		if (!Player[playerid].IsRegistered)
+		{
 			ShowQuestionDialog(playerid);
+		}
 		else
+		{
 			ShowLoginDialog(playerid);
+		}
 	}
 	else
 	{
@@ -489,11 +539,15 @@ ZERO_DIALOG(login)
 		{
 			unsigned long long TimeNow = Functions::GetTime();
 			if (Player[playerid].TemporaryRecoveryCode.size())
+			{
 				Player[playerid].TemporaryRecoveryCode = "";
+			}
 
 			Player[playerid].IsLoggedIn = true;
 			if (Player[playerid].statistics.verifiedmail.size() == 0)
+			{
 				ShowPlayerCustomDialog(playerid, DLG_DUMMY, DIALOG_STYLE_MSGBOX, TranslateP(playerid, L_login_dialog_title), TranslateP(playerid, L_login_welcomeback), "V", "X");
+			}
 			gtLog(LOG_LOGIN, Functions::string_format("[%d][%s][%s] logged in success, privilidges: %08X", playerid, Player[playerid].PlayerName.c_str(), Player[playerid].ipv4.to_string().c_str(), Player[playerid].statistics.privilidges));
 			Player[playerid].SetMoney(Player[playerid].statistics.money);
 			Player[playerid].SetScore(Player[playerid].statistics.respect);
