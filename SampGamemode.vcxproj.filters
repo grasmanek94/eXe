@@ -1,0 +1,969 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="boost_extract\libs\date_time\src\gregorian\greg_weekday.cpp">
+      <Filter>boost_src</Filter>
+    </ClCompile>
+    <ClCompile Include="boost_extract\libs\date_time\src\gregorian\gregorian_types.cpp">
+      <Filter>boost_src</Filter>
+    </ClCompile>
+    <ClCompile Include="boost_extract\libs\date_time\src\gregorian\date_generators.cpp">
+      <Filter>boost_src</Filter>
+    </ClCompile>
+    <ClCompile Include="boost_extract\libs\date_time\src\gregorian\greg_month.cpp">
+      <Filter>boost_src</Filter>
+    </ClCompile>
+    <ClCompile Include="boost_extract\libs\date_time\src\posix_time\posix_time_types.cpp">
+      <Filter>boost_src</Filter>
+    </ClCompile>
+    <ClCompile Include="boost_extract\libs\filesystem\src\portability.cpp">
+      <Filter>boost_src</Filter>
+    </ClCompile>
+    <ClCompile Include="boost_extract\libs\filesystem\src\unique_path.cpp">
+      <Filter>boost_src</Filter>
+    </ClCompile>
+    <ClCompile Include="boost_extract\libs\filesystem\src\utf8_codecvt_facet.cpp">
+      <Filter>boost_src</Filter>
+    </ClCompile>
+    <ClCompile Include="boost_extract\libs\filesystem\src\windows_file_codecvt.cpp">
+      <Filter>boost_src</Filter>
+    </ClCompile>
+    <ClCompile Include="boost_extract\libs\filesystem\src\codecvt_error_category.cpp">
+      <Filter>boost_src</Filter>
+    </ClCompile>
+    <ClCompile Include="boost_extract\libs\filesystem\src\operations.cpp">
+      <Filter>boost_src</Filter>
+    </ClCompile>
+    <ClCompile Include="boost_extract\libs\filesystem\src\path.cpp">
+      <Filter>boost_src</Filter>
+    </ClCompile>
+    <ClCompile Include="boost_extract\libs\filesystem\src\path_traits.cpp">
+      <Filter>boost_src</Filter>
+    </ClCompile>
+    <ClCompile Include="boost_extract\libs\smart_ptr\src\sp_collector.cpp">
+      <Filter>boost_src</Filter>
+    </ClCompile>
+    <ClCompile Include="boost_extract\libs\smart_ptr\src\sp_debug_hooks.cpp">
+      <Filter>boost_src</Filter>
+    </ClCompile>
+    <ClCompile Include="boost_extract\libs\config\test\config_info.cpp">
+      <Filter>boost_src</Filter>
+    </ClCompile>
+    <ClCompile Include="boost_extract\libs\system\error_code.cpp">
+      <Filter>boost_src</Filter>
+    </ClCompile>
+    <ClCompile Include="boost_extract\libs\regex\src\winstances.cpp">
+      <Filter>boost_src</Filter>
+    </ClCompile>
+    <ClCompile Include="boost_extract\libs\regex\src\c_regex_traits.cpp">
+      <Filter>boost_src</Filter>
+    </ClCompile>
+    <ClCompile Include="boost_extract\libs\regex\src\cpp_regex_traits.cpp">
+      <Filter>boost_src</Filter>
+    </ClCompile>
+    <ClCompile Include="boost_extract\libs\regex\src\cregex.cpp">
+      <Filter>boost_src</Filter>
+    </ClCompile>
+    <ClCompile Include="boost_extract\libs\regex\src\fileiter.cpp">
+      <Filter>boost_src</Filter>
+    </ClCompile>
+    <ClCompile Include="boost_extract\libs\regex\src\icu.cpp">
+      <Filter>boost_src</Filter>
+    </ClCompile>
+    <ClCompile Include="boost_extract\libs\regex\src\instances.cpp">
+      <Filter>boost_src</Filter>
+    </ClCompile>
+    <ClCompile Include="boost_extract\libs\regex\src\posix_api.cpp">
+      <Filter>boost_src</Filter>
+    </ClCompile>
+    <ClCompile Include="boost_extract\libs\regex\src\regex.cpp">
+      <Filter>boost_src</Filter>
+    </ClCompile>
+    <ClCompile Include="boost_extract\libs\regex\src\regex_debug.cpp">
+      <Filter>boost_src</Filter>
+    </ClCompile>
+    <ClCompile Include="boost_extract\libs\regex\src\regex_raw_buffer.cpp">
+      <Filter>boost_src</Filter>
+    </ClCompile>
+    <ClCompile Include="boost_extract\libs\regex\src\regex_traits_defaults.cpp">
+      <Filter>boost_src</Filter>
+    </ClCompile>
+    <ClCompile Include="boost_extract\libs\regex\src\static_mutex.cpp">
+      <Filter>boost_src</Filter>
+    </ClCompile>
+    <ClCompile Include="boost_extract\libs\regex\src\usinstances.cpp">
+      <Filter>boost_src</Filter>
+    </ClCompile>
+    <ClCompile Include="boost_extract\libs\regex\src\w32_regex_traits.cpp">
+      <Filter>boost_src</Filter>
+    </ClCompile>
+    <ClCompile Include="boost_extract\libs\regex\src\wc_regex_traits.cpp">
+      <Filter>boost_src</Filter>
+    </ClCompile>
+    <ClCompile Include="boost_extract\libs\regex\src\wide_posix_api.cpp">
+      <Filter>boost_src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\streamer\Streamer274.cxx">
+      <Filter>streamer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\AdminEye.cxx">
+      <Filter>gamemode\Administrator</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\AdminSpectate.cxx">
+      <Filter>gamemode\Administrator</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\AdminSystem.cxx">
+      <Filter>gamemode\Administrator</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\EnvironmentObjects.cxx">
+      <Filter>gamemode\World</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\Stunting.cxx">
+      <Filter>gamemode\World</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\Atlantis.cxx">
+      <Filter>gamemode\World</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\TorSanchez.cxx">
+      <Filter>gamemode\World</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\BazaLSDocks.cxx">
+      <Filter>gamemode\World</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\_GCVehicleManager.cxx">
+      <Filter>gamemode\Internals\GlobalVehicleManager</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\ArenaFlyingTank.cxx">
+      <Filter>gamemode\MiniGameSystem\Arena</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\ArenaGranaty.cxx">
+      <Filter>gamemode\MiniGameSystem\Arena</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\ArenaMinigun.cxx">
+      <Filter>gamemode\MiniGameSystem\Arena</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\ArenaOneDe.cxx">
+      <Filter>gamemode\MiniGameSystem\Arena</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\ArenaOneShot.cxx">
+      <Filter>gamemode\MiniGameSystem\Arena</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\ArenaPaintBall.cxx">
+      <Filter>gamemode\MiniGameSystem\Arena</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\ArenaRPG.cxx">
+      <Filter>gamemode\MiniGameSystem\Arena</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\ArenaSawnOff.cxx">
+      <Filter>gamemode\MiniGameSystem\Arena</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\ArenaSniper.cxx">
+      <Filter>gamemode\MiniGameSystem\Arena</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\ArenaTankBattle.cxx">
+      <Filter>gamemode\MiniGameSystem\Arena</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\ArenaWigilia.cxx">
+      <Filter>gamemode\MiniGameSystem\Arena</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\MiniGameBagno.cxx">
+      <Filter>gamemode\MiniGameSystem\MiniGame</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\MiniGameDerby.cxx">
+      <Filter>gamemode\MiniGameSystem\MiniGame</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\MiniGameHay.cxx">
+      <Filter>gamemode\MiniGameSystem\MiniGame</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\MiniGameTDM.cxx">
+      <Filter>gamemode\MiniGameSystem\MiniGame</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\MiniGameSystem.cxx">
+      <Filter>gamemode\MiniGameSystem\System</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\MiniGameRacingSystem.cxx">
+      <Filter>gamemode\MiniGameSystem\System</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\RaceHalfRoad.cxx">
+      <Filter>gamemode\MiniGameSystem\Race</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\RaceShamalTraining.cxx">
+      <Filter>gamemode\MiniGameSystem\Race</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\ThreadedLogging.cxx">
+      <Filter>gamemode\Internals\Logging</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\VehicleCalculationFunctions.cxx">
+      <Filter>gamemode\Internals\Vehicle</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\VehicleExtraGetFunctions.cxx">
+      <Filter>gamemode\Internals\Vehicle</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\Vehicles.cxx">
+      <Filter>gamemode\Internals\Vehicle</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\_TestingArea.cxx">
+      <Filter>gamemode\Internals\_Testing</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\AntiSpeedHackMeasure.cxx">
+      <Filter>gamemode\Internals\_Testing</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\email.cxx">
+      <Filter>gamemode\Internals\E-Mail</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\VERSION.cxx">
+      <Filter>gamemode\Internals\Versioning</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\FilteringEngine.cxx">
+      <Filter>gamemode\Internals\Other</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\functions.cxx">
+      <Filter>gamemode\Internals\Other</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\GameMode.cxx">
+      <Filter>gamemode\Internals\Other</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\IconSystem.cxx">
+      <Filter>gamemode\Internals\Other</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\LanguageTextDraw.cxx">
+      <Filter>gamemode\Internals\Other</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\pch.cxx">
+      <Filter>gamemode\Internals\Other</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\ZoneNames.cxx">
+      <Filter>gamemode\Internals\Other</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\user-odb.cxx">
+      <Filter>gamemode\Database\ODB</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\Worker.cxx">
+      <Filter>gamemode\Database\GM</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\0cmdpp.cxx">
+      <Filter>gamemode\CommandDialogSystem\Command</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\CommandParamsParser.cxx">
+      <Filter>gamemode\CommandDialogSystem\Command</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\DialogProcessor.cxx">
+      <Filter>gamemode\CommandDialogSystem\Dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\MenuManager.cxx">
+      <Filter>gamemode\CommandDialogSystem\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\LangMain.cxx">
+      <Filter>gamemode\Language\System</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\MapAndreas.cxx">
+      <Filter>gamemode\Libs\MapAndreas</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\whirlpool.cxx">
+      <Filter>gamemode\Libs\Whirlpool</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\extension.cxx">
+      <Filter>gamemode\Libs\Extension</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\HostBan.cxx">
+      <Filter>gamemode\Internals\HostBan</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\HouseSystem.cxx">
+      <Filter>gamemode\Internals\House</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\LottoSystem.cxx">
+      <Filter>gamemode\Internals\Lotto</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\PerformanceCounter.cxx">
+      <Filter>gamemode\Internals\PerfMon</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\SentryGunSystem.cxx">
+      <Filter>gamemode\Internals\Sentry</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\TutorialSystem.cxx">
+      <Filter>gamemode\Internals\Tutorial</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\_exe24_RemoteManager.cxx">
+      <Filter>packethook\exe24+</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\BitStream.cpp">
+      <Filter>packethook\RakNet</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\GetPacket.cxx">
+      <Filter>packethook\Hook</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\sqlite\sqlite3.c">
+      <Filter>libodb\SQLITE3</Filter>
+    </ClCompile>
+    <ClCompile Include="src\libodb\odb\details\shared-ptr\base.cxx">
+      <Filter>libodb\ODB-MAIN</Filter>
+    </ClCompile>
+    <ClCompile Include="src\libodb\odb\sqlite\odbsqlite.cxx">
+      <Filter>libodb\ODB-SQLITE</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sampgdk\amxplugin.cpp">
+      <Filter>SAMP\SDK</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sampgdk\sampgdk.c">
+      <Filter>SAMP\GDK</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\AchievementsManagers.cxx">
+      <Filter>gamemode\Achievements\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\PlayerStatsTextDraw.cxx">
+      <Filter>gamemode\Achievements\TextDraw</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\GoldCoinsAchievements.cxx">
+      <Filter>gamemode\Achievements\GoldCoins</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\StatsDatabase.cxx">
+      <Filter>gamemode\Achievements\StatsUpdate</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\AntiCheat.cxx">
+      <Filter>gamemode\AntiCheat&amp;Protections&amp;Fixes\AntiCheat</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\AntiS0beit.cxx">
+      <Filter>gamemode\AntiCheat&amp;Protections&amp;Fixes\AntiCheat</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\CheatReportHandler.cxx">
+      <Filter>gamemode\AntiCheat&amp;Protections&amp;Fixes\AntiCheat</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\SendClientMessageFix.cxx">
+      <Filter>gamemode\AntiCheat&amp;Protections&amp;Fixes\SCMCrashFix</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\RCVehicleExitFix.cxx">
+      <Filter>gamemode\AntiCheat&amp;Protections&amp;Fixes\RCFix</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\SampGDKHelper.cxx">
+      <Filter>SAMP\GDK\Helper</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\Odliczanie.cxx">
+      <Filter>gamemode\Player\TextDraw\CountDown</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\TimedInformation.cxx">
+      <Filter>gamemode\Player\TextDraw\TimedInformation</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\SpeedoMeter.cxx">
+      <Filter>gamemode\Player\TextDraw\Speedo</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\PrivateCar.cxx">
+      <Filter>gamemode\Player\Vehicle</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\Rampy.cxx">
+      <Filter>gamemode\Player\Vehicle</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\Vehicle.cxx">
+      <Filter>gamemode\Player\Vehicle</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\CreditsScene.cxx">
+      <Filter>gamemode\Player\Information</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\Help.cxx">
+      <Filter>gamemode\Player\Information</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\HitmanList.cxx">
+      <Filter>gamemode\Player\Information</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\ShowGameModeInfo.cxx">
+      <Filter>gamemode\Player\Information</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\Teleports.cxx">
+      <Filter>gamemode\Player\Teleport\Global</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\PlayerTeleport.cxx">
+      <Filter>gamemode\Player\Teleport\Local</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\LoginRegister.cxx">
+      <Filter>gamemode\Player\Account&amp;Permissions</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\Mafia.cxx">
+      <Filter>gamemode\Player\Mafia</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\WorldData.cxx">
+      <Filter>gamemode\Player\WorldData</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\WeaponInfo.cxx">
+      <Filter>gamemode\Player\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\Commands.cxx">
+      <Filter>gamemode\Player\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\PrivateMessages.cxx">
+      <Filter>gamemode\Player\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\Animation.cxx">
+      <Filter>gamemode\Player\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\GateSystem.cxx">
+      <Filter>gamemode\Internals\Gates</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\NativeSAVehicleLocations.cxx">
+      <Filter>gamemode\Internals\Vehicle\Native</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\VehicleClosenessChecker.cxx">
+      <Filter>gamemode\Internals\Vehicle</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\TextProcessing.cxx">
+      <Filter>gamemode\Internals\Other</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\TestTextProcessing.cxx">
+      <Filter>TESTS</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\AccuracyMeasure.cxx">
+      <Filter>gamemode\AntiCheat&amp;Protections&amp;Fixes\AntiCheat</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\MessageManager.cxx">
+      <Filter>gamemode\Internals\Other</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\extern.cxx">
+      <Filter>gamemode\Internals\Other</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gtasa\CarColorGenerator.cxx">
+      <Filter>GTASA\CarColor</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gtasa\Random.cxx">
+      <Filter>GTASA\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\MafiaBase.cxx">
+      <Filter>gamemode\Player\Mafia</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="boost_src">
+      <UniqueIdentifier>{d798f606-6564-4513-98f8-f1b074b689f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gamemode">
+      <UniqueIdentifier>{748fbf85-f1f2-4a3a-ad0a-8294a39fb9fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="packethook">
+      <UniqueIdentifier>{81f0841e-0759-4070-b2e1-9f186d9b64cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="streamer">
+      <UniqueIdentifier>{617033ab-77bc-4d2f-b6ca-1c6bfd243a11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libodb">
+      <UniqueIdentifier>{3f1368ef-fd28-4fc3-9e52-15470eb8e338}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gamemode\Administrator">
+      <UniqueIdentifier>{0dc96b4d-dbcc-49e0-8fc1-95aa887392f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gamemode\Database">
+      <UniqueIdentifier>{b7354cf6-670f-4111-b881-1af159c374a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gamemode\CommandDialogSystem">
+      <UniqueIdentifier>{64852e73-c86e-4a22-86d0-8a5edf9216b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gamemode\Libs">
+      <UniqueIdentifier>{447a0701-6f25-428a-b6bc-d0ec3601952c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gamemode\Internals">
+      <UniqueIdentifier>{159a0983-9c84-4367-87ca-9148f8387da1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gamemode\World">
+      <UniqueIdentifier>{a355c40f-24e6-4963-880b-d36c887102fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gamemode\Language">
+      <UniqueIdentifier>{5014878f-3783-4b58-adf0-97cc09c5af05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gamemode\Player">
+      <UniqueIdentifier>{907c5f4f-4a9d-49aa-929c-833fd2c4b93c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gamemode\MiniGameSystem">
+      <UniqueIdentifier>{235d924f-18fe-40df-b220-7de904866c8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gamemode\AntiCheat&amp;Protections&amp;Fixes">
+      <UniqueIdentifier>{d72c5069-f0af-4004-aef7-6ccef29318f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gamemode\Achievements">
+      <UniqueIdentifier>{41e5b7e9-302e-4bbe-af9a-153b926da095}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gamemode\MiniGameSystem\Arena">
+      <UniqueIdentifier>{6a33d282-97a5-49b9-b582-5e438567f542}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gamemode\MiniGameSystem\MiniGame">
+      <UniqueIdentifier>{7aac1444-cf7f-4ed0-afd5-4dfb1dd0d753}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gamemode\MiniGameSystem\System">
+      <UniqueIdentifier>{3c1a8639-8169-487e-ae50-9719f43027fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gamemode\MiniGameSystem\Race">
+      <UniqueIdentifier>{00389429-0473-45d7-94c3-2286462065e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gamemode\Internals\Logging">
+      <UniqueIdentifier>{78f6d309-f416-49d9-bd56-aae1bdbf8a25}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gamemode\Internals\Vehicle">
+      <UniqueIdentifier>{90216da1-793d-4d7d-8db5-7706caf82928}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gamemode\Internals\E-Mail">
+      <UniqueIdentifier>{2b08fe49-4039-4a1e-9e64-e683362761d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gamemode\Internals\Versioning">
+      <UniqueIdentifier>{b1159a79-ced5-4871-ba74-08c6b7246ff3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gamemode\Internals\Other">
+      <UniqueIdentifier>{5b4f00e3-5d9b-4d8d-a3a4-71466b3d2261}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gamemode\Database\ODB">
+      <UniqueIdentifier>{815883e7-6a4d-4637-b3e0-1b3397d79d89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gamemode\Database\GM">
+      <UniqueIdentifier>{560c8933-da0a-4bad-9820-1563ef422c74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gamemode\CommandDialogSystem\Dialog">
+      <UniqueIdentifier>{c4d459b9-8764-4888-8437-41b784d587c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gamemode\CommandDialogSystem\Command">
+      <UniqueIdentifier>{39af769d-2866-4393-8e90-d50e8b730327}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gamemode\CommandDialogSystem\Menu">
+      <UniqueIdentifier>{7a1576d7-ac4e-4f09-ae5a-ef33cb647d76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gamemode\Language\System">
+      <UniqueIdentifier>{60e477c1-b289-48a8-8269-a34744ad2856}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gamemode\Language\Languages">
+      <UniqueIdentifier>{d2800ea7-bf51-4134-9f8e-b030305b4ae5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gamemode\Libs\MapAndreas">
+      <UniqueIdentifier>{d8ab7e87-609f-4f16-96e8-796bf29729a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gamemode\Internals\HostBan">
+      <UniqueIdentifier>{8cbb3e29-732a-44db-8b66-0411dcb13c67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gamemode\Internals\House">
+      <UniqueIdentifier>{5b9191e3-8ca3-4a8f-a9c5-36718ccc6388}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gamemode\Internals\Lotto">
+      <UniqueIdentifier>{a7f42238-a5db-4e22-9ccb-9e2d1a5d8ba2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gamemode\Internals\Tutorial">
+      <UniqueIdentifier>{811bb3a0-8146-4c8c-b282-332a3d739aa8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gamemode\Internals\Sentry">
+      <UniqueIdentifier>{d1c7330a-c2ca-4cdb-baf4-93bc5cae2f69}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gamemode\Internals\PerfMon">
+      <UniqueIdentifier>{7d680b12-0d3a-4cf0-9685-2ffc10dc969f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gamemode\Internals\GlobalVehicleManager">
+      <UniqueIdentifier>{9e76d9ba-cf0f-4c73-a7e1-32300a738916}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gamemode\Libs\Whirlpool">
+      <UniqueIdentifier>{bf1482bd-0ac9-49fd-a54e-8d6cb0754e6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gamemode\Libs\Extension">
+      <UniqueIdentifier>{1db79ffb-8ad9-4bfc-9747-8b78cf49668d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="packethook\exe24+">
+      <UniqueIdentifier>{8c4db238-8359-46b0-8a34-1fff42cd9197}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="packethook\RakNet">
+      <UniqueIdentifier>{a8b13495-3935-4a0f-8e1f-3b8eae7312fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="packethook\Hook">
+      <UniqueIdentifier>{a2fdc971-957f-4a43-bea7-768dcb6aba66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libodb\SQLITE3">
+      <UniqueIdentifier>{2ecf7e07-8d23-4018-a966-c7a069af1046}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libodb\ODB-MAIN">
+      <UniqueIdentifier>{04e335da-644d-49eb-b1af-0280a08b21d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libodb\ODB-SQLITE">
+      <UniqueIdentifier>{16849a5b-a773-4092-87b1-20fe2c500a4c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SAMP">
+      <UniqueIdentifier>{a3e0daa6-5dbc-4695-9efe-640900b3feee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SAMP\SDK">
+      <UniqueIdentifier>{4da3f939-3de4-40a5-8bb8-e436d491494b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SAMP\SDK\amx">
+      <UniqueIdentifier>{a3eb0429-d7f7-4cac-a68a-f4b02dcfc09b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SAMP\GDK">
+      <UniqueIdentifier>{1107b3de-66ff-4033-853f-c6f17a159b2a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gamemode\Achievements\Manager">
+      <UniqueIdentifier>{8fc5cafc-e0fd-4833-8928-e2889c38dd3d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gamemode\Achievements\TextDraw">
+      <UniqueIdentifier>{1db57508-64f9-43de-a91a-3c4d70cfb192}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gamemode\Achievements\GoldCoins">
+      <UniqueIdentifier>{dc6b9767-6482-4745-9ab0-3a7d800bd714}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gamemode\Achievements\StatsUpdate">
+      <UniqueIdentifier>{20d202b1-7487-4a24-b9aa-90a6d008c7f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gamemode\AntiCheat&amp;Protections&amp;Fixes\AntiCheat">
+      <UniqueIdentifier>{4f95f3d3-9f8b-4a89-9cf1-25b689d4a141}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gamemode\AntiCheat&amp;Protections&amp;Fixes\SCMCrashFix">
+      <UniqueIdentifier>{8e98c04d-76e5-4bcb-94e0-c71986bf3414}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gamemode\AntiCheat&amp;Protections&amp;Fixes\RCFix">
+      <UniqueIdentifier>{35f1ba28-82d1-480d-9152-c002d24e9fdc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SAMP\GDK\Helper">
+      <UniqueIdentifier>{67d29232-d089-4147-9b3e-5324e9bf6029}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DLL">
+      <UniqueIdentifier>{486ee47f-0b83-4903-bde3-59227aa44312}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PawnGameMode">
+      <UniqueIdentifier>{cc4ce446-e667-4994-af6d-112da065baa9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gamemode\Player\TextDraw">
+      <UniqueIdentifier>{280a841a-4e9d-4b03-ab3d-98286bdf62a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gamemode\Player\TextDraw\CountDown">
+      <UniqueIdentifier>{03d7a9bb-b8bd-486d-9a32-c32d579b3f06}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gamemode\Player\TextDraw\TimedInformation">
+      <UniqueIdentifier>{64c2b0f7-5b67-4862-bf5f-c3c6b2209bf2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gamemode\Player\TextDraw\Speedo">
+      <UniqueIdentifier>{3c492d89-b9ed-43ab-bc65-5f07b318edcf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gamemode\Player\Vehicle">
+      <UniqueIdentifier>{061de94c-d056-4915-a36a-2e8ae35627fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gamemode\Player\Information">
+      <UniqueIdentifier>{8553de26-73ab-4248-9cb2-247b9601f8d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gamemode\Player\Teleport">
+      <UniqueIdentifier>{0370b8d8-5b3c-4b7a-9fcd-15ee1d5a5a5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gamemode\Player\Teleport\Global">
+      <UniqueIdentifier>{5c8e8d84-769b-4483-b0c7-967e656030dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gamemode\Player\Teleport\Local">
+      <UniqueIdentifier>{60a715f0-844a-4838-95a4-056060713889}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gamemode\Player\Account&amp;Permissions">
+      <UniqueIdentifier>{8d162c09-3936-44e5-81cb-2d0454738303}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gamemode\Player\Mafia">
+      <UniqueIdentifier>{8422ea09-f80c-481b-83e0-0c14d1c7080f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gamemode\Player\WorldData">
+      <UniqueIdentifier>{468ffab4-7245-450d-aa0f-5b8635013500}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gamemode\Player\Weapon">
+      <UniqueIdentifier>{a6adeccd-10cd-45de-b480-7b631804d42c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gamemode\Player\Commands">
+      <UniqueIdentifier>{6ea79bbc-8297-4068-bb09-be139d9f6dd7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gamemode\Internals\Vehicle\Native">
+      <UniqueIdentifier>{c597b71a-13e0-42dc-bd8d-1b0507880dc6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gamemode\Internals\Gates">
+      <UniqueIdentifier>{a6b411ab-09ea-4b66-9722-5f85e69482ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GTASA">
+      <UniqueIdentifier>{3bc3d73a-54cd-4279-b654-f5273da0612d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GTASA\CarColor">
+      <UniqueIdentifier>{dcde430c-419a-49e2-a9f0-49ba3f6d272d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GTASA\Math">
+      <UniqueIdentifier>{00c0abe5-382a-4365-a57c-86653ee0fa9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gamemode\Internals\_Testing">
+      <UniqueIdentifier>{3b26df3b-4cb5-42bc-9012-730a24535f92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TESTS">
+      <UniqueIdentifier>{d4458147-eab2-4e03-96c5-16d052a046da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DLL\AUTOMATIC">
+      <UniqueIdentifier>{329ffc55-02da-4754-bc16-7172524c1a0d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="boost_extract\libs\date_time\src\gregorian\greg_names.hpp">
+      <Filter>boost_src</Filter>
+    </ClInclude>
+    <ClInclude Include="boost_extract\libs\filesystem\src\windows_file_codecvt.hpp">
+      <Filter>boost_src</Filter>
+    </ClInclude>
+    <ClInclude Include="boost_extract\libs\regex\src\internals.hpp">
+      <Filter>boost_src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\streamer\StreamerLib.hxx">
+      <Filter>streamer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sampgdk\amx\amx.h">
+      <Filter>SAMP\SDK\amx</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gamemode\AdminSystem.hxx">
+      <Filter>gamemode\Administrator</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>DLL</Filter>
+    </ClInclude>
+    <ClInclude Include="stringize.h">
+      <Filter>DLL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gamemode\_GCVehicleManager.hxx">
+      <Filter>gamemode\Internals\GlobalVehicleManager</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gamemode\MiniGameSystem.hxx">
+      <Filter>gamemode\MiniGameSystem\System</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gamemode\MiniGameRacingSystem.hxx">
+      <Filter>gamemode\MiniGameSystem\System</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gamemode\ThreadedLogging.hxx">
+      <Filter>gamemode\Internals\Logging</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gamemode\VehicleCalculationFunctions.hxx">
+      <Filter>gamemode\Internals\Vehicle</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gamemode\VehicleExtraGetFunctions.hxx">
+      <Filter>gamemode\Internals\Vehicle</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gamemode\Vehicles.hxx">
+      <Filter>gamemode\Internals\Vehicle</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gamemode\email.hxx">
+      <Filter>gamemode\Internals\E-Mail</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gamemode\Version.hxx">
+      <Filter>gamemode\Internals\Versioning</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gamemode\Colors.hxx">
+      <Filter>gamemode\Internals\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gamemode\FilteringEngine.hxx">
+      <Filter>gamemode\Internals\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gamemode\functions.hxx">
+      <Filter>gamemode\Internals\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gamemode\GameMode.hxx">
+      <Filter>gamemode\Internals\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gamemode\LanguageTextDraw.hxx">
+      <Filter>gamemode\Internals\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gamemode\ZoneNames.hxx">
+      <Filter>gamemode\Internals\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gamemode\user-odb.hxx">
+      <Filter>gamemode\Database\ODB</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gamemode\user.hxx">
+      <Filter>gamemode\Database\GM</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gamemode\Worker.hxx">
+      <Filter>gamemode\Database\GM</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gamemode\0cmdpp.hxx">
+      <Filter>gamemode\CommandDialogSystem\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gamemode\CommandParamsParser.hxx">
+      <Filter>gamemode\CommandDialogSystem\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gamemode\CommandPermissions.hxx">
+      <Filter>gamemode\CommandDialogSystem\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gamemode\DialogProcessor.hxx">
+      <Filter>gamemode\CommandDialogSystem\Dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gamemode\MenuManager.hxx">
+      <Filter>gamemode\CommandDialogSystem\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gamemode\LangMain.hxx">
+      <Filter>gamemode\Language\System</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gamemode\LangEnglish.hxx">
+      <Filter>gamemode\Language\Languages</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gamemode\LangPolish.hxx">
+      <Filter>gamemode\Language\Languages</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gamemode\MapAndreas.hxx">
+      <Filter>gamemode\Libs\MapAndreas</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gamemode\64bit_tables.h">
+      <Filter>gamemode\Libs\Whirlpool</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gamemode\nessie.h">
+      <Filter>gamemode\Libs\Whirlpool</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gamemode\whirlpool.hxx">
+      <Filter>gamemode\Libs\Whirlpool</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gamemode\extension.hxx">
+      <Filter>gamemode\Libs\Extension</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gamemode\HostBan.hxx">
+      <Filter>gamemode\Internals\HostBan</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gamemode\SentryGunSystem.hxx">
+      <Filter>gamemode\Internals\Sentry</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gamemode\TutorialSystem.hxx">
+      <Filter>gamemode\Internals\Tutorial</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gamemode\_exe24_RemoteManager.hxx">
+      <Filter>packethook\exe24+</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gamemode\Structs.h">
+      <Filter>packethook\RakNet</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gamemode\PacketEnumerations.h">
+      <Filter>packethook\RakNet</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gamemode\BitStream.h">
+      <Filter>packethook\RakNet</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gamemode\GetPacket.hxx">
+      <Filter>packethook\Hook</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\sqlite\sqlite3.h">
+      <Filter>libodb\SQLITE3</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\sqlite\sqlite3ext.h">
+      <Filter>libodb\SQLITE3</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sampgdk\plugin.h">
+      <Filter>SAMP\SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sampgdk\plugincommon.h">
+      <Filter>SAMP\SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sampgdk\sampgdk.h">
+      <Filter>SAMP\GDK</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gamemode\AchievementsManagers.hxx">
+      <Filter>gamemode\Achievements\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gamemode\PlayerStatsTextDraw.hxx">
+      <Filter>gamemode\Achievements\TextDraw</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gamemode\GoldCoinsAchievements.hxx">
+      <Filter>gamemode\Achievements\GoldCoins</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gamemode\AntiCheat.hxx">
+      <Filter>gamemode\AntiCheat&amp;Protections&amp;Fixes\AntiCheat</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gamemode\SendClientMessageFix.hxx">
+      <Filter>gamemode\AntiCheat&amp;Protections&amp;Fixes\SCMCrashFix</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gamemode\SampGDKHelper.hxx">
+      <Filter>SAMP\GDK\Helper</Filter>
+    </ClInclude>
+    <ClInclude Include="bin\other\LVDM3012.HXX">
+      <Filter>PawnGameMode</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gamemode\Odliczanie.hxx">
+      <Filter>gamemode\Player\TextDraw\CountDown</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gamemode\SpeedoMeter.hxx">
+      <Filter>gamemode\Player\TextDraw\Speedo</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gamemode\PrivateCar.hxx">
+      <Filter>gamemode\Player\Vehicle</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gamemode\Vehicle.hxx">
+      <Filter>gamemode\Player\Vehicle</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gamemode\Teleports.hxx">
+      <Filter>gamemode\Player\Teleport\Global</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gamemode\PlayerTeleport.hxx">
+      <Filter>gamemode\Player\Teleport\Local</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gamemode\LoginRegister.hxx">
+      <Filter>gamemode\Player\Account&amp;Permissions</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gamemode\Mafia.hxx">
+      <Filter>gamemode\Player\Mafia</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gamemode\WorldData.hxx">
+      <Filter>gamemode\Player\WorldData</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gamemode\WeaponInfo.hxx">
+      <Filter>gamemode\Player\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gamemode\GateSystem.hxx">
+      <Filter>gamemode\Internals\Gates</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gamemode\NativeSAVehicleLocations.hxx">
+      <Filter>gamemode\Internals\Vehicle\Native</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gamemode\TextProcessing.hxx">
+      <Filter>gamemode\Internals\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gamemode\MessageManager.hxx">
+      <Filter>gamemode\Internals\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gtasa\CarColorGenerator.hxx">
+      <Filter>GTASA\CarColor</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gtasa\Random.hxx">
+      <Filter>GTASA\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gamemode\MafiaBase.hxx">
+      <Filter>gamemode\Player\Mafia</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\gamemode\user-generator_mysql.bat">
+      <Filter>gamemode\Database\ODB</Filter>
+    </None>
+    <None Include="src\gamemode\user-generator_sqlite.bat">
+      <Filter>gamemode\Database\ODB</Filter>
+    </None>
+    <None Include="src\gamemode\user-odb.ixx">
+      <Filter>gamemode\Database\ODB</Filter>
+    </None>
+    <None Include="src\gamemode\vehiclespeedlist.var">
+      <Filter>gamemode\AntiCheat&amp;Protections&amp;Fixes\AntiCheat</Filter>
+    </None>
+    <None Include="main.def">
+      <Filter>DLL</Filter>
+    </None>
+    <None Include="DOCUMENTATION.docx" />
+    <None Include="LICENSE.md" />
+    <None Include="README.md" />
+    <None Include="TFS_VERSION.bat">
+      <Filter>DLL\AUTOMATIC</Filter>
+    </None>
+    <None Include="POSTBUILD.bat">
+      <Filter>DLL\AUTOMATIC</Filter>
+    </None>
+    <None Include="PREBUILD.bat">
+      <Filter>DLL\AUTOMATIC</Filter>
+    </None>
+    <None Include="SERVER.bat">
+      <Filter>DLL\AUTOMATIC</Filter>
+    </None>
+    <None Include="TFS_VERSION_ORIGINAL.bat">
+      <Filter>DLL\AUTOMATIC</Filter>
+    </None>
+    <None Include="DAILYAUTOUPDATE.bat">
+      <Filter>DLL\AUTOMATIC</Filter>
+    </None>
+    <None Include="DAILYAUTOUPDATE_ORIGINAL.bat">
+      <Filter>DLL\AUTOMATIC</Filter>
+    </None>
+    <None Include="DELAYKILL.bat">
+      <Filter>DLL\AUTOMATIC</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="dllinfo.rc">
+      <Filter>DLL</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="src\gamemode\ArenaTemplate.txt">
+      <Filter>gamemode\MiniGameSystem\Arena</Filter>
+    </Text>
+  </ItemGroup>
+</Project>

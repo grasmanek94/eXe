@@ -1,0 +1,860 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="DebugDedicated|Win32">
+      <Configuration>DebugDedicated</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="ReleaseDedicated|Win32">
+      <Configuration>ReleaseDedicated</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{0F8F0EF8-9805-43B0-B124-E56372DE8D7E}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>SampGamemode</RootNamespace>
+    <SccProjectName>SAK</SccProjectName>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>NotSet</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugDedicated|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>NotSet</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>NotSet</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseDedicated|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>NotSet</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='DebugDedicated|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseDedicated|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)bin\Svr\</OutDir>
+    <LibraryPath>.\lib\mysql-connector-c-6.1.5-win32\lib\;.\lib\mysql-connector-c-6.1.5-win32\lib\vs11;.\lib\mysql-connector-c-6.1.5-win32\lib\debug;.\lib\odb\libodb-2.3.0\bin;C:\Programs\Boost\153\stage\lib;$(LibraryPath)</LibraryPath>
+    <IntDir>.\bin\$(Configuration)\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugDedicated|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>S:\</OutDir>
+    <LibraryPath>.\lib\mysql-connector-c-6.1.5-win32\lib\;.\lib\mysql-connector-c-6.1.5-win32\lib\vs11;.\lib\mysql-connector-c-6.1.5-win32\lib\debug;.\lib\odb\libodb-2.3.0\bin;C:\Programs\Boost\153\stage\lib;$(LibraryPath)</LibraryPath>
+    <IntDir>.\bin\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)bin\Svr\</OutDir>
+    <LibraryPath>.\lib\mysql-connector-c-6.1.5-win32\lib\;.\lib\mysql-connector-c-6.1.5-win32\lib\vs11;.\lib\mysql-connector-c-6.1.5-win32\lib\debug;.\lib\odb\libodb-2.3.0\bin;C:\Programs\Boost\153\stage\lib;$(LibraryPath)</LibraryPath>
+    <IntDir>.\bin\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseDedicated|Win32'">
+    <OutDir>S:\</OutDir>
+    <LibraryPath>.\lib\mysql-connector-c-6.1.5-win32\lib\;.\lib\mysql-connector-c-6.1.5-win32\lib\vs11;.\lib\mysql-connector-c-6.1.5-win32\lib\debug;.\lib\odb\libodb-2.3.0\bin;C:\Programs\Boost\153\stage\lib;$(LibraryPath)</LibraryPath>
+    <IntDir>.\bin\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LOCALHOST_DEBUG;_WINDOWS;_USRDLL;SAMPGAMEMODE_EXPORTS;SAMPGDK_AMALGAMATION;SAMPGDK_WINDOWS;SAMPGDK_STATIC;_CRT_SECURE_NO_WARNINGS;DATABASE_SQLITE;SQLITE_ENABLE_UNLOCK_NOTIFY;LIBODB_SQLITE_STATIC_LIB;LIBODB_SQLITE_HAVE_UNLOCK_NOTIFY;LIBODB_MYSQL_STATIC_LIB;LIBODB_STATIC_LIB;BOOST_ALL_NO_LIB;BOOST_ALL_NO_LIBS;SAMPGDK_PLUGIN_ONLY;BOOST_CHRONO_HEADER_ONLY;SAMPGDK_CPP_WRAPPERS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.\src\libodb\;.\boost_extract;.\lib;.\lib\sqlite;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeaderFile>GameMode.hxx</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>$(IntDir)$(TargetName)d.pch</PrecompiledHeaderOutputFile>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <AdditionalOptions>/Zm512 /D_TFS_BUILD_VERSION %(AdditionalOptions)</AdditionalOptions>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ModuleDefinitionFile>main.def</ModuleDefinitionFile>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <PreBuildEvent>
+      <Command> TFS_VERSION.bat &amp;&amp; cd src/gamemode &amp;&amp; copy /b VERSION.cxx +,,</Command>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugDedicated|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;SAMPGAMEMODE_EXPORTS;SAMPGDK_AMALGAMATION;SAMPGDK_WINDOWS;SAMPGDK_STATIC;_CRT_SECURE_NO_WARNINGS;DATABASE_SQLITE;SQLITE_ENABLE_UNLOCK_NOTIFY;LIBODB_SQLITE_STATIC_LIB;LIBODB_SQLITE_HAVE_UNLOCK_NOTIFY;LIBODB_MYSQL_STATIC_LIB;LIBODB_STATIC_LIB;BOOST_ALL_NO_LIB;BOOST_ALL_NO_LIBS;SAMPGDK_PLUGIN_ONLY;BOOST_CHRONO_HEADER_ONLY;SAMPGDK_CPP_WRAPPERS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.\src\libodb\;.\boost_extract;.\lib;.\lib\sqlite;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeaderFile>GameMode.hxx</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>$(IntDir)$(TargetName)d.pch</PrecompiledHeaderOutputFile>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <AdditionalOptions>/Zm512 /D_TFS_BUILD_VERSION %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ModuleDefinitionFile>main.def</ModuleDefinitionFile>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <PreBuildEvent>
+      <Command> TFS_VERSION.bat &amp;&amp; cd src/gamemode &amp;&amp; copy /b VERSION.cxx +,,</Command>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <Optimization>Full</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;SAMPGAMEMODE_EXPORTS;SAMPGDK_AMALGAMATION;SAMPGDK_WINDOWS;SAMPGDK_STATIC;_CRT_SECURE_NO_WARNINGS;DATABASE_SQLITE;SQLITE_ENABLE_UNLOCK_NOTIFY;LIBODB_SQLITE_HAVE_UNLOCK_NOTIFY;LIBODB_SQLITE_STATIC_LIB;LIBODB_MYSQL_STATIC_LIB;LIBODB_STATIC_LIB;BOOST_ALL_NO_LIB;BOOST_ALL_NO_LIBS;SAMPGDK_PLUGIN_ONLY;BOOST_CHRONO_HEADER_ONLY;SAMPGDK_CPP_WRAPPERS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.\src\libodb\;.\boost_extract;.\lib;.\lib\sqlite;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeaderFile>GameMode.hxx</PrecompiledHeaderFile>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <OmitFramePointers>true</OmitFramePointers>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <BrowseInformation>true</BrowseInformation>
+      <AdditionalOptions>/Zm512 /D_TFS_BUILD_VERSION %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <ModuleDefinitionFile>main.def</ModuleDefinitionFile>
+    </Link>
+    <PreBuildEvent>
+      <Command> TFS_VERSION.bat &amp;&amp; cd src/gamemode &amp;&amp; copy /b VERSION.cxx +,,</Command>
+    </PreBuildEvent>
+    <Bscmake>
+      <PreserveSbr>true</PreserveSbr>
+    </Bscmake>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseDedicated|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <Optimization>Full</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;SAMPGAMEMODE_EXPORTS;SAMPGDK_AMALGAMATION;SAMPGDK_WINDOWS;SAMPGDK_STATIC;_CRT_SECURE_NO_WARNINGS;DATABASE_SQLITE;SQLITE_ENABLE_UNLOCK_NOTIFY;LIBODB_SQLITE_HAVE_UNLOCK_NOTIFY;LIBODB_SQLITE_STATIC_LIB;LIBODB_MYSQL_STATIC_LIB;LIBODB_STATIC_LIB;BOOST_ALL_NO_LIB;BOOST_ALL_NO_LIBS;SAMPGDK_PLUGIN_ONLY;BOOST_CHRONO_HEADER_ONLY;SAMPGDK_CPP_WRAPPERS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.\src\libodb\;.\boost_extract;.\lib;.\lib\sqlite;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeaderFile>GameMode.hxx</PrecompiledHeaderFile>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <OmitFramePointers>true</OmitFramePointers>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <BrowseInformation>true</BrowseInformation>
+      <AdditionalOptions>/Zm512 /D_TFS_BUILD_VERSION %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <ModuleDefinitionFile>main.def</ModuleDefinitionFile>
+    </Link>
+    <PreBuildEvent>
+      <Command>PREBUILD.bat &amp;&amp; TFS_VERSION.bat &amp;&amp; cd src/gamemode &amp;&amp; copy /b VERSION.cxx +,,</Command>
+    </PreBuildEvent>
+    <Bscmake>
+      <PreserveSbr>true</PreserveSbr>
+    </Bscmake>
+    <PostBuildEvent>
+      <Command>POSTBUILD.bat</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="src\gamemode\AccuracyMeasure.cxx" />
+    <ClCompile Include="src\gamemode\extern.cxx" />
+    <ClCompile Include="src\gamemode\MafiaBase.cxx" />
+    <ClCompile Include="src\gamemode\MessageManager.cxx" />
+    <ClCompile Include="src\gamemode\TestTextProcessing.cxx" />
+    <ClInclude Include="bin\other\LVDM3012.HXX">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugDedicated|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseDedicated|Win32'">true</ExcludedFromBuild>
+      <FileType>CppCode</FileType>
+    </ClInclude>
+    <ClCompile Include="boost_extract\libs\config\test\config_info.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseDedicated|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugDedicated|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="boost_extract\libs\date_time\src\gregorian\date_generators.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugDedicated|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseDedicated|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="boost_extract\libs\date_time\src\gregorian\gregorian_types.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugDedicated|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseDedicated|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="boost_extract\libs\date_time\src\gregorian\greg_month.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugDedicated|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseDedicated|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="boost_extract\libs\date_time\src\gregorian\greg_weekday.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugDedicated|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseDedicated|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="boost_extract\libs\date_time\src\posix_time\posix_time_types.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugDedicated|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseDedicated|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="boost_extract\libs\filesystem\src\codecvt_error_category.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugDedicated|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseDedicated|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="boost_extract\libs\filesystem\src\operations.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugDedicated|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseDedicated|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="boost_extract\libs\filesystem\src\path.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugDedicated|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseDedicated|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="boost_extract\libs\filesystem\src\path_traits.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugDedicated|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseDedicated|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="boost_extract\libs\filesystem\src\portability.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugDedicated|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseDedicated|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="boost_extract\libs\filesystem\src\unique_path.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugDedicated|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseDedicated|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="boost_extract\libs\filesystem\src\utf8_codecvt_facet.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugDedicated|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseDedicated|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="boost_extract\libs\filesystem\src\windows_file_codecvt.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugDedicated|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseDedicated|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="boost_extract\libs\regex\src\cpp_regex_traits.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugDedicated|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseDedicated|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="boost_extract\libs\regex\src\cregex.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugDedicated|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseDedicated|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="boost_extract\libs\regex\src\c_regex_traits.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugDedicated|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseDedicated|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="boost_extract\libs\regex\src\fileiter.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugDedicated|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseDedicated|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="boost_extract\libs\regex\src\icu.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugDedicated|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseDedicated|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="boost_extract\libs\regex\src\instances.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugDedicated|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseDedicated|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="boost_extract\libs\regex\src\posix_api.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugDedicated|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseDedicated|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="boost_extract\libs\regex\src\regex.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugDedicated|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseDedicated|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="boost_extract\libs\regex\src\regex_debug.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugDedicated|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseDedicated|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="boost_extract\libs\regex\src\regex_raw_buffer.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugDedicated|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseDedicated|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="boost_extract\libs\regex\src\regex_traits_defaults.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugDedicated|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseDedicated|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="boost_extract\libs\regex\src\static_mutex.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugDedicated|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseDedicated|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="boost_extract\libs\regex\src\usinstances.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugDedicated|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseDedicated|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="boost_extract\libs\regex\src\w32_regex_traits.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugDedicated|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseDedicated|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="boost_extract\libs\regex\src\wc_regex_traits.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugDedicated|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseDedicated|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="boost_extract\libs\regex\src\wide_posix_api.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugDedicated|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseDedicated|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="boost_extract\libs\regex\src\winstances.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugDedicated|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseDedicated|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="boost_extract\libs\smart_ptr\src\sp_collector.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugDedicated|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseDedicated|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="boost_extract\libs\smart_ptr\src\sp_debug_hooks.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugDedicated|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseDedicated|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="boost_extract\libs\system\error_code.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseDedicated|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugDedicated|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="lib\sqlite\sqlite3.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugDedicated|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseDedicated|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\0cmdpp.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\AchievementsManagers.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\AdminEye.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\AdminSpectate.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\AdminSystem.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\Animation.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\AntiS0beit.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\AntiCheat.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\AntiSpeedHackMeasure.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\FilteringEngine.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\BazaLSDocks.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\GateSystem.cxx" />
+    <ClCompile Include="src\gamemode\LangMain.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\LanguageTextDraw.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\MiniGameBagno.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\ArenaGranaty.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\ArenaMinigun.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\ArenaOneDe.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\ArenaOneShot.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\ArenaPaintBall.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\ArenaRPG.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\ArenaSawnOff.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\Atlantis.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\EnvironmentObjects.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\HostBan.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\NativeSAVehicleLocations.cxx" />
+    <ClCompile Include="src\gamemode\PerformanceCounter.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\MiniGameRacingSystem.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\RaceHalfRoad.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\RaceShamalTraining.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\SentryGunSystem.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\StatsDatabase.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\Stunting.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\TextProcessing.cxx" />
+    <ClCompile Include="src\gamemode\TorSanchez.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\MiniGameHay.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\ArenaSniper.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\ArenaTankBattle.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\BitStream.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugDedicated|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseDedicated|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\CheatReportHandler.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\CommandParamsParser.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\Commands.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\CreditsScene.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\DialogProcessor.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\email.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\extension.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\functions.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\GameMode.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\GetPacket.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\GoldCoinsAchievements.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\Help.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\HitmanList.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\HouseSystem.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\IconSystem.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\LoginRegister.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\LottoSystem.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\Mafia.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\MapAndreas.cxx" />
+    <ClCompile Include="src\gamemode\MenuManager.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\Odliczanie.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\pch.cxx">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugDedicated|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseDedicated|Win32'">Create</PrecompiledHeader>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\PlayerStatsTextDraw.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\PlayerTeleport.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\PrivateCar.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\PrivateMessages.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\Rampy.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\RCVehicleExitFix.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\SampGDKHelper.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\SendClientMessageFix.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\ShowGameModeInfo.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\SpeedoMeter.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\Teleports.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\ThreadedLogging.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\TimedInformation.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\TutorialSystem.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\user-odb.cxx">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseDedicated|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugDedicated|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\Vehicle.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\VehicleCalculationFunctions.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\VehicleClosenessChecker.cxx" />
+    <ClCompile Include="src\gamemode\VehicleExtraGetFunctions.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\Vehicles.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\VERSION.cxx">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugDedicated|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseDedicated|Win32'">NotUsing</PrecompiledHeader>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\WeaponInfo.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\whirlpool.cxx" />
+    <ClCompile Include="src\gamemode\MiniGameTDM.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\ArenaWigilia.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\Worker.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\WorldData.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\MiniGameDerby.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\ArenaFlyingTank.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\MiniGameSystem.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\ZoneNames.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\_exe24_RemoteManager.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\_GCVehicleManager.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gamemode\_TestingArea.cxx">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level4</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="src\gtasa\CarColorGenerator.cxx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseDedicated|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugDedicated|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="src\gtasa\Random.cxx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseDedicated|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugDedicated|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="src\libodb\odb\details\shared-ptr\base.cxx">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseDedicated|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugDedicated|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\libodb\odb\sqlite\odbsqlite.cxx">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseDedicated|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugDedicated|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\sampgdk\amxplugin.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugDedicated|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseDedicated|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\sampgdk\sampgdk.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugDedicated|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseDedicated|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\streamer\Streamer274.cxx">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseDedicated|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugDedicated|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="boost_extract\libs\date_time\src\gregorian\greg_names.hpp" />
+    <ClInclude Include="boost_extract\libs\filesystem\src\windows_file_codecvt.hpp" />
+    <ClInclude Include="boost_extract\libs\regex\src\internals.hpp" />
+    <ClInclude Include="lib\sqlite\sqlite3.h" />
+    <ClInclude Include="lib\sqlite\sqlite3ext.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="src\gamemode\0cmdpp.hxx" />
+    <ClInclude Include="src\gamemode\64bit_tables.h" />
+    <ClInclude Include="src\gamemode\AchievementsManagers.hxx" />
+    <ClInclude Include="src\gamemode\AdminSystem.hxx" />
+    <ClInclude Include="src\gamemode\AntiCheat.hxx" />
+    <ClInclude Include="src\gamemode\BitStream.h" />
+    <ClInclude Include="src\gamemode\Colors.hxx" />
+    <ClInclude Include="src\gamemode\CommandParamsParser.hxx" />
+    <ClInclude Include="src\gamemode\CommandPermissions.hxx" />
+    <ClInclude Include="src\gamemode\DialogProcessor.hxx" />
+    <ClInclude Include="src\gamemode\email.hxx" />
+    <ClInclude Include="src\gamemode\extension.hxx" />
+    <ClInclude Include="src\gamemode\FilteringEngine.hxx" />
+    <ClInclude Include="src\gamemode\functions.hxx" />
+    <ClInclude Include="src\gamemode\GameMode.hxx" />
+    <ClInclude Include="src\gamemode\GateSystem.hxx" />
+    <ClInclude Include="src\gamemode\GetPacket.hxx" />
+    <ClInclude Include="src\gamemode\GoldCoinsAchievements.hxx" />
+    <ClInclude Include="src\gamemode\HostBan.hxx" />
+    <ClInclude Include="src\gamemode\LangEnglish.hxx" />
+    <ClInclude Include="src\gamemode\LangMain.hxx" />
+    <ClInclude Include="src\gamemode\LangPolish.hxx" />
+    <ClInclude Include="src\gamemode\LanguageTextDraw.hxx" />
+    <ClInclude Include="src\gamemode\LoginRegister.hxx" />
+    <ClInclude Include="src\gamemode\Mafia.hxx" />
+    <ClInclude Include="src\gamemode\MafiaBase.hxx" />
+    <ClInclude Include="src\gamemode\MapAndreas.hxx" />
+    <ClInclude Include="src\gamemode\MenuManager.hxx" />
+    <ClInclude Include="src\gamemode\MessageManager.hxx" />
+    <ClInclude Include="src\gamemode\NativeSAVehicleLocations.hxx" />
+    <ClInclude Include="src\gamemode\nessie.h" />
+    <ClInclude Include="src\gamemode\Odliczanie.hxx" />
+    <ClInclude Include="src\gamemode\PacketEnumerations.h" />
+    <ClInclude Include="src\gamemode\PlayerStatsTextDraw.hxx" />
+    <ClInclude Include="src\gamemode\PlayerTeleport.hxx" />
+    <ClInclude Include="src\gamemode\PrivateCar.hxx" />
+    <ClInclude Include="src\gamemode\MiniGameRacingSystem.hxx" />
+    <ClInclude Include="src\gamemode\SampGDKHelper.hxx" />
+    <ClInclude Include="src\gamemode\SendClientMessageFix.hxx" />
+    <ClInclude Include="src\gamemode\SentryGunSystem.hxx" />
+    <ClInclude Include="src\gamemode\SpeedoMeter.hxx" />
+    <ClInclude Include="src\gamemode\Structs.h" />
+    <ClInclude Include="src\gamemode\Teleports.hxx" />
+    <ClInclude Include="src\gamemode\TextProcessing.hxx" />
+    <ClInclude Include="src\gamemode\ThreadedLogging.hxx" />
+    <ClInclude Include="src\gamemode\TutorialSystem.hxx" />
+    <ClInclude Include="src\gamemode\user-odb.hxx" />
+    <ClInclude Include="src\gamemode\user.hxx" />
+    <ClInclude Include="src\gamemode\Vehicle.hxx" />
+    <ClInclude Include="src\gamemode\VehicleCalculationFunctions.hxx" />
+    <ClInclude Include="src\gamemode\VehicleExtraGetFunctions.hxx" />
+    <ClInclude Include="src\gamemode\Vehicles.hxx" />
+    <ClInclude Include="src\gamemode\Version.hxx" />
+    <ClInclude Include="src\gamemode\WeaponInfo.hxx" />
+    <ClInclude Include="src\gamemode\whirlpool.hxx" />
+    <ClInclude Include="src\gamemode\Worker.hxx" />
+    <ClInclude Include="src\gamemode\WorldData.hxx" />
+    <ClInclude Include="src\gamemode\MiniGameSystem.hxx" />
+    <ClInclude Include="src\gamemode\ZoneNames.hxx" />
+    <ClInclude Include="src\gamemode\_exe24_RemoteManager.hxx" />
+    <ClInclude Include="src\gamemode\_GCVehicleManager.hxx" />
+    <ClInclude Include="src\gtasa\CarColorGenerator.hxx" />
+    <ClInclude Include="src\gtasa\Random.hxx" />
+    <ClInclude Include="src\sampgdk\amx\amx.h" />
+    <ClInclude Include="src\sampgdk\plugin.h" />
+    <ClInclude Include="src\sampgdk\plugincommon.h" />
+    <ClInclude Include="src\sampgdk\sampgdk.h" />
+    <ClInclude Include="src\streamer\StreamerLib.hxx" />
+    <ClInclude Include="stringize.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="src\gamemode\ArenaTemplate.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="DAILYAUTOUPDATE.bat" />
+    <None Include="DAILYAUTOUPDATE_ORIGINAL.bat" />
+    <None Include="DELAYKILL.bat" />
+    <None Include="DOCUMENTATION.docx" />
+    <None Include="LICENSE.md" />
+    <None Include="main.def" />
+    <None Include="POSTBUILD.bat" />
+    <None Include="PREBUILD.bat" />
+    <None Include="README.md" />
+    <None Include="SERVER.bat" />
+    <None Include="src\gamemode\user-generator_mysql.bat" />
+    <None Include="src\gamemode\user-generator_sqlite.bat" />
+    <None Include="src\gamemode\user-odb.ixx" />
+    <None Include="src\gamemode\vehiclespeedlist.var" />
+    <None Include="TFS_VERSION.bat" />
+    <None Include="TFS_VERSION_ORIGINAL.bat" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="dllinfo.rc" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SampGamemode", "SampGamemode.vcxproj", "{0F8F0EF8-9805-43B0-B124-E56372DE8D7E}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 2
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://gz0.visualstudio.com/defaultcollection
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = SampGamemode.vcxproj
+		SccLocalPath1 = .
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		DebugDedicated|Win32 = DebugDedicated|Win32
+		Release|Win32 = Release|Win32
+		ReleaseDedicated|Win32 = ReleaseDedicated|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0F8F0EF8-9805-43B0-B124-E56372DE8D7E}.Debug|Win32.ActiveCfg = Debug|Win32
+		{0F8F0EF8-9805-43B0-B124-E56372DE8D7E}.Debug|Win32.Build.0 = Debug|Win32
+		{0F8F0EF8-9805-43B0-B124-E56372DE8D7E}.DebugDedicated|Win32.ActiveCfg = DebugDedicated|Win32
+		{0F8F0EF8-9805-43B0-B124-E56372DE8D7E}.DebugDedicated|Win32.Build.0 = DebugDedicated|Win32
+		{0F8F0EF8-9805-43B0-B124-E56372DE8D7E}.Release|Win32.ActiveCfg = Release|Win32
+		{0F8F0EF8-9805-43B0-B124-E56372DE8D7E}.Release|Win32.Build.0 = Release|Win32
+		{0F8F0EF8-9805-43B0-B124-E56372DE8D7E}.ReleaseDedicated|Win32.ActiveCfg = ReleaseDedicated|Win32
+		{0F8F0EF8-9805-43B0-B124-E56372DE8D7E}.ReleaseDedicated|Win32.Build.0 = ReleaseDedicated|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

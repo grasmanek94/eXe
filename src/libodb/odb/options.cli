@@ -1,0 +1,1063 @@
+// file      : odb/options.cli
+// copyright : Copyright (c) 2009-2013 Code Synthesis Tools CC
+// license   : GNU GPL v3; see accompanying LICENSE file
+
+include <set>;
+include <vector>;
+include <string>;
+include <cstddef>;
+
+include <odb/option-types.hxx>;
+
+class options
+{
+  //
+  // Wrapper options. These are not passed to the plugin.
+  //
+
+  bool --help {"Print usage information and exit."};
+  bool --version {"Print version and exit."};
+
+  //
+  // C++ preprocessor options. Also not passed to the plugin.
+  //
+  std::vector<std::string> -I
+  {
+    "<dir>",
+    "Add <dir> to the beginning of the list of directories to be searched
+     for included header files."
+  };
+
+  std::vector<std::string> -D
+  {
+    "<name>[=<def>]",
+    "Define macro <name> with definition <def>. If definition is omitted,
+     define <name> to be 1."
+  };
+
+  std::vector<std::string> -U
+  {
+    "<name>",
+    "Cancel any previous definitions of macro <name>, either built-in or
+     provided with the \cb{-D} option."
+  };
+
+  //
+  // Plugin options.
+  //
+  std::vector< ::database> --database | -d
+  {
+    "<db>",
+    "Generate code for the <db> database. Valid values are \cb{mssql},
+     \cb{mysql}, \cb{oracle}, \cb{pgsql}, \cb{sqlite}, and \cb{common}
+     (multi-database mode only)."
+  };
+
+  ::multi_database --multi-database | -m = ::multi_database::disabled
+  {
+    "<type>",
+    "Enable multi-database support and specify its type. Valid values
+     for this option are \cb{static} and \cb{dynamic}.
+
+     In the multi-database mode, options that determine the kind (for
+     example, \cb{--schema-format}), names (for example,
+     \cb{--odb-file-suffix}), or content (for example, prologue and
+     epilogue options) of the output files can be prefixed with the
+     database name followed by a colon, for example, \cb{mysql:value}.
+     This restricts the value of such an option to only apply to
+     generated files corresponding to this database."
+  };
+
+  ::database --default-database
+  {
+    "<db>",
+    "When static multi-database support is used, specify the database that
+     should be made the default. When dynamic multi-database support is used,
+     \cb{common} is always made the default database."
+  };
+
+  bool --generate-query | -q
+  {
+    "Generate query support code. Without this support you cannot use views
+     and can only load objects via their ids."
+  };
+
+  bool --generate-prepared
+  {
+    "Generate prepared query execution support code."
+  };
+
+  bool --omit-unprepared
+  {
+    "Omit un-prepared (once-off) query execution support code."
+  };
+
+  bool --generate-session | -e
+  {
+    "Generate session support code. With this option session support will
+     be enabled by default for all the persistent classes except those for
+     which it was explicitly disabled using the \cb{db session} pragma."
+  };
+
+  bool --generate-schema | -s
+  {
+    "Generate the database schema. The database schema contains SQL
+     statements that create database tables necessary to store persistent
+     classes defined in the file being compiled. Note that by applying
+     this schema, all the existing information stored in such tables will
+     be lost.
+
+     Depending on the database being used (\cb{--database} option), the
+     schema is generated either as a standalone SQL file or embedded into
+     the generated C++ code. By default the SQL file is generated for
+     the MySQL, PostgreSQL, Oracle, and Microsoft SQL Server databases
+     and the schema is embedded into the C++ code for the SQLite database.
+     Use the \cb{--schema-format} option to alter the default schema format.
+
+     If database schema evolution support is enabled (that is, the object
+     model version is specified), then this option also triggers the
+     generation of database schema migration statements, again either as
+     standalong SQL files or embedded into the generated C++ code. You can
+     suppress the generation of schema migration statements by specifying
+     the \cb{--suppress-migration} option."
+  };
+
+  bool --generate-schema-only
+  {
+    "Generate only the database schema. Note that this option is only valid
+     when generating schema as a standalone SQL file (see \cb{--schema-format}
+     for details)."
+  };
+
+  bool --suppress-migration
+  {
+    "Suppress the generation of database schema migration statements."
+  };
+
+  bool --suppress-schema-version
+  {
+    "Suppress the generation of schema version table. If you specify this
+     option then you are also expected to manually specify the database
+     schema version and migration state at runtime using the
+     \cb{odb::database::schema_version()} function."
+  };
+
+  database_map<qname> --schema-version-table
+  {
+    "<name>",
+    "Specify the alternative schema version table name instead of the default
+     \cb{schema_version}. If you specify this option then you are also
+     expected to manually specify the schema version table name at runtime
+     using the \cb{odb::database::schema_version_table()} function. The table
+     name can be qualified."
+  };
+
+  database_map<std::set< ::schema_format> > --schema-format
+  {
+    "<format>",
+    "Generate the database schema in the specified format. Pass \cb{sql} as
+     <format> to generate the database schema as a standalone SQL file or
+     pass \cb{embedded} to embed the schema into the generated C++ code.
+     The \cb{separate} value is similar to \cb{embedded} except the schema
+     creation code is generated into a separate C++ file (\cb{name-schema.cxx}
+     by default). This value is primarily useful if you want to place the
+     schema creation functionality into a separate program or library.
+     Repeat this option to generate the same database schema in multiple
+     formats."
+  };
+
+  bool --omit-drop
+  {
+    "Omit \cb{DROP} statements from the generated database schema."
+  };
+
+  bool --omit-create
+  {
+    "Omit \cb{CREATE} statements from the generated database schema."
+  };
+
+  database_map<std::string> --schema-name
+  {
+    "<name>",
+    "Use <name> as the database schema name. Schema names are primarily
+     used to distinguish between multiple embedded schemas in the schema
+     catalog. They are not to be confused with database schemas (database
+     namespaces) which are specified with the \cb{--schema} option. If
+     this option is not specified, the empty name, which is the default
+     schema name, is used."
+  };
+
+  database_map<deferrable> --fkeys-deferrable-mode
+  {
+    "<m>",
+    "Use constraint checking mode <m> in foreign keys generated for object
+     relationships. Valid values for this option are \cb{not_deferrable},
+     \cb{immediate}, and \cb{deferred} (default). MySQL and SQL Server do
+     not support deferrable foreign keys and for these databases such keys
+     are generated commented out. Other foreign keys generated by the ODB
+     compiler (such as the ones used to support containers and polymorphic
+     hierarchies) are always generated as not deferrable.
+
+     Note also that if you use either \cb{not_deferrable} or \cb{immediate}
+     mode, then the order in which you persist, update, and erase objects
+     within a transaction becomes important."
+  };
+
+  std::string --default-pointer = "*"
+  {
+    "<ptr>",
+    "Use <ptr> as the default pointer for persistent objects and views.
+     Objects and views that do not have a pointer assigned with the
+     \cb{db pointer} pragma will use this pointer by default. The value
+     of this option can be \cb{*} which denotes the raw pointer and is
+     the default, or qualified name of a smart pointer class template,
+     for example, \cb{std::auto_ptr}. In the latter case, the ODB compiler
+     constructs the object or view pointer by adding a single template
+     argument of the object or view type to the qualified name, for example
+     \cb{std::auto_ptr<object>}. The ODB runtime uses object and view
+     pointers to return, and, in case of objects, pass and cache
+     dynamically allocated instances of object and view types.
+
+     Except for the raw pointer and the standard smart pointers defined
+     in the \cb{<memory>} header file, you are expected to include the
+     definition of the default pointer at the beginning of the generated
+     header file. There are two common ways to achieve this: you can either
+     include the necessary header in the file being compiled or you can use
+     the \cb{--hxx-prologue} option to add the necessary \cb{#include}
+     directive to the generated code."
+  };
+
+  std::string --session-type = "odb::session"
+  {
+    "<type>",
+    "Use <type> as the alternative session type instead of the default
+     \cb{odb::session}. This option can be used to specify a custom
+     session implementation to be use by the persistent classes. Note
+     that you will also need to include the definition of the custom
+     session type into the generated header file. This is normally
+     achieved with the \cb{--hxx-prologue*} options."
+  };
+
+  // The following option is "fake" in that it is actually handled by
+  // argv_file_scanner. We have it here to get the documentation.
+  //
+  std::string --profile | -p
+  {
+    "<name>",
+    "Specify a profile that should be used during compilation. A
+     profile is an options file. The ODB compiler first looks for
+     a database-specific version with the name constructed by appending
+     the \cb{-}\ci{database}\cb{.options} suffix to <name>, where
+     \ci{database} is the database name as specified with the
+     \cb{--database} option. If this file is not found, then the
+     ODB compiler looks for a database-independant version with the
+     name constructed by appending just the \cb{.options} suffix.
+
+     The profile options files are searched for in the same set of
+     directories as C++ headers included with the \cb{#include <...>}
+     directive (built-in paths plus those specified with the \cb{-I}
+     options). The options file is first searched for in the directory
+     itself and then in its \cb{odb/} subdirectory.
+
+     For the format of the options file refer to the \cb{--options-file}
+     option below. You can repeat this option to specify more than one
+     profile."
+  };
+
+  bool --at-once
+  {
+    "Generate code for all the input files as well as for all the files that
+     they include at once. The result is a single set of source/schema files
+     that contain all the generated code. If more than one input file is
+     specified together with this option, then the \cb{--input-name} option
+     must also be specified in order to provide the base name for the output
+     files. In this case, the directory part of such a base name is used as
+     the location of the combined file. This can be important for the
+     \cb{#include} directive resolution."
+  };
+
+  database_map<qname> --schema
+  {
+    "<schema>",
+    "Specify a database schema (database namespace) that should be
+     assigned to the persistent classes in the file being compiled.
+     Database schemas are not to be confused with database schema
+     names (schema catalog names) which are specified with the
+     \cb{--schema-name} option."
+  };
+
+  // Export control.
+  //
+  database_map<std::string> --export-symbol
+  {
+    "<symbol>",
+    "Insert <symbol> in places where DLL export/import control statements
+     (\cb{__declspec(dllexport/dllimport)}) are necessary. See also the
+     \cb{--extern-symbol} option below."
+  };
+
+  database_map<std::string> --extern-symbol
+  {
+    "<symbol>",
+    "If <symbol> is defined, insert it in places where a template
+     instantiation must be declared \cb{extern}. This option is normally
+     used together with \cb{--export-symbol} when both multi-database
+     support and queries are enabled."
+  };
+
+  // Language.
+  //
+  cxx_version --std = cxx_version::cxx98
+  {
+    "<version>",
+    "Specify the C++ standard that should be used during compilation.
+     Valid values are \cb{c++98} (default) and \cb{c++11}."
+  };
+
+  // Diagnostics.
+  //
+  bool --warn-hard-add
+  {
+    "Warn about hard-added data members."
+  };
+
+  bool --warn-hard-delete
+  {
+    "Warn about hard-deleted data members and persistent classes."
+  };
+
+  bool --warn-hard
+  {
+    "Warn about both hard-added and hard-deleted data members and
+     persistent classes."
+  };
+
+  // Output.
+  //
+  std::string --output-dir | -o
+  {
+    "<dir>",
+    "Write the generated files to <dir> instead of the current directory."
+  };
+
+  std::string --input-name
+  {
+    "<name>",
+    "Use <name> instead of the input file to derive the names of the
+     generated files. If the \cb{--at-once} option is specified, then
+     the directory part of <name> is used as the location of the
+     combined file. Refer to the \cb{--at-once} option for details."
+  };
+
+  database_map<std::string> --changelog
+  {
+    "<file>",
+    "Read/write changelog from/to <file> instead of the default changelog
+     file. The default changelog file name is derived from the input file
+     name and it is placed into the same directory as the input file. Note
+     that the \cb{--output-dir} option does not affect the changelog file
+     location. In other words, by default, the changelog file is treated
+     as another input rather than output even though the ODB compiler may
+     modify it. Use the \cb{--changelog-in} and \cb{--changelog-out}
+     options to specify different input and output chaneglog files."
+  };
+
+  database_map<std::string> --changelog-in
+  {
+    "<file>",
+    "Read changelog from <file> instead of the default changelog file. If
+     this option is specified, then you must also specify the output
+     chanegelog file with \cb{--changelog-out}."
+  };
+
+  database_map<std::string> --changelog-out
+  {
+    "<file>",
+    "Write changelog to <file> instead of the default changelog file. If
+     this option is specified, then you must also specify the input
+     chanegelog file with \cb{--changelog-in}."
+  };
+
+  database_map<std::string> --changelog-dir
+  {
+    "<dir>",
+    "Use <dir> instead of the input file directory as the changelog file
+     directory. This directory is also added to changelog files specified
+     with the \cb{--changelog}, \cb{--changelog-in}, and \cb{--changelog-in}
+     options unless they are absolute paths."
+  };
+
+  bool --init-changelog
+  {
+    "Force re-initialization of the changelog even if one exists (all the
+     existing change history will be lost). This option is primarily useful
+     for automated testing."
+  };
+
+  database_map<std::string> --odb-file-suffix
+  {
+    "<suffix>",
+    "Use <suffix> to construct the names of the generated C++ files. In
+     the single-database mode the default value for this option is \cb{-odb}.
+     In the multi-database mode it is \cb{-odb} for the files corresponding
+     to the \cb{common} database and \c{\b{-odb-}\i{db}} (where \ci{db} is
+     the database name) for other databases."
+  };
+
+  database_map<std::string> --sql-file-suffix
+  {
+    "<suffix>",
+    "Use <suffix> to construct the name of the generated schema SQL file.
+     In the single-database mode by default no suffix is used. In the
+     multi-database mode the default value for this option is
+     \c{\b{-}\i{db}} (where \ci{db} is the database name)."
+  };
+
+  database_map<std::string> --schema-file-suffix
+  {
+    "<suffix>",
+    "Use <suffix> to construct the name of the generated schema C++ source
+     file. In the single-database mode the default value for this option is
+     \cb{-schema}. In the multi-database mode it is \c{\b{-schema-}\i{db}}
+     (where \ci{db} is the database name). See the \cb{--schema-format}
+     option for details."
+  };
+
+  database_map<std::string> --changelog-file-suffix
+  {
+    "<sfx>",
+    "Use <sfx> to construct the name of the changelog file. In the
+     single-database mode by default no suffix is used. In the
+     multi-database mode the default value for this option is
+     \c{\b{-}\i{db}} (where \ci{db} is the database name)."
+  };
+
+  std::string --hxx-suffix = ".hxx"
+  {
+    "<suffix>",
+    "Use <suffix> instead of the default \cb{.hxx} to construct the name of
+     the generated C++ header file."
+  };
+
+  std::string --ixx-suffix = ".ixx"
+  {
+    "<suffix>",
+    "Use <suffix> instead of the default \cb{.ixx} to construct the name of
+     the generated C++ inline file."
+  };
+
+  std::string --cxx-suffix = ".cxx"
+  {
+    "<suffix>",
+    "Use <suffix> instead of the default \cb{.cxx} to construct the name of
+     the generated C++ source file."
+  };
+
+  std::string --sql-suffix = ".sql"
+  {
+    "<suffix>",
+    "Use <suffix> instead of the default \cb{.sql} to construct the name of
+     the generated database schema file."
+  };
+
+  std::string --changelog-suffix = ".xml"
+  {
+    "<suffix>",
+    "Use <suffix> instead of the default \cb{.xml} to construct the name of
+     the changelog file."
+  };
+
+  // Prologues.
+  //
+  database_map<std::vector<std::string> > --hxx-prologue
+  {
+    "<text>",
+    "Insert <text> at the beginning of the generated C++ header file."
+  };
+
+  database_map<std::vector<std::string> > --ixx-prologue
+  {
+    "<text>",
+    "Insert <text> at the beginning of the generated C++ inline file."
+  };
+
+  database_map<std::vector<std::string> > --cxx-prologue
+  {
+    "<text>",
+    "Insert <text> at the beginning of the generated C++ source file."
+  };
+
+  database_map<std::vector<std::string> > --schema-prologue
+  {
+    "<text>",
+    "Insert <text> at the beginning of the generated schema C++ source file."
+  };
+
+  database_map<std::vector<std::string> > --sql-prologue
+  {
+    "<text>",
+    "Insert <text> at the beginning of the generated database schema file."
+  };
+
+  database_map<std::vector<std::string> > --migration-prologue
+  {
+    "<text>",
+    "Insert <text> at the beginning of the generated database migration file."
+  };
+
+  // Interludes.
+  //
+  database_map<std::vector<std::string> > --sql-interlude
+  {
+    "<text>",
+    "Insert <text> after all the \cb{DROP} and before any \cb{CREATE}
+     statements in the generated database schema file."
+  };
+
+  // Epilogues.
+  //
+  database_map<std::vector<std::string> > --hxx-epilogue
+  {
+    "<text>",
+    "Insert <text> at the end of the generated C++ header file."
+  };
+
+  database_map<std::vector<std::string> > --ixx-epilogue
+  {
+    "<text>",
+    "Insert <text> at the end of the generated C++ inline file."
+  };
+
+  database_map<std::vector<std::string> > --cxx-epilogue
+  {
+    "<text>",
+    "Insert <text> at the end of the generated C++ source file."
+  };
+
+  database_map<std::vector<std::string> > --schema-epilogue
+  {
+    "<text>",
+    "Insert <text> at the end of the generated schema C++ source file."
+  };
+
+  database_map<std::vector<std::string> > --sql-epilogue
+  {
+    "<text>",
+    "Insert <text> at the end of the generated database schema file."
+  };
+
+  database_map<std::vector<std::string> > --migration-epilogue
+  {
+    "<text>",
+    "Insert <text> at the end of the generated database migration file."
+  };
+
+  // Prologue files.
+  //
+  database_map<std::string> --hxx-prologue-file
+  {
+    "<file>",
+    "Insert the content of <file> at the beginning of the generated C++
+     header file."
+  };
+
+  database_map<std::string> --ixx-prologue-file
+  {
+    "<file>",
+    "Insert the content of <file> at the beginning of the generated C++
+     inline file."
+  };
+
+  database_map<std::string> --cxx-prologue-file
+  {
+    "<file>",
+    "Insert the content of <file> at the beginning of the generated C++
+     source file."
+  };
+
+  database_map<std::string> --schema-prologue-file
+  {
+    "<file>",
+    "Insert the content of <file> at the beginning of the generated schema
+     C++ source file."
+  };
+
+  database_map<std::string> --sql-prologue-file
+  {
+    "<file>",
+    "Insert the content of <file> at the beginning of the generated
+     database schema file."
+  };
+
+  database_map<std::string> --migration-prologue-file
+  {
+    "<f>",
+    "Insert the content of file <f> at the beginning of the generated database
+     migration file."
+  };
+
+  // Interlude files.
+  //
+  database_map<std::string> --sql-interlude-file
+  {
+    "<file>",
+    "Insert the content of <file> after all the \cb{DROP} and before any
+     \cb{CREATE} statements in the generated database schema file."
+  };
+
+  // Epilogue files.
+  //
+  database_map<std::string> --hxx-epilogue-file
+  {
+    "<file>",
+    "Insert the content of <file> at the end of the generated C++ header
+     file."
+  };
+
+  database_map<std::string> --ixx-epilogue-file
+  {
+    "<file>",
+    "Insert the content of <file> at the end of the generated C++ inline
+     file."
+  };
+
+  database_map<std::string> --cxx-epilogue-file
+  {
+    "<file>",
+    "Insert the content of <file> at the end of the generated C++ source
+     file."
+  };
+
+  database_map<std::string> --schema-epilogue-file
+  {
+    "<file>",
+    "Insert the content of <file> at the end of the generated schema C++
+     source file."
+  };
+
+  database_map<std::string> --sql-epilogue-file
+  {
+    "<file>",
+    "Insert the content of <file> at the end of the generated database
+     schema file."
+  };
+
+  database_map<std::string> --migration-epilogue-file
+  {
+    "<f>",
+    "Insert the content of file <f> at the end of the generated database
+     migration file."
+  };
+
+  // ODB compilation prologue/epilogue.
+  //
+  database_map<std::vector<std::string> > --odb-prologue
+  {
+    "<text>",
+    "Compile <text> before the input header file. This option allows you
+     to add additional declarations, such as custom traits specializations,
+     to the ODB compilation process."
+  };
+
+  database_map<std::vector<std::string> > --odb-prologue-file
+  {
+    "<file>",
+    "Compile <file> contents before the input header file. Prologue files
+     are compiled after all the prologue text fragments (\cb{--odb-prologue}
+     option)."
+  };
+
+  database_map<std::vector<std::string> > --odb-epilogue
+  {
+    "<text>",
+    "Compile <text> after the input header file. This option allows you
+     to add additional declarations, such as custom traits specializations,
+     to the ODB compilation process."
+  };
+
+  database_map<std::vector<std::string> > --odb-epilogue-file
+  {
+    "<file>",
+    "Compile <file> contents after the input header file. Epilogue files
+     are compiled after all the epilogue text fragments (\cb{--odb-epilogue}
+     option)."
+  };
+
+  // SQL names.
+  //
+  database_map<std::string> --table-prefix
+  {
+    "<prefix>",
+    "Add <prefix> to table names and, for databases that have global index
+     and/or foreign key names, to those names as well. The prefix is added to
+     both names that were specified with the \cb{db table} and \cb{db index}
+     pragmas and those that were automatically derived from class and data
+     member names. If you require a separator, such as an underscore,
+     between the prefix and the name, then you should include it into the
+     prefix value."
+  };
+
+  database_map<std::string> --index-suffix
+  {
+    "<suffix>",
+    "Use <suffix> instead of the default \cb{_i} to construct index names.
+     The suffix is only added to names that were automatically derived from
+     data member names. If you require a separator, such as an underscore,
+     between the name and the suffix, then you should include it into the
+     suffix value."
+  };
+
+  database_map<std::string> --fkey-suffix
+  {
+    "<suffix>",
+    "Use <suffix> instead of the default \cb{_fk} to construct foreign key
+     names. If you require a separator, such as an underscore, between the
+     name and the suffix, then you should include it into the suffix value."
+  };
+
+  database_map<std::string> --sequence-suffix
+  {
+    "<suffix>",
+    "Use <suffix> instead of the default \cb{_seq} to construct sequence
+     names. If you require a separator, such as an underscore, between the
+     name and the suffix, then you should include it into the suffix value."
+  };
+
+  database_map<name_case> --sql-name-case
+  {
+    "<case>",
+    "Convert all automatically-derived SQL names to upper or lower case.
+     Valid values for this option are  \cb{upper} and \cb{lower}."
+  };
+
+  database_map<std::vector<std::string> > --table-regex
+  {
+    "<regex>",
+    "Add <regex> to the list of regular expressions that is used to
+     transform automatically-derived table names. See the SQL NAME
+     TRANSFORMATIONS section below for details."
+  };
+
+  database_map<std::vector<std::string> > --column-regex
+  {
+    "<regex>",
+    "Add <regex> to the list of regular expressions that is used to
+     transform automatically-derived column names. See the SQL NAME
+     TRANSFORMATIONS section below for details."
+  };
+
+  database_map<std::vector<std::string> > --index-regex
+  {
+    "<regex>",
+    "Add <regex> to the list of regular expressions that is used to
+     transform automatically-derived index names. See the SQL NAME
+     TRANSFORMATIONS section below for details."
+  };
+
+  database_map<std::vector<std::string> > --fkey-regex
+  {
+    "<regex>",
+    "Add <regex> to the list of regular expressions that is used to
+     transform automatically-derived foreign key names. See the SQL NAME
+     TRANSFORMATIONS section below for details."
+  };
+
+  database_map<std::vector<std::string> > --sequence-regex
+  {
+    "<regex>",
+    "Add <regex> to the list of regular expressions that is used to
+     transform automatically-derived sequence names. See the SQL NAME
+     TRANSFORMATIONS section below for details."
+  };
+
+  database_map<std::vector<std::string> > --sql-name-regex
+  {
+    "<regex>",
+    "Add <regex> to the list of regular expressions that is used to
+     transform all automatically-derived SQL names. See the SQL NAME
+     TRANSFORMATIONS section below for details."
+  };
+
+  bool --sql-name-regex-trace
+  {
+    "Trace the process of applying regular expressions specified with the
+     SQL name \cb{--*-regex} options. Use this option to find out why your
+     regular expressions don't do what you expected them to do."
+  };
+
+  // Accessor/modifier options.
+  //
+  std::vector<std::string> --accessor-regex
+  {
+    "<regex>",
+    "Add <regex> to the list of regular expressions used to transform
+     data member names to function names when searching for a suitable
+     accessor function. The argument to this option is a Perl-like regular
+     expression in the form \c{\b{/}\i{pattern}\b{/}\i{replacement}\b{/}}.
+     Any character can be used as a delimiter instead of \cb{/} and the
+     delimiter can be escaped inside \ci{pattern} and \ci{replacement}
+     with a backslash (\cb{\\}). You can specify multiple regular
+     expressions by repeating this option.
+
+     All the regular expressions are tried in the order specified and
+     the first expression that produces a suitable accessor function is
+     used. Each expression is tried twice: first with the actual member
+     name and then with the member's \i{public name} which is obtained by
+     removing the common member name decorations, such as leading and
+     trailing underscores, the \cb{m_} prefix, etc. The ODB compiler also
+     includes a number of built-in expressions for commonly used accessor
+     names, such as \cb{get_foo}, \cb{getFoo}, \cb{getfoo}, and just
+     \cb{foo}. The built-in expressions are tried last.
+
+     As an example, the following expression transforms data members with
+     public names in the form \cb{foo} to accessor names in the form
+     \cb{GetFoo}:
+
+     \cb{/(.+)/Get\\u$1/}
+
+     See also the REGEX AND SHELL QUOTING section below."
+  };
+
+  bool --accessor-regex-trace
+  {
+    "Trace the process of applying regular expressions specified with the
+     \cb{--accessor-regex} option. Use this option to find out why your
+     regular expressions don't do what you expected them to do."
+  };
+
+  std::vector<std::string> --modifier-regex
+  {
+    "<regex>",
+    "Add <regex> to the list of regular expressions used to transform
+     data member names to function names when searching for a suitable
+     modifier function. The argument to this option is a Perl-like regular
+     expression in the form \c{\b{/}\i{pattern}\b{/}\i{replacement}\b{/}}.
+     Any character can be used as a delimiter instead of \cb{/} and the
+     delimiter can be escaped inside \ci{pattern} and \ci{replacement}
+     with a backslash (\cb{\\}). You can specify multiple regular
+     expressions by repeating this option.
+
+     All the regular expressions are tried in the order specified and
+     the first expression that produces a suitable modifier function is
+     used. Each expression is tried twice: first with the actual member
+     name and then with the member's \i{public name} which is obtained by
+     removing the common member name decorations, such as leading and
+     trailing underscores, the \cb{m_} prefix, etc. The ODB compiler also
+     includes a number of built-in expressions for commonly used modifier
+     names, such as \cb{set_foo}, \cb{setFoo}, \cb{setfoo}, and just
+     \cb{foo}. The built-in expressions are tried last.
+
+     As an example, the following expression transforms data members with
+     public names in the form \cb{foo} to modifier names in the form
+     \cb{SetFoo}:
+
+     \cb{/(.+)/Set\\u$1/}
+
+     See also the REGEX AND SHELL QUOTING section below."
+  };
+
+  bool --modifier-regex-trace
+  {
+    "Trace the process of applying regular expressions specified with the
+     \cb{--modifier-regex} option. Use this option to find out why your
+     regular expressions don't do what you expected them to do."
+  };
+
+  // Include options.
+  //
+  bool --include-with-brackets
+  {
+    "Use angle brackets (<>) instead of quotes (\"\") in the generated
+     \cb{#include} directives."
+  };
+
+  std::string --include-prefix
+  {
+    "<prefix>",
+    "Add <prefix> to the generated \cb{#include} directive paths."
+  };
+
+  std::vector<std::string> --include-regex
+  {
+    "<regex>",
+    "Add <regex> to the list of regular expressions used to transform
+     generated \cb{#include} directive paths. The argument to this option
+     is a Perl-like regular expression in the form
+     \c{\b{/}\i{pattern}\b{/}\i{replacement}\b{/}}. Any character can be
+     used as a delimiter instead of \cb{/} and the delimiter can be escaped
+     inside \ci{pattern} and \ci{replacement} with a backslash (\cb{\\}).
+     You can specify multiple regular expressions by repeating this option.
+     All the regular expressions are tried in the order specified and the
+     first expression that matches is used.
+
+     As an example, the following expression transforms include paths in
+     the form \cb{foo/bar-odb.h} to paths in the form
+     \cb{foo/generated/bar-odb.h}:
+
+     \cb{%foo/(.+)-odb.h%foo/generated/$1-odb.h%}
+
+     See also the REGEX AND SHELL QUOTING section below."
+  };
+
+  bool --include-regex-trace
+  {
+    "Trace the process of applying regular expressions specified with the
+     \cb{--include-regex} option. Use this option to find out why your
+     regular expressions don't do what you expected them to do."
+  };
+
+  std::string --guard-prefix
+  {
+    "<prefix>",
+    "Add <prefix> to the generated header inclusion guards. The prefix is
+     transformed to upper case and characters that are illegal in a
+     preprocessor macro name are replaced with underscores."
+  };
+
+  bool --show-sloc
+  {
+    "Print the number of generated physical source lines of code (SLOC)."
+  };
+
+  std::size_t --sloc-limit
+  {
+    "<num>",
+    "Check that the number of generated physical source lines of code (SLOC)
+     does not exceed <num>."
+  };
+
+  // The following option is "fake" in that it is actually handled by
+  // argv_file_scanner. We have it here to get the documentation.
+  //
+  std::string --options-file
+  {
+    "<file>",
+    "Read additional options from <file> with each option appearing on a
+     separate line optionally followed by space and an option value. Empty
+     lines and lines starting with \cb{#} are ignored. Option values can
+     be enclosed in double (\cb{\"}) or single (\cb{'}) quotes  to preserve
+     leading and trailing whitespaces as well as to specify empty values.
+     If the value itself contains trailing or leading quotes, enclose it
+     with an extra pair of quotes, for example \cb{'\"x\"'}. Non-leading
+     and non-trailing quotes are interpreted as being part of the option
+     value.
+
+     The semantics of providing options in a file is equivalent to providing
+     the same set of options in the same order on the command line at the
+     point where the \cb{--options-file} option is specified except that
+     the shell escaping and quoting is not required. You can repeat this
+     option to specify more than one options file."
+  };
+
+  std::vector<std::string> -x
+  {
+    "<option>",
+    "Pass <option> to the underlying C++ compiler (\cb{g++}). The <option>
+     value that doesn't start with \cb{-} is considered the \cb{g++}
+     executable name."
+  };
+
+  bool -v {"Print the commands executed to run the stages of compilation."};
+
+  bool --trace {"Trace the compilation process."};
+
+  //
+  // MySQL-specific options.
+  //
+
+  std::string --mysql-engine = "InnoDB"
+  {
+    "<engine>",
+    "Use <engine> instead of the default \cb{InnoDB} in the generated
+     database schema file. For more information on the storage engine
+     options see the MySQL documentation. If you would like to use the
+     database-default engine, pass \cb{default} as the value for this
+     option."
+  };
+
+  //
+  // SQLite-specific options.
+  //
+
+  bool --sqlite-override-null
+  {
+    "Make all columns in the generated database schema allow \cb{NULL}
+     values. This is primarily useful in schema migration since SQLite
+     does not support dropping of columns. By making all columns \cb{NULL}
+     we can later \"delete\" them by setting their values to \cb{NULL}.
+     Note that this option overrides even the \cb{not_null} pragma."
+  };
+
+  bool --sqlite-lax-auto-id
+  {
+    "Do not force monotonically increasing automatically-assigned
+     object ids. In this mode the generated database schema omits the
+     \cb{AUTOINCREMENT} keyword which results in faster object persistence
+     but may lead to automatically-assigned ids not being in a strictly
+     ascending order. Refer to the SQLite documentation for details."
+  };
+
+  //
+  // PostgreSQL-specific options.
+  //
+
+  ::pgsql_version --pgsql-server-version (7, 4)
+  {
+    "<ver>",
+    "Specify the minimum PostgreSQL server version with which the generated
+     C++ code and schema will be used. This information is used to enable
+     version-specific optimizations and workarounds in the generated C++
+     code and schema. The version must be in the \c{\i{major}\b{.}\i{minor}}
+     form, for example, \cb{9.1}. If this option is not specified, then
+     \cb{7.4} or later is assumed."
+  };
+
+  //
+  // Oracle-specific options.
+  //
+
+  ::oracle_version --oracle-client-version (10, 1)
+  {
+    "<ver>",
+    "Specify the minimum Oracle client library (OCI) version with which the
+     generated C++ code will be linked. This information is used to enable
+     version-specific optimizations and workarounds in the generated C++
+     code. The version must be in the \c{\i{major}\b{.}\i{minor}} form,
+     for example, \cb{11.2}. If this option is not specified, then
+     \cb{10.1} or later is assumed."
+  };
+
+  //
+  // SQL Server-specific options.
+  //
+
+  ::mssql_version --mssql-server-version (10, 0)
+  {
+    "<ver>",
+    "Specify the minimum SQL Server server version with which the generated
+     C++ code and schema will be used. This information is used to enable
+     version-specific optimizations and workarounds in the generated C++
+     code and schema. The version must be in the \c{\i{major}\b{.}\i{minor}}
+     form, for example, \cb{9.0} (SQL Server 2005), \cb{10.5} (2008R2), or
+     \cb{11.0} (2012). If this option is not specified, then \cb{10.0} (SQL
+     Server 2008) or later is assumed."
+  };
+
+  unsigned int --mssql-short-limit = 1024
+  {
+    "<size>",
+    "Specify the short data size limit. If a character, national character, or
+     binary data type has a maximum length (in bytes) less than or equal to
+     this limit, then it is treated as \i{short data}, otherwise it is \i{long
+     data}. For short data ODB pre-allocates an intermediate buffer of
+     the maximum size and binds it directly to a parameter or result
+     column. This way the underlying API (ODBC) can read/write directly
+     from/to this buffer. In the case of long data, the data is read/written
+     in chunks using the \cb{SQLGetData()}/\cb{SQLPutData()} ODBC functions.
+     While the long data approach reduces the amount of memory used by the
+     application, it may require greater CPU resources. The default short
+     data limit is 1024 bytes. When setting a custom short data limit, make
+     sure that it is sufficiently large so that no object id in the
+     application is treated as long data."
+  };
+};
