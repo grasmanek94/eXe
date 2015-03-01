@@ -105,8 +105,8 @@ Requirements for compilation:
 
 ------------------------------------
 
- * - I could not find any other active servers that run custom open-source modes.
+ \* - I could not find any other active servers that run custom open-source modes.
 
- ** - this requires editing the gamemode and including the relevant ODB library headers and source files (and any other needed stuff).
+ \*\* - this requires editing the gamemode and including the relevant ODB library headers and source files (and any other needed stuff).
 
 ------------------------------------
