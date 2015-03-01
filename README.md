@@ -35,7 +35,7 @@ As for cross-plaftorm operability - The mode compiles on Windows only, though 99
 
 ------------------------------------
 
-![LOGO](https://github.com/grasmanek94/eXe][img]http://gz0.nl/900x200_BLACK_WS.png)
+![LOGO](http://gz0.nl/900x200_BLACK_WS.png)
 
 Gamer_Z eXtreme Party 24/7 - in short: eXe24
 
