@@ -65,11 +65,19 @@ void ShowMainAchievmentsListChooser(int playerid)
 ZCMDF(osg, PERMISSION_NONE, RESTRICTION_NONE, cmd_alias({ "/osiagniecia", "/osi¹gniêcia", "/achiwy", "/achievments", "/achievements", "/achievmenty", "/achiewmenty", "/achiewements", "/achiewments", "/osiagi", "/osi¹gi" }), "p")
 {
 	if (parser.Good())
+	{
 		viewing[playerid] = parser.Get<ParsePlayer>(0).playerid;
+	}
 	else
+	{
 		viewing[playerid] = playerid;
+	}
+
 	if (viewing[playerid] == INVALID_PLAYER_ID)
+	{
 		viewing[playerid] = playerid;
+	}
+
 	ShowMainAchievmentsListChooser(playerid);
 	return true;
 }
@@ -157,7 +165,9 @@ ZERO_DIALOG(chooseviewosg)
 			for (auto i : WeaponInfo)
 			{
 				if (i.CanKillWithIt)
+				{
 					showstring.append(Functions::string_format(i.weaponName + ": %d\n", Player[viewing[playerid]].Achievementdata.WeaponKills[i.weaponid]));
+				}
 			}
 			ShowPlayerCustomDialog(playerid, "osgviewer", DIALOG_STYLE_MSGBOX, TranslatePF(playerid, L_stats_killsfromweapons, Player[viewing[playerid]].PlayerName.c_str()), showstring, "<", "X");
 			break;
@@ -165,7 +175,9 @@ ZERO_DIALOG(chooseviewosg)
 			for (auto i : WeaponInfo)
 			{
 				if (i.CanKillWithIt)
+				{
 					showstring.append(Functions::string_format(i.weaponName + ": %d\n", Player[viewing[playerid]].Achievementdata.WeaponDeaths[i.weaponid]));
+				}
 			}
 			ShowPlayerCustomDialog(playerid, "osgviewer", DIALOG_STYLE_MSGBOX, TranslatePF(playerid, L_stats_killedbyweapons, Player[viewing[playerid]].PlayerName.c_str()), showstring, "<", "X");
 			break;
@@ -173,7 +185,9 @@ ZERO_DIALOG(chooseviewosg)
 			for (auto i : WeaponInfo)
 			{
 				if (i.CanKillWithIt)
+				{
 					showstring.append(Functions::string_format(i.weaponName + ": %d\n", Player[viewing[playerid]].Achievementdata.WeaponMaxKillStreak[i.weaponid]));
+				}
 			}
 			ShowPlayerCustomDialog(playerid, "osgviewer", DIALOG_STYLE_MSGBOX, TranslatePF(playerid, L_stats_biggestkillstreaks, Player[viewing[playerid]].PlayerName.c_str()), showstring, "<", "X");
 			break;
@@ -181,7 +195,9 @@ ZERO_DIALOG(chooseviewosg)
 			for (auto i : WeaponInfo)
 			{
 				if (i.CanKillWithIt)
+				{
 					showstring.append(Functions::string_format(i.weaponName + ": %d\n", Player[viewing[playerid]].Achievementdata.SameWeaponKills[i.weaponid]));
+				}
 			}
 			ShowPlayerCustomDialog(playerid, "osgviewer", DIALOG_STYLE_MSGBOX, TranslatePF(playerid, L_stats_killswithsameweapons, Player[viewing[playerid]].PlayerName.c_str()), showstring, "<", "X");
 			break;
@@ -189,7 +205,9 @@ ZERO_DIALOG(chooseviewosg)
 			for (auto i : WeaponInfo)
 			{
 				if (i.CanKillWithIt)
+				{
 					showstring.append(Functions::string_format(i.weaponName + ": %d\n", Player[viewing[playerid]].Achievementdata.SameWeaponDeaths[i.weaponid]));
+				}
 			}
 			ShowPlayerCustomDialog(playerid, "osgviewer", DIALOG_STYLE_MSGBOX, TranslatePF(playerid, L_stats_deathswithsameweapons, Player[viewing[playerid]].PlayerName.c_str()), showstring, "<", "X");
 			break;
@@ -197,7 +215,9 @@ ZERO_DIALOG(chooseviewosg)
 			for (auto i : WeaponInfo)
 			{
 				if (i.CanKillWithIt)
+				{
 					showstring.append(Functions::string_format(i.weaponName + ": %.0f (%.0f%%)\n", Player[viewing[playerid]].GetLevel((double)Player[viewing[playerid]].Achievementdata.WeaponExperience[i.weaponid]), Player[viewing[playerid]].GetPercentToNextLevel((double)Player[viewing[playerid]].Achievementdata.WeaponExperience[i.weaponid])));
+				}
 			}
 			ShowPlayerCustomDialog(playerid, "osgviewer", DIALOG_STYLE_MSGBOX, TranslatePF(playerid, L_stats_weaponlevels, Player[viewing[playerid]].PlayerName.c_str()), showstring, "<", "X");
 			break;
@@ -211,5 +231,7 @@ ZERO_DIALOG(chooseviewosg)
 ZERO_DIALOG(osgviewer)
 {
 	if (response)
+	{
 		ShowMainAchievmentsListChooser(playerid);
+	}
 }

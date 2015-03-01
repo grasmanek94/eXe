@@ -75,7 +75,7 @@ public:
 					Player[playerid].GiveMoney(2500000);
 					Player[playerid].GiveScore(1000);
 				}
-				fixSendClientMessage(playerid, Color::COLOR_INFO3, L_goldcoin_foundnew, Player[playerid].Achievementdata.GoldCoins.count(), GoldCoins.size());
+				fixSendClientMessageF(playerid, Color::COLOR_INFO3, L_goldcoin_foundnew, false, false, Player[playerid].Achievementdata.GoldCoins.count(), GoldCoins.size());
 			}			
 		}
 		return true;
