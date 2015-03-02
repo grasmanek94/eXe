@@ -942,8 +942,8 @@ Available Permissions:\n\
 \tCOLOR (who can change the mafia color)\n\
 \tDMONEY (who can donate cash)\n\
 \tGMONEY (who can give cash)\n\
-\tDRESPCKT (who can donate respect)\n\
-\tGRESPCKT (who can give respect)\n\
+\tDRESPECT (who can donate respect)\n\
+\tGRESPECT (who can give respect)\n\
 \tDELETE (who can delete the mafia)\n\
 \tSKIN (who can change the mafia skin)\n\
 \tSPAWN (who can change the mafia spawn)\n\

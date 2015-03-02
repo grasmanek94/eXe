@@ -972,8 +972,8 @@ Pozwolenia:\n\
 \tCOLOR (kto może zmieniać kolor mafii)\n\
 \tDMONEY (kto może darować pieniądze)\n\
 \tGMONEY (kto może wydawać pieniądze)\n\
-\tDRESPCKT (kto może darować respekt)\n\
-\tGRESPCKT (kto może wydawać respekt)\n\
+\tDRESPECT (kto może darować respekt)\n\
+\tGRESPECT (kto może wydawać respekt)\n\
 \tDELETE (kto może usunąć mafie)\n\
 \tSKIN (kto może zmieniać skin mafii)\n\
 \tSPAWN (kto może zmieniać spawn mafii)\n\
