@@ -185,8 +185,7 @@ int fixSetPlayerVirtualWorld(int playerid, int worldid)
 }
 int safeSetSpawnInfo(int playerid, int team, int skin, float spawnX, float spawnY, float spawnZ, float angle, int weapon1, int weapon1ammo, int weapon2, int weapon2ammo, int weapon3, int weapon3ammo)
 {
-	for (int i = 1; i < 48; ++i)
-		p_SpawnInfoWeapons[playerid][i] = 0;
+	p_SpawnInfoWeapons[playerid].fill(0);
 	p_SpawnInfoWeapons[playerid][0] = weapon1;
 	p_SpawnInfoWeapons[playerid][1] = weapon2;
 	p_SpawnInfoWeapons[playerid][2] = weapon3;
@@ -196,8 +195,7 @@ int safeSetSpawnInfo(int playerid, int team, int skin, float spawnX, float spawn
 int safeAddPlayerClass(int modelid, float spawnX, float spawnY, float spawnZ, float angle, int weapon1, int weapon1ammo, int weapon2, int weapon2ammo, int weapon3, int weapon3ammo)
 {
 	if (modelid < 0 || modelid > 299 || modelid == 74) return 0;
-	for (int x = 1; x < 48; ++x)
-		g_SkinHasWeapon[modelid][x] = 0;
+	g_SkinHasWeapon[modelid].fill(0);
 	g_SkinHasWeapon[modelid][0] = weapon1;
 	g_SkinHasWeapon[modelid][1] = weapon2;
 	g_SkinHasWeapon[modelid][2] = weapon3;
@@ -207,8 +205,7 @@ int safeAddPlayerClass(int modelid, float spawnX, float spawnY, float spawnZ, fl
 int safeAddPlayerClassEx(int teamid, int modelid, float spawnX, float spawnY, float spawnZ, float angle, int weapon1, int weapon1ammo, int weapon2, int weapon2ammo, int weapon3, int weapon3ammo)
 {
 	if (modelid < 0 || modelid > 299 || modelid == 74) return 0;
-	for (int x = 1; x < 48; ++x)
-		g_SkinHasWeapon[modelid][x] = false;
+	g_SkinHasWeapon[modelid].fill(false);
 	g_SkinHasWeapon[modelid][0] = weapon1;
 	g_SkinHasWeapon[modelid][1] = weapon2;
 	g_SkinHasWeapon[modelid][2] = weapon3;
@@ -223,8 +220,7 @@ int safeGivePlayerWeapon(int playerid, int weaponid, int ammo)
 
 int safeResetPlayerWeapons(int playerid)
 {
-	for (int i = 1; i < 48; ++i)
-		p_HasWeapon[playerid][i] = false;
+	p_HasWeapon[playerid].fill(false);
 	WeaponProtection[playerid] = clock();
 	return ResetPlayerWeapons(playerid);
 }
@@ -836,50 +832,29 @@ public:
 
 	bool OnGameModeInit() override
 	{
-		for (int i = 0; i < 48; ++i)
-		{
-			g_WeaponEnabled[i] = true;
-		}
+		g_WeaponEnabled.fill(false);
+		PlayerCanHeal.fill(0);
+		PlayerCanSwim.fill(0);
 
 		for (int i = 0; i < MAX_PLAYERS; ++i)
 		{
-			PlayerCanHeal[i] = 0;
-			PlayerCanSwim[i] = 0;
 			p_WeaponEnabled[i][0] = true;
 			p_HasWeapon[i][0] = true;
-			for (int x = 1; x < 48; ++x)
-			{
-				p_WeaponEnabled[i][x] = true;
-				p_HasWeapon[i][x] = false;
-			}
-			for (int x = 0; x < 3; ++x)
-			{
-				p_SpawnInfoWeapons[i][x] = 0;
-			}
+			p_WeaponEnabled[i].fill(true);
+			p_HasWeapon[i].fill(false);
+			p_SpawnInfoWeapons[i].fill(0);
 		}
 
-		for (int i = 0; i < MAX_VEHICLES + 1; ++i)
-		{
-			VehicleHealth[i] = 1000.0;
-		}
+		VehicleHealth.fill(1000.0);
 
 		for (int i = 0; i < 300; ++i)
 		{
-			for (int x = 0; x < 3; ++x)
-			{
-				g_SkinHasWeapon[i][x] = 0;
-			}
+			g_SkinHasWeapon[i].fill(0);
 		}
 
-		for (int i = 0; i < MAX_VEHICLES + 1; ++i)
-		{
-			v_PlayerInVehicle[i] = INVALID_PLAYER_ID;
-		}
+		v_PlayerInVehicle.fill(INVALID_PLAYER_ID);
 
-		for (int i = 0; i < 612; ++i)
-		{
-			GivesParachute[i] = false;
-		}
+		GivesParachute.fill(false);
 
 		GivesParachute[417] = true;
 		GivesParachute[425] = true;
@@ -1155,10 +1130,7 @@ public:
 		p_Frozen[playerid] = true;
 		if (!IsPlayerNPC(playerid))
 		{
-			for (int i = 0; i < 48; ++i)
-			{
-				p_WeaponEnabled[playerid][i] = g_WeaponEnabled[i];
-			}
+			p_WeaponEnabled[playerid] = g_WeaponEnabled;
 			PlayerDoingVehGodModeCheck[playerid] = false;
 			p_AcivityInfo[playerid].LastActive = timenow;
 			p_AcivityInfo[playerid].LastTick = p_AcivityInfo[playerid].LastActive;
@@ -1216,10 +1188,7 @@ public:
 					IPLastConnectTime.erase(pip);
 				}
 			}
-			for (int i = 1; i < 48; ++i)
-			{
-				p_HasWeapon[playerid][i] = false;
-			}
+			p_HasWeapon[playerid].fill(false);
 			safeResetPlayerWeapons(playerid);
 			PlayerHealth[playerid][0] = 0.0f;
 			PlayerHealth[playerid][1] = 0.0f;
@@ -1841,8 +1810,7 @@ public:
 		{
 			clock_t TimeNow = clock();
 			int pSkin = GetPlayerSkin(playerid);
-			for (int i = 1; i < 48; ++i)
-				p_HasWeapon[playerid][i] = false;
+			p_HasWeapon[playerid].fill(false);
 			p_HasWeapon[playerid][0] = true;
 			p_HasWeapon[playerid][g_SkinHasWeapon[pSkin][0]] = true;
 			p_HasWeapon[playerid][g_SkinHasWeapon[pSkin][1]] = true;
