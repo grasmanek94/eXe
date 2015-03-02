@@ -183,6 +183,7 @@ int fixSetPlayerVirtualWorld(int playerid, int worldid)
 	}
 	return sampgdk_SetPlayerVirtualWorld(playerid, worldid);
 }
+
 int safeSetSpawnInfo(int playerid, int team, int skin, float spawnX, float spawnY, float spawnZ, float angle, int weapon1, int weapon1ammo, int weapon2, int weapon2ammo, int weapon3, int weapon3ammo)
 {
 	p_SpawnInfoWeapons[playerid].fill(0);
@@ -838,19 +839,16 @@ public:
 
 		for (int i = 0; i < MAX_PLAYERS; ++i)
 		{
-			p_WeaponEnabled[i][0] = true;
-			p_HasWeapon[i][0] = true;
-			p_WeaponEnabled[i].fill(true);
 			p_HasWeapon[i].fill(false);
+			p_HasWeapon[i][0] = true;
+
+			p_WeaponEnabled[i].fill(true);
 			p_SpawnInfoWeapons[i].fill(0);
 		}
 
 		VehicleHealth.fill(1000.0);
 
-		for (int i = 0; i < 300; ++i)
-		{
-			g_SkinHasWeapon[i].fill(0);
-		}
+		g_SkinHasWeapon.fill({{ 0, 0, 0 }});
 
 		v_PlayerInVehicle.fill(INVALID_PLAYER_ID);
 
