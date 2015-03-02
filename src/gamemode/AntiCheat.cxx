@@ -832,7 +832,7 @@ public:
 
 	bool OnGameModeInit() override
 	{
-		g_WeaponEnabled.fill(false);
+		g_WeaponEnabled.fill(true);
 		PlayerCanHeal.fill(0);
 		PlayerCanSwim.fill(0);
 
