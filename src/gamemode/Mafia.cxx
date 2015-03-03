@@ -714,13 +714,16 @@ static const std::map<std::string, MAFIA_ACTIONS> MafiaActionPermissionProxy =
 ZCMDF(mpermissions, PERMISSION_NONE, RESTRICTION_IS_IN_MAFIA, cmd_alias({ "/mafia.permissions", "/mafia.pozwolenia", "/mafia.p", "/maffia.permissions", "/maffia.pozwolenia", "/maffia.p" }), "wd")
 {
 	if (!Player[playerid].Mafia->CheckAllowedWithMessage(playerid, MAFIA_ACTION_CHANGE_ACTION_PERMISSIONS))
+	{
 		return true;
+	}
+
 	if (parser.Good() == 2)
 	{
-		auto found = MafiaActionPermissionProxy.find(parser.Get<std::string>(0));
+		auto found = MafiaActionPermissionProxy.find(boost::to_upper_copy(parser.Get<std::string>()));
 		if (found != MafiaActionPermissionProxy.end())
 		{
-			long level = parser.Get<long>(0);
+			long level = parser.GetNext<long>();
 
 			clamp<long>(level, 0, 3);
 
@@ -1376,32 +1379,21 @@ void CMafia::SetActionPermission(MAFIA_ACTIONS action, unsigned char level)
 		level = 3;
 	}
 
-	bActionPermissions[action] = false;
-	bActionPermissions[action+1] = false;
+	unsigned char action_pos = action * 2;
 
-	switch (level)
-	{
-	case 1:
-		bActionPermissions[action] = true;
-		break;
-	case 2:
-		bActionPermissions[action + 1] = true;
-		break;
-	case 3:
-		bActionPermissions[action] = true;
-		bActionPermissions[action + 1] = true;
-		break;
-	}
+	bActionPermissions[action_pos		] = (level %  2);
+	bActionPermissions[action_pos + 1	] = (level >= 2);
 }
 
 unsigned char CMafia::GetActionPermission(MAFIA_ACTIONS action)
 {	
-	return ((unsigned char)bActionPermissions[action]) + (2 * ((unsigned char)bActionPermissions[action+1]));
+	unsigned char action_pos = action * 2;
+	return ((unsigned char)bActionPermissions[action_pos]) + (2 * ((unsigned char)bActionPermissions[action_pos + 1]));
 }
 
 bool CMafia::IsPlayerAllowedAction(int playerid, MAFIA_ACTIONS action)
 {
-	if (Player[playerid].Mafia == this && GetActionPermission(action) <= Player[playerid].MafiaPermissions && Player[playerid].Connected)
+	if (Player[playerid].Mafia == this && GetActionPermission(action) <= Player[playerid].MafiaPermissions)
 	{
 		return true;
 	}
