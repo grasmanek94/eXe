@@ -43,7 +43,9 @@ void VehicleClosenessCheckerDelayed(int timerid, void* param)
 	for (int i = 0; i < (MAX_VEHICLES + 1); ++i)
 	{
 		if (IsValidVehicle(i))
+		{
 			UncheckedVehicles.insert(i);
+		}
 	}
 #if defined _LOCALHOST_DEBUG
 	std::cout << "Going to check " << UncheckedVehicles.size() << " vehicles..." << std::endl;
@@ -114,7 +116,7 @@ void VehicleClosenessCheckerDelayed(int timerid, void* param)
 class VehicleClosenessChecker : public Extension::Base
 {
 public:
-	bool OnGameModeInit()
+	bool OnGameModeInit() override
 	{
 		sampgdk_SetTimerEx(2000, false, VehicleClosenessCheckerDelayed, nullptr, nullptr);
 		return true;

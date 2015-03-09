@@ -76,7 +76,10 @@ struct SGlobalAnnouncementData
 			StringStateB ^= 1;
 
 			for (size_t language_id = 0; language_id < LANGUAGES_SIZE; ++language_id)
+			{
 				Lines[language_id][StringStateA].assign("_");
+			}
+
 			--CustomMessageCount;
 		}
 	}
@@ -100,15 +103,21 @@ struct SGlobalAnnouncementData
 	{
 		PrepareNewMessage(CurrentTime);
 		for (size_t language_id = 0; language_id < LANGUAGES_SIZE; ++language_id)
+		{
 			Lines[language_id][StringStateA].assign(message);
+		}
 		UpperIsShifed = false;
 	}
 
 	void AddMessage(language_string_ids message, unsigned long long CurrentTime)
 	{
 		PrepareNewMessage(CurrentTime);
+
 		for (size_t language_id = 0; language_id < LANGUAGES_SIZE; ++language_id)
+		{
 			Lines[language_id][StringStateA].assign(Translate(language_id, message));
+		}
+
 		UpperIsShifed = false;
 	}
 };
@@ -131,8 +140,12 @@ void CleanGlobalAnnouncementMessage(int timerid, void* param)
 	{
 		GlobalAnnouncementData.Shuffle(TimeNow);
 		for (size_t i = 0; i < LANGUAGES_SIZE; ++i)
+		{
 			if (PlayersUsingLanguage[i].size())
+			{
 				GlobalAnnouncementMessage.SetString(i, GlobalAnnouncementData.Combine(i));
+			}
+		}
 	}
 }
 
@@ -140,14 +153,14 @@ class MessageManager : public Extension::Base
 {
 public:
 	MessageManager() : Base() {}
-	bool OnGameModeInit()
+	bool OnGameModeInit() override
 	{
 		GlobalServerMessage.Create(638.000000, 438.000000, L_empty_underscore, 3, 255, 1, 0.18, 0.90, -1, 1, 0, 0, 0);
 		GlobalAnnouncementMessage.Create(320.000000, 103.000000, L_empty_underscore, 2, 255, 1, 0.210000, 1.100000, -1, 1, 0, 0, 0);
 		sampgdk_SetTimerEx(2000, true, CleanGlobalAnnouncementMessage, nullptr, nullptr);
 		return true;
 	}
-	bool OnPlayerConnect(int playerid)
+	bool OnPlayerConnect(int playerid) override
 	{
 		PlayerMessage[playerid] = CreatePlayerTextDraw(playerid, 638.000000, 429.000000, "_");
 		PlayerTextDrawAlignment(playerid, PlayerMessage[playerid], 3);
@@ -163,7 +176,7 @@ public:
 		GlobalAnnouncementMessage.ShowForPlayer(playerid);
 		return true;
 	}
-	bool OnPlayerDisconnect(int playerid, int reason)
+	bool OnPlayerDisconnect(int playerid, int reason) override
 	{
 		GlobalServerMessage.HideForPlayer(playerid);
 		GlobalAnnouncementMessage.HideForPlayer(playerid);
@@ -201,16 +214,24 @@ namespace Message
 	{
 		GlobalAnnouncementData.AddMessage(message, Functions::GetTime());
 		for (size_t i = 0; i < LANGUAGES_SIZE; ++i)
+		{
 			if (PlayersUsingLanguage[i].size())
+			{
 				GlobalAnnouncementMessage.SetString(i, GlobalAnnouncementData.Combine(i));
+			}
+		}
 	}
 
 	void AddAnnouncementMessage(language_string_ids string_id)
 	{
 		GlobalAnnouncementData.AddMessage(string_id, Functions::GetTime());
 		for (size_t i = 0; i < LANGUAGES_SIZE; ++i)
+		{
 			if (PlayersUsingLanguage[i].size())
+			{
 				GlobalAnnouncementMessage.SetString(i, GlobalAnnouncementData.Combine(i));
+			}
+		}
 	}
 
 	void AddAnnouncementMessage2(language_string_ids string_id, language_string_ids string_id_2)
@@ -239,16 +260,21 @@ namespace Message
 					std::string str;
 					std::unique_ptr<char[]> formatted;
 					va_list ap;
-					while (1) {
+					while (1) 
+					{
 						formatted.reset(new char[n]); // wrap the plain char array into the unique_ptr
 						strcpy_s(&formatted[0], n, fmt.c_str());
 						va_start(ap, string_id);
 						final_n = vsnprintf(&formatted[0], n, fmt.c_str(), ap);
 						va_end(ap);
 						if (final_n < 0 || final_n >= n)
+						{
 							n += abs(final_n - n + 1);
+						}
 						else
+						{
 							break;
+						}
 					}
 					fmt.assign(formatted.get());
 				}

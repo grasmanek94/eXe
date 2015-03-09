@@ -282,37 +282,64 @@ void CheckSet(int ToCheck, int playerid, bool check)
 	if (playerid == INVALID_PLAYER_ID)
 	{
 		if (check == 0)
+		{
 			g_SET_FALSE(ToCheck);
+		}
 		else
+		{
 			g_SET_TRUE(ToCheck);
+		}
 		return;
 	}
+
 	if (playerid < 0 || playerid >= MAX_PLAYERS)
+	{
 		return;
+	}
+
 	if (check == 0)
+	{
 		p_SET_FALSE(playerid, ToCheck);
+	}
 	else
+	{
 		p_SET_TRUE(playerid, ToCheck);
+	}
 }
 
 void SetWeaponAllowed(int playerid, int weaponid, bool allowed)
 {
 	if (weaponid < 1 || weaponid >= 48)
+	{
 		return;
+	}
+
 	if (playerid == INVALID_PLAYER_ID)
 	{
 		if (allowed == 1)
+		{
 			g_WeaponEnabled[weaponid] = true;
+		}
 		else
+		{
 			g_WeaponEnabled[weaponid] = false;
+		}
 		return;
 	}
+
 	if (playerid < 0 || playerid >= MAX_PLAYERS)
+	{
 		return;
+	}
+
 	if (allowed == 1)
+	{
 		p_WeaponEnabled[playerid][weaponid] = true;
+	}
 	else
+	{
 		p_WeaponEnabled[playerid][weaponid] = false;
+	}
 }
 
 int safeSetPlayerSpecialAction(int playerid, int action)
@@ -364,9 +391,15 @@ static void SAMPGDK_CALL TimerDelayCheckPlayerHealth(int timerid, void *param)
 		static float floatval = 0.0f;
 		GetPlayerHealth(playerid, &floatval);
 		if (floatval > PlayerHealth[playerid][3])
+		{
 			Report(playerid, CHECK_HEALTHARMOUR, 2, 0.0f, 0);
+		}
+
 		if (floatval < PlayerHealth[playerid][2])
+		{
 			PlayerHealth[playerid][2] = floatval;
+		}
+
 		SetPlayerHealth(playerid, PlayerHealth[playerid][2]);
 		PlayerHealth[playerid][2] = 0.0f;
 	}
@@ -380,9 +413,15 @@ static void SAMPGDK_CALL TimerDelayCheckPlayerArmour(int timerid, void *param)
 		static float floatval = 0.0f;
 		GetPlayerArmour(playerid, &floatval);
 		if (floatval > PlayerArmour[playerid][3])
+		{
 			Report(playerid, CHECK_HEALTHARMOUR, 3, 0.0f, 0);
+		}
+
 		if (floatval < PlayerArmour[playerid][2])
+		{
 			PlayerArmour[playerid][2] = floatval;
+		}
+
 		SetPlayerArmour(playerid, PlayerArmour[playerid][2]);
 		PlayerArmour[playerid][2] = 0.0f;
 	}
@@ -391,10 +430,16 @@ static void SAMPGDK_CALL TimerDelayCheckPlayerArmour(int timerid, void *param)
 int AcCorrectPing(int playerid)
 {
 	int ping = GetPlayerPing(playerid);
+
 	if (ping < 30)
+	{
 		ping = 30;
+	}
 	if (ping > 333)
+	{
 		ping = 333;
+	}
+
 	return ping;
 }
 
@@ -423,10 +468,16 @@ int fixPutPlayerInVehicle(int playerid, int vehicleid, int seat)
 	p_AirBrkCheck[playerid].lastZ = p_AirBrkCheck[playerid].newZ + 0.2f;
 	teleportprot[playerid] = timenow;
 	p_IsInVehicle[playerid] = vehicleid;
+
 	if (seat == 0)
+	{
 		p_IsInVehicleDriver[playerid] = vehicleid;
+	}
 	else
+	{
 		p_IsInVehicleDriver[playerid] = 0;
+	}
+
 	LastVehicleGodModeCheck[playerid] = teleportprot[playerid] - 15000;
 	GetVehicleHealth(vehicleid, &VehicleHealth[vehicleid]);
 	v_PlayerInVehicle[vehicleid] = playerid;
@@ -436,8 +487,12 @@ int fixPutPlayerInVehicle(int playerid, int vehicleid, int seat)
 int safeSetVehicleHealth(int vehicleid, float health)
 {
 	VehicleHealth[vehicleid] = health;
+
 	if (PlayerDoingVehGodModeCheck[v_PlayerInVehicle[vehicleid]])
+	{
 		VehicleHealthGodModeCheck[vehicleid] = VehicleHealth[vehicleid] + 1.0f;
+	}
+
 	return SetVehicleHealth(vehicleid, VehicleHealth[vehicleid]);
 }
 
@@ -446,8 +501,12 @@ int safeRepairVehicle(int vehicleid)
 	static int ret;
 	ret = RepairVehicle(vehicleid);
 	VehicleHealth[vehicleid] = 1000.0f;
+
 	if (PlayerDoingVehGodModeCheck[v_PlayerInVehicle[vehicleid]])
+	{
 		VehicleHealthGodModeCheck[vehicleid] = VehicleHealth[vehicleid] + 1.0f;
+	}
+
 	return ret;
 }
 
@@ -465,7 +524,9 @@ static void SAMPGDK_CALL TimerDelayCheckPlayerVehicleGodMode(int timerid, void *
 			if (!VehicleHealthProtection[vehicleid])
 			{
 				if (floatval > VehicleHealthGodModeCheck[p_IsInVehicleDriver[playerid]])
+				{
 					Report(playerid, CHECK_VEHICLE_GODMODE, vehicleid);
+				}
 				PlayerVehicleHealSafety[playerid] = clock() + AcCorrectPing(playerid) * 2;
 			}
 		}
@@ -492,11 +553,11 @@ bool DelayCheckPlayerVehicleGodMode(int playerid)
 	return false;
 }
 
-#include <bitset>
 const unsigned long GETBOOL(std::string str)
 {
 	return std::bitset<32>(str).to_ulong();
 }
+
 bool IsValidObjectModel(int model)
 {
 	static unsigned long
@@ -810,15 +871,19 @@ bool IsValidObjectModel(int model)
 		GETBOOL("00000000000000000000000000000000"), GETBOOL("00000000000000000000000000000000"),
 		GETBOOL("00000000000000000000000000000000"), GETBOOL("00100000000000000000000000000000")
 	};
+
 	if (model > 19901)
 	{
 		return 0;
 	}
+
 	model -= 320;
+
 	if (model < 0)
 	{
 		return 0;
 	}
+
 	return (valid_model[model >> 5] & (1 << (model & 0x1F)));
 }
 
@@ -901,7 +966,10 @@ public:
 		CheckSet(CHECK_MASSCARTELEPORT, INVALID_PLAYER_ID, false);
 		CheckSet(CHECK_FLYHACK, INVALID_PLAYER_ID, false);
 
-		auto AddSafeHealArea = [&](float x, float y, float z){ SafeHealAreas.insert(StreamerLibrary::CreateDynamicCube((x)-10.0f, (y)-10.0f, (z)-10.0f, (x)+10.0f, (y)+10.0f, (z)+10.0f)); };
+		auto AddSafeHealArea = [&](float x, float y, float z)
+		{ 
+			SafeHealAreas.insert(StreamerLibrary::CreateDynamicCube((x)-10.0f, (y)-10.0f, (z)-10.0f, (x)+10.0f, (y)+10.0f, (z)+10.0f)); 
+		};
 
 		AddSafeHealArea(616.7820, -74.8151, 997.6350);
 		AddSafeHealArea(615.2851, -124.2390, 997.6350);
@@ -959,7 +1027,10 @@ public:
 		AddSafeHealArea(2602.6, 1438.84, 9.8337);
 		AddSafeHealArea(1550.98, 1155.36, 8.97329);
 
-		auto AddSafeSwimmingArea = [&](float x1, float y1, float x2, float y2, float max_z){ SafeSwimmingAreas.insert(StreamerLibrary::CreateDynamicCube(std::min(x1, x2), std::min(y1, y2), -200.0, std::max(x1, x2), std::max(y1, y2), max_z)); };
+		auto AddSafeSwimmingArea = [&](float x1, float y1, float x2, float y2, float max_z)
+		{ 
+			SafeSwimmingAreas.insert(StreamerLibrary::CreateDynamicCube(std::min(x1, x2), std::min(y1, y2), -200.0, std::max(x1, x2), std::max(y1, y2), max_z)); 
+		};
 		
 		//Credits go to Larceny : http://forum.sa-mp.com/member.php?u=243
 		/*Las Venturas*/
@@ -989,7 +1060,10 @@ public:
 		| |    | |__| | |____| . \  | |  | |  | |_   | |____| |  | |_| |_| |____| |____ / ____ \| |__| |  
 		|_|     \____/ \_____|_|\_\ |_|  |_|  |_(_)   \_____|_|  |_|_____|______|______/_/    \_\_____/	   !!
 		*/
-		auto AddSafeSpeedHackArea = [&](float x1, float y1, float x2, float y2){ SafeSpeedHackAreas.insert(StreamerLibrary::CreateDynamicRectangle(std::min(x1, x2), std::min(y1, y2), std::max(x1, x2), std::max(y1, y2))); };
+		auto AddSafeSpeedHackArea = [&](float x1, float y1, float x2, float y2)
+		{
+			SafeSpeedHackAreas.insert(StreamerLibrary::CreateDynamicRectangle(std::min(x1, x2), std::min(y1, y2), std::max(x1, x2), std::max(y1, y2))); 
+		};
 		//NOW ADD THIS FUCKING MOUNTAIN TO EXCEPTIONS BECAUSE IT ALWAYS CAUSES FALSE POSITIVES ON THE ANTI SPEED HACK
 		AddSafeSpeedHackArea(-3200.0, -900.0, -1700.0, -2300.0);
 		//Fuck the white house too.
@@ -1002,11 +1076,17 @@ public:
 		for (size_t i = 0; i < 612; ++i)
 		{
 			if (IsVehicleAirplane(i))
+			{
 				MaxVehicleSpeed[i] = 1000.0;
+			}
 			if (i == 403 || i == 514 || i == 515)
+			{
 				MaxVehicleSpeed[i] = 260.0;
+			}
 			if (i == 537 || i == 538 || i == 590 || i == 569 || i == 570)
+			{
 				MaxVehicleSpeed[i] = 550.0;
+			}
 		}
 		MaxVehicleSpeed[476] = 1000.0;
 		MaxVehicleSpeed[592] = 6969.6969;
@@ -1023,7 +1103,9 @@ public:
 		unsigned long long diff = TimeNow - Player[playerid].LastShotTime;
 
 		if (--Player[playerid].CurrentPendingOnWeaponShot < 0)
+		{
 			Player[playerid].CurrentPendingOnWeaponShot = 0;
+		}
 
 		if (
 			fX < -10000.0 || fX > 10000.0 ||
@@ -1211,13 +1293,13 @@ public:
 		{
 			debug_fixSendClientMessage(playerid, "++PlayerCanHeal");
 			++PlayerCanHeal[playerid];
-		}else
-		if (SafeSwimmingAreas.find(areaid) != SafeSwimmingAreas.end())
+		}
+		else if (SafeSwimmingAreas.find(areaid) != SafeSwimmingAreas.end())
 		{
 			debug_fixSendClientMessage(playerid, "++PlayerCanSwim");
 			++PlayerCanSwim[playerid];
-		}else
-		if (SafeSpeedHackAreas.find(areaid) != SafeSpeedHackAreas.end())
+		}
+		else if (SafeSpeedHackAreas.find(areaid) != SafeSpeedHackAreas.end())
 		{
 			debug_fixSendClientMessage(playerid, "++p_CanPlayerSpeedHack");
 			++p_CanPlayerSpeedHack[playerid];
@@ -1230,20 +1312,24 @@ public:
 		{
 			debug_fixSendClientMessage(playerid, "--PlayerCanHeal");
 			if (--PlayerCanHeal[playerid] < 0)
+			{
 				PlayerCanHeal[playerid] = 0;
+			}
 			GetVehicleHealth(p_IsInVehicleDriver[playerid], &VehicleHealth[p_IsInVehicleDriver[playerid]]);
-		}else
-		if (SafeSwimmingAreas.find(areaid) != SafeSwimmingAreas.end())
+		}else if (SafeSwimmingAreas.find(areaid) != SafeSwimmingAreas.end())
 		{
 			debug_fixSendClientMessage(playerid, "--PlayerCanSwim");
 			if (--PlayerCanSwim[playerid] < 0)
+			{
 				PlayerCanSwim[playerid] = 0;
-		}else
-		if (SafeSpeedHackAreas.find(areaid) != SafeSpeedHackAreas.end())
+			}
+		}else if (SafeSpeedHackAreas.find(areaid) != SafeSpeedHackAreas.end())
 		{
 			debug_fixSendClientMessage(playerid, "--p_CanPlayerSpeedHack");
 			if (--p_CanPlayerSpeedHack[playerid] < 0)
+			{
 				p_CanPlayerSpeedHack[playerid] = 0;
+			}
 		}
 		return true; 
 	}
@@ -1261,7 +1347,7 @@ public:
 	{
 		if (g_Ticked == g_TickMax)
 		{
-			static int playerid = 0;
+			int playerid = 0;
 
 			clock_t timenow = clock();
 			for (auto i : PlayersOnline)
@@ -1271,8 +1357,12 @@ public:
 				int playerstate = GetPlayerState(playerid);
 				int vid = p_IsInVehicle[playerid];
 				int dvid = 0;
+
 				if (playerstate == PLAYER_STATE_DRIVER)
+				{
 					dvid = vid;
+				}
+
 				int NowInterior = GetPlayerInterior(playerid);
 				clock_t CurrentInactiveTime = timenow - p_AcivityInfo[playerid].LastActive;
 				std::array<float, 3> VEL;
@@ -1348,7 +1438,9 @@ public:
 								)
 								{
 									if (SpeedMult - p_SpeedHackLowValCheck[playerid] < 0.25f)
+									{
 										Report(playerid, CHECK_SPEED, vid);
+									}
 									continue;
 								}
 							}
@@ -1403,9 +1495,13 @@ public:
 									){}else
 									{
 										if (distXY > 650.0f)
+										{
 											Report(playerid, CHECK_AIRBREAK, 100, SPEEDx);
+										}
 										else
+										{
 											Report(playerid, CHECK_TELEPORT, 100, SPEEDx);
+										}
 									}
 								}
 							}
@@ -1660,7 +1756,9 @@ public:
 				PlayerHealth[playerid][1] -= amount;
 			}
 			if (PlayerHealth[playerid][1] < 0.0f)
+			{
 				PlayerHealth[playerid][1] = 0.0f;
+			}
 		}
 		if (PlayerArmour[playerid][0] > 0.0f)
 		{
@@ -1676,14 +1774,19 @@ public:
 			PlayerHealth[playerid][0] -= amount;
 		}
 		if (PlayerHealth[playerid][0] < 0.0f)
+		{
 			PlayerHealth[playerid][0] = 0.0f;
+		}
 		return true;
 	}
 
 	bool OnPlayerGiveDamage(int playerid, int damagedid, float amount, int weaponid, int bodypart) override
 	{
 		if (weaponid < 48)
+		{
 			p_HasBeenHitByWeapon[damagedid][playerid][weaponid] = true;
+		}
+
 		if (PlayerArmour[damagedid][1] > 0.0f)
 		{
 			PlayerArmour[damagedid][1] -= amount;
@@ -1697,8 +1800,11 @@ public:
 		{
 			PlayerHealth[damagedid][1] -= amount;
 		}
+
 		if (PlayerHealth[damagedid][1] < 0.0f)
+		{
 			PlayerHealth[damagedid][1] = 0.0f;
+		}
 		return true;
 	}
 
@@ -1783,8 +1889,10 @@ public:
 			teleportprot[playerid] = timenow;
 			if (p_IsInVehicle[playerid] != 0)
 			{
-				if(v_PlayerInVehicle[p_IsInVehicle[playerid]] == playerid)
+				if (v_PlayerInVehicle[p_IsInVehicle[playerid]] == playerid)
+				{
 					v_PlayerInVehicle[p_IsInVehicle[playerid]] = INVALID_VEHICLE_ID;
+				}
 				p_IsInVehicle[playerid] = 0;
 			}
 			if (g_IS_TRUE(CHECK_MASSCARTELEPORT))

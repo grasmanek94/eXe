@@ -73,7 +73,9 @@ namespace PerformanceCounter
 				) / measure_ticks).count();
 			
 			if (!ticktime)
+			{
 				return 0;
+			}
 
 			return 1000000000 / ticktime;
 		}
@@ -85,7 +87,9 @@ namespace PerformanceCounter
 				) / 2).count();
 
 			if (!ticktime)
+			{
 				return 0;
+			}
 
 			return 1000000000 / ticktime;
 		}
@@ -117,7 +121,9 @@ void PrintFPS(int timerid, void* param)
 	SetConsoleTitle((ConsoleTextName + addition).c_str());
 #endif
 	if (PlayersWatchingSvrFpsStats.size())
+	{
 		TextDrawSetString(SVR_AVGLSTFPSTD, addition.c_str());
+	}
 }
 
 typedef LONG NTSTATUS;
@@ -143,12 +149,12 @@ ZCMD3(svrfps, PERMISSION_GAMER, 0)
 class CPerformanceCounter : public Extension::Base
 {
 public:
-	bool OnPlayerDisconnect(int playerid, int reason)
+	bool OnPlayerDisconnect(int playerid, int reason) override
 	{
 		PlayersWatchingSvrFpsStats.erase(playerid);
 		return true;
 	}
-	bool OnGameModeInit()
+	bool OnGameModeInit() override
 	{
 		#ifdef WIN32
 		ULONG MIN;
@@ -195,9 +201,13 @@ public:
 		}
 
 		if (!SetPriorityClass(GetCurrentProcess(), REALTIME_PRIORITY_CLASS))
+		{
 			std::cout << "SetPriorityClass failed" << std::endl;
+		}
 		if (!SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_TIME_CRITICAL))
+		{
 			std::cout << "SetThreadPriority failed" << std::endl;
+		}
 
 		SendRconCommand("sleep 0");//we are doing our own custom sleep so make sure sa-mp does not sleep
 		#endif
@@ -222,7 +232,7 @@ public:
 	{ 
 		lagger_emulator = 0; 
 	}
-	bool OnRconCommand(std::string cmd)
+	bool OnRconCommand(std::string cmd) override
 	{
 		switch (cmd[0])
 		{
@@ -274,7 +284,7 @@ public:
 		}
 		return false;
 	}
-	void ProcessTick()
+	void ProcessTick() override
 	{
 		if (lagger_emulator)
 		{
@@ -288,7 +298,7 @@ public:
 	}
 #else
 	CPerformanceCounter() : Base(-0x70000000) {}
-	void ProcessTick()
+	void ProcessTick() override
 	{
 		PerformanceCounter::COUNTER.tick();
 		#ifdef WIN32

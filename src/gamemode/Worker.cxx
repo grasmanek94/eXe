@@ -46,23 +46,33 @@ bool DatabaseWorkerTryPersist(WorkerTransportData * data)
 		{
 		case DATABASE_POINTER_TYPE_BAN:
 			if (data->Get<ban>())
+			{
 				userdb->persist(data->Get<ban>());
+			}
 			break;
 		case DATABASE_POINTER_TYPE_USER:
 			if (data->Get<user>())
+			{
 				userdb->persist(data->Get<user>());
+			}
 			break;
 		case DATABASE_POINTER_TYPE_MAFIA:
 			if (data->Get<mafia>())
+			{
 				userdb->persist(data->Get<mafia>());
+			}
 			break;
 		case DATABASE_POINTER_TYPE_HOUSE:
 			if (data->Get<house>())
+			{
 				userdb->persist(data->Get<house>());
+			}
 			break;
 		case DATABASE_POINTER_TYPE_SENTRYGUN:
 			if (data->Get<sentrygun>())
+			{
 				userdb->persist(data->Get<sentrygun>());
+			}
 			break;
 		}
 		t.commit();
@@ -82,23 +92,33 @@ bool DatabaseWorkerTrySave(WorkerTransportData* data)
 		{
 		case DATABASE_POINTER_TYPE_BAN:
 			if (data->Get<ban>())
+			{
 				userdb->update(data->Get<ban>());
+			}
 			break;
 		case DATABASE_POINTER_TYPE_USER:
 			if (data->Get<user>())
+			{
 				userdb->update(data->Get<user>());
+			}
 			break;
 		case DATABASE_POINTER_TYPE_MAFIA:
 			if (data->Get<mafia>())
+			{
 				userdb->update(data->Get<mafia>());
+			}
 			break;
 		case DATABASE_POINTER_TYPE_HOUSE:
 			if (data->Get<house>())
+			{
 				userdb->update(data->Get<house>());
+			}
 			break;
 		case DATABASE_POINTER_TYPE_SENTRYGUN:
 			if (data->Get<sentrygun>())
+			{
 				userdb->update(data->Get<sentrygun>());
+			}
 			break;
 		}
 		t.commit();
@@ -134,9 +154,13 @@ void DatabaseWorkerThread()
 						data->Get<user>(userdb->find<user>(data->username));
 						t.commit();
 						if (data->Get<user>() == nullptr)
+						{
 							data->operation = DATABASE_REQUEST_OPERATION_FIND_LOAD_NOTFOUND;
+						}
 						else
+						{
 							data->operation = DATABASE_REQUEST_OPERATION_FIND_LOAD_FOUND_AND_LOADED;
+						}
 						WorkerResponse.push(data);
 						break;
 					}
@@ -175,9 +199,13 @@ void DatabaseWorkerThread()
 						data->Get<mafia>(userdb->find<mafia>(data->username));
 						t.commit();
 						if (data->Get<mafia>() != nullptr)
+						{
 							data->operation = DATABASE_REQUEST_OPERATION_LOAD_MAFIA_FOUND_AND_LOADED;
+						}
 						else
+						{
 							data->operation = DATABASE_REQUEST_OPERATION_LOAD_MAFIA_NOTFOUND;
+						}
 						WorkerResponse.push(data);
 						break;
 					}
@@ -310,7 +338,9 @@ void DatabaseWorkerThread()
 						{
 							std::string Mname(boost::any_cast<std::string>(data->ExtraData));
 							if (boost::iequals(data->Get<user>()->MafiaName(), Mname))
+							{
 								data->Get<user>()->MafiaName("");
+							}
 							userdb->update(data->Get<user>());									
 						}
 						t.commit();
@@ -331,10 +361,14 @@ void DatabaseWorkerThread()
 						}
 						else
 						{
-							if(DatabaseWorkerTrySave(data))
+							if (DatabaseWorkerTrySave(data))
+							{
 								data->ip = 1121;
+							}
 							else
+							{
 								data->ip = 1122;
+							}
 						}
 
 						delete ptr;
@@ -351,7 +385,9 @@ void DatabaseWorkerThread()
 						odb::transaction t(userdb->begin());
 						
 						if (data->Get<mafia>(userdb->find<mafia>(data->username)) != nullptr)
-							userdb->erase<mafia>(data->username);	
+						{
+							userdb->erase<mafia>(data->username);
+						}
 
 						t.commit();
 
@@ -418,7 +454,9 @@ std::set<std::string, ci_less> LoadingData;
 void _DatabaseOperationReport(WorkerTransportData * data)
 {
 	for (auto &i : *Extension::Extensions)
+	{
 		i.second->DatabaseOperationReport(data);
+	}
 }
 
 class DatabaseWorker: public Extension::Base

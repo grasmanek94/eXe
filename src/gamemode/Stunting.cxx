@@ -330,7 +330,7 @@ public:
 		{ 18781, 2594.1809082, -1698.4598389, 102.5363617, 348.0000000, 0.0000000, 180.0000000 } //object(ramparse) (2)
 	})
 	{}
-	bool OnGameModeInit()
+	bool OnGameModeInit() override
 	{
 		Zabawy::MakeAllDynamicObjects(Objects, 0, -1, -1, 300.0f);
 		AddSafeSpeedHackArea(1132.7074, -4126.3589, 686.2560, -2140.3701);

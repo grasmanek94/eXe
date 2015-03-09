@@ -35,7 +35,7 @@
 class StatsSendProcessor : public Extension::Base
 {
 public:
-	bool OnPlayerDisconnect(int playerid, int reason)
+	bool OnPlayerDisconnect(int playerid, int reason) override
 	{
 #ifdef _LOCALHOST_DEBUG
 		if (false)

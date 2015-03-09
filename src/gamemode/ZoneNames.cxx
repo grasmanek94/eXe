@@ -486,7 +486,7 @@ namespace ZoneNames
 	{
 	public:
 
-		bool OnGameModeInit()
+		bool OnGameModeInit() override
 		{
 			for (auto &i : gSAZones)
 			{
@@ -502,7 +502,7 @@ namespace ZoneNames
 			//sampgdk_SetTimerEx(175, true, TextDrawFade::GlobalProcessor, nullptr, this);
 			return true;
 		}
-		bool OnPlayerDisconnect(int playerid, int reason)
+		bool OnPlayerDisconnect(int playerid, int reason) override
 		{
 			while (PlayerAreas[playerid].size() != 0)
 			{
@@ -511,7 +511,7 @@ namespace ZoneNames
 			//TextDrawFade::Disconnect(playerid);
 			return true;
 		}
-		bool OnPlayerEnterDynamicArea(int playerid, int areaid)
+		bool OnPlayerEnterDynamicArea(int playerid, int areaid) override
 		{
 			auto ZoneArea = ZoneAreas.find(areaid);
 			if (ZoneArea != ZoneAreas.end())
@@ -522,7 +522,7 @@ namespace ZoneNames
 			}
 			return true;
 		}
-		bool OnPlayerLeaveDynamicArea(int playerid, int areaid)
+		bool OnPlayerLeaveDynamicArea(int playerid, int areaid) override
 		{
 			if (ZoneAreas.find(areaid) != ZoneAreas.end())
 			{
@@ -534,7 +534,7 @@ namespace ZoneNames
 			}
 			return true;
 		}
-		bool OnPlayerConnect(int playerid)
+		bool OnPlayerConnect(int playerid) override
 		{
 			//ZoneTextDraw[playerid] = PlayerTextDrawCreate(playerid, 608.000000, 390.000000, "_");
 			//PlayerTextDrawBackgroundColor(playerid, ZoneTextDraw[playerid], 255);

@@ -58,7 +58,10 @@ public:
 class _ExitMenu: public PlayerMenu::Function
 {
 public:
-	void ItemSelected(int playerid,std::string item){}
+	void ItemSelected(int playerid,std::string item)
+	{
+	
+	}
 } ExitMenu;
 
 class _HealMe : public PlayerMenu::Function
@@ -179,12 +182,18 @@ namespace PlayerMenu
 	void Display::SelectNextItem()
 	{
 		if (++Menu_Display.SelectedItem >= amount_of_items)
+		{
 			Menu_Display.SelectedItem = 0;
+		}
 	}
 	void Display::SelectPreviousItem()
 	{
 		if (--Menu_Display.SelectedItem < 0)
-			Menu_Display.SelectedItem = (amount_of_items > 0) ? amount_of_items - 1 : 0;
+		{
+			Menu_Display.SelectedItem = 
+				(amount_of_items > 0) ?
+				amount_of_items - 1 : 0;
+		}
 	}
 	void Display::AddItem(std::string item, ActionData& data, ActionFunction* f)
 	{
@@ -213,9 +222,13 @@ namespace PlayerMenu
 		for (auto &i : MenuItems)
 		{
 			if (Menu_Display.SelectedItem == CurrentIndex++)
+			{
 				builder.append("~y~" + i.first + "~n~");
+			}
 			else
+			{
 				builder.append("~w~" + i.first + "~n~");
+			}
 		}
 		return builder;
 	}

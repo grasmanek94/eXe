@@ -257,7 +257,7 @@ public:
 		{ 17299, 5802.9165, -4431.8911, -60.9423, 0.8594, 46.4095, 231.1714 }
 	})
 	{}
-	bool OnGameModeInit()
+	bool OnGameModeInit() override
 	{
 		Zabawy::MakeAllDynamicObjects(Objects);
 		return true;

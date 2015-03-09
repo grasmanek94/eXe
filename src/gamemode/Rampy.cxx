@@ -53,7 +53,7 @@ public:
 	glm::vec2 rot;
 	glm::vec3 pos;
 
-	bool OnPlayerKeyStateChange(int playerid, int newkeys, int oldkeys)
+	bool OnPlayerKeyStateChange(int playerid, int newkeys, int oldkeys) override
 	{
 		if (
 			Player[playerid].CurrentVehicle && PRESSED(KEY_ACTION) && 
@@ -77,7 +77,7 @@ public:
 
 		return true;
 	}
-	bool OnPlayerDisconnect(int playerid, int reason)
+	bool OnPlayerDisconnect(int playerid, int reason) override
 	{
 		RemoveRamp(0, (void*)playerid);
 		return true;

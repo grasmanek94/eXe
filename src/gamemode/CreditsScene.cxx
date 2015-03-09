@@ -61,7 +61,7 @@ namespace CreditScene
 	{
 	public:
 		CCreditScene() {}
-		bool OnGameModeInit()
+		bool OnGameModeInit() override
 		{
 			timer_owner = this;
 			for (auto&i : TimerID)
@@ -93,17 +93,17 @@ namespace CreditScene
 			}
 			return true;
 		}
-		bool OnPlayerDisconnect(int playerid, int reason)
+		bool OnPlayerDisconnect(int playerid, int reason) override
 		{
 			DoKillTimer(playerid);
 			return true;
 		}
-		bool OnPlayerDeath(int playerid, int killerid, int reason)
+		bool OnPlayerDeath(int playerid, int killerid, int reason) override
 		{
 			DoKillTimer(playerid);
 			return true;
 		}
-		bool OnPlayerSpawn(int playerid)
+		bool OnPlayerSpawn(int playerid) override
 		{
 			DoKillTimer(playerid);
 			return true;

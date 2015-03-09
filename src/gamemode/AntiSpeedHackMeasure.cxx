@@ -54,7 +54,9 @@ void UpdateMeasurements(int playerid)
 			VehicleSpeeds[Player[playerid].CurrentVehicleModel] = N_VMAX;
 		}
 		if (ASHMS[playerid].VMAXC < N_VMAXC)
+		{
 			ASHMS[playerid].VMAXC = N_VMAXC;
+		}
 
 
 		PlayerTextDrawSetString(playerid, ASHMS[playerid].TD, Functions::string_format(
@@ -77,7 +79,7 @@ VehicleSpeeds[Player[playerid].CurrentVehicleModel]).c_str());
 class AntiSpeedHackMeasure : public Extension::Base
 {
 public:
-	bool OnPlayerConnect(int playerid)
+	bool OnPlayerConnect(int playerid) override
 	{
 		ASHMS[playerid].TD = CreatePlayerTextDraw(playerid, 10.000000, 220.000000, "_");
 		ASHMS[playerid].VID = 400;
@@ -91,24 +93,26 @@ public:
 		PlayerTextDrawShow(playerid, ASHMS[playerid].TD);
 		return true;
 	}
-	bool OnPlayerSpawn(int playerid)
+	bool OnPlayerSpawn(int playerid) override
 	{
 		ZCMD_CALL_COMMAND(playerid, "/ac", "off");
 		return true;
 	}
-	bool OnPlayerUpdate(int playerid)
+	bool OnPlayerUpdate(int playerid) override
 	{
 		UpdateMeasurements(playerid);		
 		return true;
 	}
-	bool OnPlayerKeyStateChange(int playerid, int newkeys, int oldkeys)
+	bool OnPlayerKeyStateChange(int playerid, int newkeys, int oldkeys) override
 	{
 		if (PRESSED(KEY_CROUCH))
 		{
 			ASHMS[playerid].VMAX = 0.0f;
 			ASHMS[playerid].VMAXC = 0.0f;
 			if (Player[playerid].CurrentVehicle)
+			{
 				VehicleSpeeds[Player[playerid].CurrentVehicleModel] = 0.0f;
+			}
 		}
 		return true;
 	}
@@ -121,11 +125,15 @@ ZCMD3(dumpspeeds, 0, RESTRICTION_ONLY_DRIVER)
 	if (speedssave.good())
 	{
 		for (size_t i = 0; i < 212; ++i)
+		{
 			VehicleSpeeds[i] = VehicleSpeeds[i + 400];
+		}
 
 		speedssave << "std::array<float, 612> VehicleMaxSpeeds =\r\n{\r\n";
 		for (auto &i : VehicleSpeeds)
+		{
 			speedssave << Functions::string_format("\t%2.6f,\r\n", i);
+		}
 		speedssave << "};\r\n";
 	}
 	return true;

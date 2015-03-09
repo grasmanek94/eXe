@@ -81,7 +81,9 @@ ZCMD(stats, PERMISSION_NONE, RESTRICTION_NONE, cmd_alias({"/stat", "/statystyki"
 
 	std::string mafia("");
 	if (Player[statid].Mafia != nullptr)
+	{
 		mafia = Player[statid].Mafia->Name;
+	}
 
 	std::string exe24modenabled_str((Player[statid].Exe24ModEnabled ? TranslateP(playerid, L_help_stats_exe24mod_on) : TranslateP(playerid, L_help_stats_exe24mod_off)));
 	if (Player[playerid].statistics.privilidges >= PERMISSION_MODERATOR)
@@ -407,6 +409,8 @@ ZERO_DIALOG(centrumpomocy)
 	if (response)
 	{
 		if (listitem >= 0 && listitem < commands_to_run.size())
+		{
 			ZCMD_CALL_COMMAND(playerid, commands_to_run[listitem], "");
+		}
 	}
 }

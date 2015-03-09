@@ -29,7 +29,11 @@
 #include "GameMode.hxx"
 #include "../auto_version.h"
 
-auto MakeVersion = [&](unsigned long long year, unsigned long long month, unsigned long long day, unsigned long long hour, unsigned long long minute){ return minute + (hour * 100) + (day * 10000) + (month * 1000000) + (year * 100000000); };
+auto MakeVersion = [&](unsigned long long year, unsigned long long month, unsigned long long day, unsigned long long hour, unsigned long long minute)
+{ 
+	return minute + (hour * 100) + (day * 10000) + (month * 1000000) + (year * 100000000); 
+};
+
 unsigned long long Exe24ModCurrentVersion = MakeVersion(2015, 1, 13, 11, 27);
 
 //IP's that can join the game even if (host)banned

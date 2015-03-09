@@ -82,7 +82,9 @@ void CLanguageTextDraw::HideForPlayer(int playerid)
 void CLanguageTextDraw::Hide()
 {
 	for (auto i : TextDraws)
+	{
 		TextDrawHideForAll(i);
+	}
 }
 
 void CLanguageTextDraw::SetString(std::string text)
@@ -106,16 +108,21 @@ void CLanguageTextDraw::SetStringF(language_string_ids string_id ...)
 		std::string str;
 		std::unique_ptr<char[]> formatted;
 		va_list ap;
-		while (1) {
+		while (1) 
+		{
 			formatted.reset(new char[n]); // wrap the plain char array into the unique_ptr
 			strcpy_s(&formatted[0], n, Translations[i][string_id].c_str());
 			va_start(ap, string_id);
 			final_n = vsnprintf(&formatted[0], n, Translations[i][string_id].c_str(), ap);
 			va_end(ap);
 			if (final_n < 0 || final_n >= n)
+			{
 				n += abs(final_n - n + 1);
+			}
 			else
+			{
 				break;
+			}
 		}
 		TextDrawSetString(TextDraws[i], formatted.get());
 	}
@@ -137,16 +144,21 @@ void CLanguageTextDraw::SetStringSF(language_string_ids string_id, std::string s
 		std::string str;
 		std::unique_ptr<char[]> formatted;
 		va_list ap;
-		while (1) {
+		while (1) 
+		{
 			formatted.reset(new char[n]); // wrap the plain char array into the unique_ptr
 			strcpy_s(&formatted[0], n, Translations[i][string_id].c_str());
 			va_start(ap, suffix);
 			final_n = vsnprintf(&formatted[0], n, Translations[i][string_id].c_str(), ap);
 			va_end(ap);
 			if (final_n < 0 || final_n >= n)
+			{
 				n += abs(final_n - n + 1);
+			}
 			else
+			{
 				break;
+			}
 		}
 		TextDrawSetString(TextDraws[i], (std::string(formatted.get()) + suffix).c_str());
 	}

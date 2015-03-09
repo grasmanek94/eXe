@@ -320,7 +320,7 @@ public:
 		//{ 3374, 2283.8442, 1001.9835, 23.3069, 0.0000, 0.0000, 19.9217}
 	})
 	{}
-	bool OnGameModeInit()
+	bool OnGameModeInit() override
 	{
 		Zabawy::MakeAllDynamicObjects(Objects, 0, -1, -1, 300.0f);
 		return true;

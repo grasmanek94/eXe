@@ -102,17 +102,17 @@ class LottoSystemProcessor : public Extension::Base
 {
 public:
 	LottoSystemProcessor() : Base(ExecutionPriorities::LottoSystem){}//make sure we come before save system in onplayerdisconnect?
-	bool OnGameModeInit()
+	bool OnGameModeInit() override
 	{
 		sampgdk_SetTimerEx(900000, true, LottoTimer, nullptr, nullptr);
 		return true;
 	}
-	bool OnPlayerConnect(int playerid)
+	bool OnPlayerConnect(int playerid) override
 	{
 		PlayerChosenNumbers[playerid] = 0;
 		return true;
 	}
-	bool OnPlayerDisconnect(int playerid, int reason)
+	bool OnPlayerDisconnect(int playerid, int reason) override
 	{
 		auto ptr = Participants.find(playerid);
 		if (ptr != Participants.end())
@@ -139,7 +139,9 @@ ZCMDF(lotto, PERMISSION_NONE, RESTRICTION_NONE, cmd_alias({}), "iiiiiiii")
 					if (temp >= 0 && temp < 64)
 					{
 						if (!PlayerChosenNumbers[playerid][temp])
+						{
 							PlayerChosenNumbers[playerid][temp] = true;
+						}
 						else
 						{
 							PlayerChosenNumbers[playerid] = 0;

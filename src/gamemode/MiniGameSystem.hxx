@@ -232,7 +232,9 @@ namespace Zabawy
 	template <size_t SIZE> void BalanceTeams(const std::set<int>& Players, std::array<std::set<int>, SIZE>& TeamsArray, std::set<unsigned int>& ActiveTeams)
 	{
 		for (auto& cta : TeamsArray)
+		{
 			cta.clear();
+		}
 
 		ActiveTeams.clear();
 
@@ -243,13 +245,17 @@ namespace Zabawy
 			TeamsArray[current].insert(playerid);
 			Player[playerid].SetTeam(current);
 			if (++current == SIZE)
+			{
 				current = 0;
+			}
 		}
 
 		for (size_t index = 0; index < SIZE; ++index)
 		{
 			if (TeamsArray[index].size())
+			{
 				ActiveTeams.insert((unsigned int)index);
+			}
 		}
 	}
 };

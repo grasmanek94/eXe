@@ -97,7 +97,9 @@ public:
 		TextDrawShowForPlayer(playerid, GlobalBackgroundTextDraw);
 
 		for (auto textdraw : Player[playerid].StatsTextDraw)
+		{
 			PlayerTextDrawShow(playerid, textdraw);
+		}
 
 		UpdatePlayerStatsTextDraw(playerid);
 		UpdatePlayerStatsTextDrawRespect(playerid);
@@ -107,7 +109,9 @@ public:
 	{
 		UpdatePlayerStatsTextDraw(playerid);
 		if (killerid != INVALID_PLAYER_ID)
+		{
 			UpdatePlayerStatsTextDraw(killerid);
+		}
 		return true;
 	}
 	bool OnPlayerStateChange(int playerid, int newstate, int oldstate) override
@@ -127,9 +131,13 @@ void UpdatePlayerStatsTextDraw(int playerid)
 {
 	float kd;
 	if (Player[playerid].statistics.deaths == 0)
+	{
 		kd = 0.0;
+	}
 	else
+	{
 		kd = (float)Player[playerid].statistics.kills / (float)Player[playerid].statistics.deaths;
+	}
 	
 	PlayerTextDrawSetString(
 		playerid, 

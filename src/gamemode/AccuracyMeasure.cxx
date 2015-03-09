@@ -126,12 +126,12 @@ std::string GetAllAccuracyForAllPlayers()
 class AccuracyMeasurement : public Extension::Base
 {
 public:
-	bool OnPlayerWeaponShot(int playerid, int weaponid, int hittype, int hitid, float fX, float fY, float fZ)
+	bool OnPlayerWeaponShot(int playerid, int weaponid, int hittype, int hitid, float fX, float fY, float fZ) override
 	{
 		PlayerAccuracy[playerid].AddShot(hitid != INVALID_PLAYER_ID && hittype == BULLET_HIT_TYPE_PLAYER);
 		return true;
 	}
-	bool OnPlayerConnect(int playerid)
+	bool OnPlayerConnect(int playerid) override
 	{
 		PlayerAccuracy[playerid].Reset();
 		return true;

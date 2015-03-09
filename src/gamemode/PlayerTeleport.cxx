@@ -35,7 +35,7 @@ using namespace PlayerTeleport;
 class PlayerTeleportProcessor : public Extension::Base
 {
 public:
-	bool OnPlayerDisconnect(int playerid, int reason)
+	bool OnPlayerDisconnect(int playerid, int reason) override
 	{
 		TeleportRequests[playerid].clear();
 		TeleportInvites[playerid].clear();

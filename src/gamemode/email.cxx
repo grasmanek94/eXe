@@ -50,7 +50,7 @@ void SendMail(int index, std::string to, std::string message_id, std::string sen
 class EmailProcessor : public Extension::Base
 {
 public:
-	void OnHTTPResponse(int index, int response_code, std::string data)
+	void OnHTTPResponse(int index, int response_code, std::string data) override
 	{ 
 		if (response_code == 200 && index == 0x7733)
 		{

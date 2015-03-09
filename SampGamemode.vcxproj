@@ -791,10 +791,8 @@
     <ClInclude Include="src\gamemode\MessageManager.hxx" />
     <ClInclude Include="src\gamemode\NativeSAVehicleLocations.hxx" />
     <ClInclude Include="src\gamemode\nessie.h" />
-    <ClInclude Include="src\gamemode\Odliczanie.hxx" />
     <ClInclude Include="src\gamemode\PacketEnumerations.h" />
     <ClInclude Include="src\gamemode\PlayerStatsTextDraw.hxx" />
-    <ClInclude Include="src\gamemode\PlayerTeleport.hxx" />
     <ClInclude Include="src\gamemode\PrivateCar.hxx" />
     <ClInclude Include="src\gamemode\MiniGameRacingSystem.hxx" />
     <ClInclude Include="src\gamemode\SampGDKHelper.hxx" />

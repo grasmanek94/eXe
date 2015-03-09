@@ -126,25 +126,25 @@ namespace RaceSystem
 			bool EnableNitro = false
 			);
 
-		bool OnGameModeInit();
+		bool OnGameModeInit() override;
 		virtual void PlayerLeaveRace(int playerid, eRaceExitType exit_type);
 		virtual void OnPlayerReachNextCheckPoint(int playerid, unsigned short current_lap, unsigned short current_checkpoint, unsigned long long current_race_time, bool is_checkpoint_finish, bool race_finish);
 		virtual void RaceFinished(std::vector<FinishEntry>& positions, bool real_finish);
 		virtual void StreamerInit();
 		void ResetPlayerRaceData(int playerid);
-		bool OnPlayerEnterRaceCheckpoint(int playerid);
+		bool OnPlayerEnterRaceCheckpoint(int playerid) override;
 		void InternalPlayerLeaveRace(int playerid, eRaceExitType exit_type);
-		bool OnPlayerStateChange(int playerid, int newstate, int oldstate);
-		bool PlayerRequestGameExit(int playerid, int reason);
-		bool PlayerRequestCencelStaging(int playerid, int reason);
+		bool OnPlayerStateChange(int playerid, int newstate, int oldstate) override;
+		bool PlayerRequestGameExit(int playerid, int reason) override;
+		bool PlayerRequestCencelStaging(int playerid, int reason) override;
 		void PutPlayerIntoGame(int playerid);
 		void SetGameState(int state);
 		void Tick(int timerid, Zabawy::ZabawyTimerVector& vector);
 		void ReachMeCountDown(int timerid, Zabawy::ZabawyTimerVector& vector);
-		bool OnGameCommandExecute(int playerid, std::string params);
-		bool OnPlayerKeyStateChange(int playerid, int newkeys, int oldkeys);
-		bool Joinable();
-		bool Staging();
-		int GetCommandRestrictions();
+		bool OnGameCommandExecute(int playerid, std::string params) override;
+		bool OnPlayerKeyStateChange(int playerid, int newkeys, int oldkeys) override;
+		bool Joinable() override;
+		bool Staging() override;
+		int GetCommandRestrictions() override;
 	};
 };

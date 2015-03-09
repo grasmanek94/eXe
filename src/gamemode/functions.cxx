@@ -95,16 +95,21 @@ namespace Functions
 		std::string str;
 		std::unique_ptr<char[]> formatted;
 		va_list ap;
-		while (1) {
+		while (1) 
+		{
 			formatted.reset(new char[n]); // wrap the plain char array into the unique_ptr
 			strcpy_s(&formatted[0], n, fmt.c_str());
 			va_start(ap, fmt);
 			final_n = vsnprintf(&formatted[0], n, fmt.c_str(), ap);
 			va_end(ap);
 			if (final_n < 0 || final_n >= n)
+			{
 				n += abs(final_n - n + 1);
+			}
 			else
+			{
 				break;
+			}
 		}
 		return std::string(formatted.get());
 	}
@@ -122,16 +127,21 @@ namespace Functions
 		std::string str;
 		std::unique_ptr<char[]> formatted;
 		va_list ap;
-		while (1) {
+		while (1) 
+		{
 			formatted.reset(new char[n]); // wrap the plain char array into the unique_ptr
 			strcpy_s(&formatted[0], n, fmt.c_str());
 			va_start(ap, fmt);
 			final_n = vsnprintf(&formatted[0], n, fmt.c_str(), ap);
 			va_end(ap);
 			if (final_n < 0 || final_n >= n)
+			{
 				n += abs(final_n - n + 1);
+			}
 			else
+			{
 				break;
+			}
 		}
 		return std::string(formatted.get());
 	}
@@ -141,16 +151,21 @@ namespace Functions
 		std::wstring str;
 		std::unique_ptr<wchar_t[]> formatted;
 		va_list ap;
-		while (1) {
+		while (1) 
+		{
 			formatted.reset(new wchar_t[n]); // wrap the plain char array into the unique_ptr
 			wcscpy(&formatted[0], fmt.c_str());
 			va_start(ap, fmt);
 			final_n = _vsnwprintf(&formatted[0], n, fmt.c_str(), ap);
 			va_end(ap);
 			if (final_n < 0 || final_n >= n)
+			{
 				n += abs(final_n - n + 1);
+			}
 			else
+			{
 				break;
+			}
 		}
 		return std::wstring(formatted.get());
 	}
@@ -169,10 +184,12 @@ namespace Functions
 
 		return converterX.to_bytes(wstr);
 	}
-	std::vector<std::string> &string_split(const std::string &s, char delim, std::vector<std::string> &elems) {
+	std::vector<std::string> &string_split(const std::string &s, char delim, std::vector<std::string> &elems) 
+	{
 		std::stringstream ss(s);
 		std::string item;
-		while (std::getline(ss, item, delim)) {
+		while (std::getline(ss, item, delim)) 
+		{
 			elems.push_back(item);
 		}
 		return elems;
@@ -183,10 +200,12 @@ namespace Functions
 		string_split(s, delim, elems);
 		return elems;
 	}
-	std::vector<std::wstring> &string_split(const std::wstring &s, wchar_t delim, std::vector<std::wstring> &elems) {
+	std::vector<std::wstring> &string_split(const std::wstring &s, wchar_t delim, std::vector<std::wstring> &elems) 
+	{
 		std::wstringstream ss(s);
 		std::wstring item;
-		while (std::getline(ss, item, delim)) {
+		while (std::getline(ss, item, delim))
+		{
 			elems.push_back(item);
 		}
 		return elems;

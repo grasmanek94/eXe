@@ -27,7 +27,7 @@
 class RCVehicleExitFixProcessor : public Extension::Base
 {
 public:
-	bool OnPlayerKeyStateChange(int playerid, int newkeys, int oldkeys)
+	bool OnPlayerKeyStateChange(int playerid, int newkeys, int oldkeys) override
 	{
 		if (newkeys & KEY_SECONDARY_ATTACK)
 		{

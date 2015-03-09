@@ -257,6 +257,7 @@ public:
 } _CMafiaProcessor;
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
+//TODO convert all commands to dialogs (or make a dialog that executes these commands)
 ZCMD(mcreate, PERMISSION_NONE, RESTRICTION_NOT_IN_MAFIA | RESTRICTION_NOT_IN_A_GAME | RESTRICTION_REGISTERED_AND_LOADED | RESTRICTION_ONLY_LOGGED_IN, cmd_alias({ "/mafia.create", "/mafia.stworz", "/mafia.stwórz", "/maffia.create", "/maffia.stworz", "/maffia.stwórz" }))
 {
 	if (params.size() && params.size() < 25 && Player[playerid].GetLevel() >= Mafia::CreationCost::MinLevel && Player[playerid].statistics.money >= Mafia::CreationCost::Money && Player[playerid].statistics.respect >= Mafia::CreationCost::Score)
@@ -592,7 +593,10 @@ ZCMD(mcolor, PERMISSION_NONE, RESTRICTION_IS_IN_MAFIA | RESTRICTION_NOT_IN_A_GAM
 ZCMDF(mkick, PERMISSION_NONE, RESTRICTION_IS_IN_MAFIA | RESTRICTION_NOT_IN_A_GAME, cmd_alias({ "/mafia.kick", "/mafia.wyrzuc", "/mafia.wyrzuæ", "/mafia.k", "/maffia.kick", "/maffia.wyrzuc", "/maffia.wyrzuæ", "/maffia.k" }), "p")
 {
 	if (!Player[playerid].Mafia->CheckAllowedWithMessage(playerid, MAFIA_ACTION_KICK))
+	{
 		return true;
+	}
+
 	if (parser.Good())
 	{
 		std::string NickName("");
@@ -638,6 +642,7 @@ ZCMDF(mstatus, PERMISSION_NONE, RESTRICTION_IS_IN_MAFIA, cmd_alias({ "/mafia.set
 	{
 		return true;
 	}
+
 	if (parser.Good() == 2)
 	{
 		std::string NickName("");
@@ -826,7 +831,9 @@ ZCMD(mskin, PERMISSION_NONE, RESTRICTION_IS_IN_MAFIA | RESTRICTION_NOT_IN_A_GAME
 ZCMD(mspawn, PERMISSION_NONE, RESTRICTION_IS_IN_MAFIA | RESTRICTION_NOT_IN_A_GAME, cmd_alias({ "/mafia.spawn", "/mafia.sp", "/maffia.spawn", "/maffia.sp" }))
 {
 	if (!Player[playerid].Mafia->CheckAllowedWithMessage(playerid, MAFIA_ACTION_SPAWN))
+	{
 		return true;
+	}
 
 	float x, y, z, a;
 	GetPlayerPos(playerid, &x, &y, &z);
@@ -855,7 +862,9 @@ ZCMD(mafiaskinoff, PERMISSION_NONE, RESTRICTION_IS_IN_MAFIA | RESTRICTION_NOT_IN
 	Player[playerid].statistics.UseMafiaSkin = false;
 
 	if (Player[playerid].statistics.SkinModelID >= 0 && Player[playerid].statistics.SkinModelID < 300)
+	{
 		SetPlayerSkin(playerid, Player[playerid].statistics.SkinModelID);
+	}
 
 	fixSendClientMessage(playerid, Color::COLOR_INFO2, L_mafia_skinoff);
 	return true;

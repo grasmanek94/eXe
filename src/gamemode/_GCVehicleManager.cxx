@@ -220,7 +220,9 @@ CVehicle* CVehicle::GetTrailer()
 {
 	VEHICLEID trailerid = GetVehicleTrailer(vehicleid);
 	if (trailerid > 0 && trailerid <= MAX_VEHICLES)
+	{
 		return &VehicleManager->Vehicles[trailerid];
+	}
 	return nullptr;
 }
 
@@ -233,7 +235,9 @@ bool CVehicle::AddComponent(int componentid)
 {
 	int componentslot = GetVehicleComponentType(componentid);
 	if (componentslot < 0 || componentslot > 13 || componentid < 1000 || componentid > 1193)
+	{
 		return false;
+	}
 	Components[componentslot] = componentid;
 	return AddVehicleComponent(vehicleid, componentid);
 }
@@ -242,7 +246,9 @@ bool CVehicle::RemoveComponent(int componentid)
 {
 	int componentslot = GetVehicleComponentType(componentid);
 	if (componentslot < 0 || componentslot > 13 || componentid < 1000 || componentid > 1193)
+	{
 		return false;
+	}
 	Components[componentslot] = 0;
 	return RemoveVehicleComponent(vehicleid, componentid);
 }
@@ -285,7 +291,9 @@ bool CVehicle::Repair()
 bool CVehicle::ChangePaintjob(int paintjobid)
 {
 	if (paintjobid < 0 || paintjobid > 3)
+	{
 		return false;
+	}
 	Paintjob = paintjobid;
 	return ChangeVehiclePaintjob(vehicleid, Paintjob);
 }
@@ -320,7 +328,9 @@ bool CVehicle::AttachTrailer(VEHICLEID trailerid)
 bool CVehicle::AttachTrailer(CVehicle* trailerid)
 {
 	if (local_VehicleManager->VehPtrToId.find(trailerid) != local_VehicleManager->VehPtrToId.end())
+	{
 		return AttachTrailerToVehicle(trailerid->ID(), vehicleid);
+	}
 	return false;
 }
 
@@ -457,11 +467,15 @@ glm::mat4x3 CVehicle::PositionAtOffset(glm::vec3 offsets, glm::vec3& return_pos)
 bool CVehicle::Refresh(bool visualonly)
 {
 	if (!created)
+	{
 		return false;
+	}
 	if (!visualonly)
 	{
 		for (int i = 0; i < 14; ++i)
+		{
 			AddVehicleComponent(vehicleid, Components[i]);
+		}
 		SetVehicleNumberPlate(vehicleid, plate.c_str());
 		LinkVehicleToInterior(vehicleid, _interiorid);
 		SetVehicleVirtualWorld(vehicleid, _virtualworld);
@@ -474,7 +488,9 @@ bool CVehicle::Refresh(bool visualonly)
 CVehicle* CVehicle::Create(int vehicletype, float x, float y, float z, float rotation, int color1, int color2, int interiorid, int virtualworld, int respawn_delay, bool dorefresh, bool destroyonrespawn)
 {
 	if (vehicletype < 400 || vehicletype > 612)
+	{
 		return nullptr;
+	}
 
 	int tmp_vehid = INVALID_VEHICLE_ID;
 
@@ -496,18 +512,32 @@ CVehicle* CVehicle::Create(int vehicletype, float x, float y, float z, float rot
 	if (iter == VehicleManager->IdToVehPtr.end())
 	{
 		if (tmp_vehid != INVALID_VEHICLE_ID)
+		{
 			DestroyVehicle(tmp_vehid);
+		}
 		return nullptr;
 	}
 
 	CVehicle* newvehicle = iter->second;
 	newvehicle->modelid = vehicletype;
 
-	if (color1 == -1) newvehicle->Color[0] = Functions::RandomGenerator->Random(0, 0xFF);
-	else newvehicle->Color[0] = color1;
+	if (color1 == -1) 
+	{
+		newvehicle->Color[0] = Functions::RandomGenerator->Random(0, 0xFF);
+	}
+	else 
+	{
+		newvehicle->Color[0] = color1;
+	}
 
-	if (color2 == -1) newvehicle->Color[1] = Functions::RandomGenerator->Random(0, 0xFF);
-	else newvehicle->Color[1] = color2;
+	if (color2 == -1)
+	{
+		newvehicle->Color[1] = Functions::RandomGenerator->Random(0, 0xFF);
+	}
+	else 
+	{
+		newvehicle->Color[1] = color2;
+	}
 
 	newvehicle->created = true;
 	newvehicle->creationpos = glm::vec4(x, y, z, rotation);
@@ -521,7 +551,9 @@ CVehicle* CVehicle::Create(int vehicletype, float x, float y, float z, float rot
 	newvehicle->destroyonrespawn = destroyonrespawn;
 
 	if (dorefresh)
+	{
 		newvehicle->Refresh();
+	}
 
 	return newvehicle;
 
@@ -544,7 +576,9 @@ bool CVehicle::Destroy()
 	{
 		PLAYERID passenger = *passengers.begin();
 		if (passenger < MAX_PLAYERS)
+		{
 			local_VehicleManager->PlayerCurrentlyInVehicle[passenger] = nullptr;
+		}
 		passengers.erase(passengers.begin());
 	}
 	return DestroyVehicle(vehicleid);
@@ -555,67 +589,80 @@ bool CVehicle::DestroyOnRespawn()
 	return destroyonrespawn;
 }
 
-bool CVehicle::IsAirplane() {
+bool CVehicle::IsAirplane() 
+{
 	return
 		(VehicleModelInfo[modelid] & VEHICLE_AIRPLANE);
 }
 
-bool CVehicle::IsHelicopter() {
+bool CVehicle::IsHelicopter() 
+{
 	return
 		(VehicleModelInfo[modelid] & VEHICLE_HELICOPTER);
 }
 
-bool CVehicle::IsBike() {
+bool CVehicle::IsBike() 
+{
 	return
 		(VehicleModelInfo[modelid] & VEHICLE_BIKE);
 }
 
-bool CVehicle::IsTrailer() {
+bool CVehicle::IsTrailer() 
+{
 	return
 		(VehicleModelInfo[modelid] & VEHICLE_TRAILER);
 }
 
-bool CVehicle::IsRC() {
+bool CVehicle::IsRC() 
+{
 	return
 		(VehicleModelInfo[modelid] & VEHICLE_REMOTECONTROL);
 }
 
-bool CVehicle::IsArmed() {
+bool CVehicle::IsArmed() 
+{
 	return
 		(VehicleModelInfo[modelid] & VEHICLE_ARMED);
 }
 
-bool CVehicle::IsLand() {
+bool CVehicle::IsLand() 
+{
 	return
 		(VehicleModelInfo[modelid] & VEHICLE_LAND);
 }
 
-bool CVehicle::IsAir() {
+bool CVehicle::IsAir() 
+{
 	return
 		(VehicleModelInfo[modelid] & VEHICLE_AIR);
 }
 
-bool CVehicle::IsBoat() {
+bool CVehicle::IsBoat() 
+{
 	return
 		(VehicleModelInfo[modelid] & VEHICLE_BOAT);
 }
 
-bool CVehicle::IsWater() {
+bool CVehicle::IsWater() 
+{
 	return
 		(VehicleModelInfo[modelid] & VEHICLE_WATER);
 }
 
-bool CVehicle::IsCar() {
+bool CVehicle::IsCar() 
+{
 	return
 		(VehicleModelInfo[modelid] & VEHICLE_CAR);
 }
 
-bool CVehicle::IsTrain() {
+bool CVehicle::IsTrain() 
+{
 	return
 		(VehicleModelInfo[modelid] & VEHICLE_TRAIN);
 }
 
-bool CVehicle::IsTrainTrailer() {
+bool CVehicle::IsTrainTrailer() 
+{
 	return
 		(VehicleModelInfo[modelid] & VEHICLE_TRAINTRAILER);
 }
@@ -623,35 +670,43 @@ bool CVehicle::IsTrainTrailer() {
 class CVehicleManagerProcessor : public Extension::Base
 {
 public:
-	bool OnVehicleRespray(int playerid, int vehicleid, int color1, int color2)
+	bool OnVehicleRespray(int playerid, int vehicleid, int color1, int color2) override
 	{
 		CVehicle* vehicle = &VehicleManager->Vehicles[vehicleid];
 		if (vehicle->IsValid())
+		{
 			vehicle->ChangeColor(color1, color2);
+		}
 		return true;
 	}
-	bool OnVehiclePaintjob(int playerid, int vehicleid, int paintjobid)
+	bool OnVehiclePaintjob(int playerid, int vehicleid, int paintjobid) override
 	{
 		CVehicle* vehicle = &VehicleManager->Vehicles[vehicleid];
 		if (vehicle->IsValid())
+		{
 			vehicle->ChangePaintjob(paintjobid);
+		}
 		return true;
 	}
-	bool OnVehicleStreamIn(int vehicleid, int forplayerid)
+	bool OnVehicleStreamIn(int vehicleid, int forplayerid) override
 	{
 		CVehicle* vehicle = &VehicleManager->Vehicles[vehicleid];
 		if (vehicle->IsValid())
+		{
 			vehicle->Refresh(true);
+		}
 		return true;
 	}
-	bool OnVehicleSpawn(int vehicleid)
+	bool OnVehicleSpawn(int vehicleid) override
 	{
 		CVehicle* vehicle = &VehicleManager->Vehicles[vehicleid];
 		if (vehicle->DestroyOnRespawn())
+		{
 			vehicle->Destroy();
+		}
 		return true;
 	}
-	bool OnPlayerKeyStateChange(int playerid, int newkeys, int oldkeys)
+	bool OnPlayerKeyStateChange(int playerid, int newkeys, int oldkeys) override
 	{
 		if (newkeys & KEY_SECONDARY_ATTACK)
 		{
@@ -666,15 +721,15 @@ public:
 		}
 		return true;
 	}
-	bool OnPlayerConnect(int playerid)
+	bool OnPlayerConnect(int playerid) override
 	{
 		return true;
 	}
-	bool OnPlayerDisconnect(int playerid, int reason)
+	bool OnPlayerDisconnect(int playerid, int reason) override
 	{
 		return true;
 	}
-	bool OnPlayerStateChange(int playerid, int newstate, int oldstate)
+	bool OnPlayerStateChange(int playerid, int newstate, int oldstate) override
 	{
 		return true;
 	}

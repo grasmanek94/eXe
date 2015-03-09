@@ -50,67 +50,80 @@ enum eVehicleModelInfo
 
 extern int VehicleModelInfo[612];
 
-inline bool IsVehicleAirplane(int VehicleModel) {
+inline bool IsVehicleAirplane(int VehicleModel) 
+{
 	return
 		(VehicleModelInfo[(VehicleModel)] & VEHICLE_AIRPLANE);
 }
 
-inline bool IsVehicleHelicopter(int VehicleModel) {
+inline bool IsVehicleHelicopter(int VehicleModel) 
+{
 	return
 		(VehicleModelInfo[(VehicleModel)] & VEHICLE_HELICOPTER);
 }
 
-inline bool IsVehicleBike(int VehicleModel) {
+inline bool IsVehicleBike(int VehicleModel) 
+{
 	return
 		(VehicleModelInfo[(VehicleModel)] & VEHICLE_BIKE);
 }
 
-inline bool IsVehicleTrailer(int VehicleModel) {
+inline bool IsVehicleTrailer(int VehicleModel) 
+{
 	return
 		(VehicleModelInfo[(VehicleModel)] & VEHICLE_TRAILER);
 }
 
-inline bool IsVehicleRC(int VehicleModel) {
+inline bool IsVehicleRC(int VehicleModel) 
+{
 	return
 		(VehicleModelInfo[(VehicleModel)] & VEHICLE_REMOTECONTROL);
 }
 
-inline bool IsVehicleArmed(int VehicleModel) {
+inline bool IsVehicleArmed(int VehicleModel) 
+{
 	return
 		(VehicleModelInfo[(VehicleModel)] & VEHICLE_ARMED);
 }
 
-inline bool IsVehicleLand(int VehicleModel) {
+inline bool IsVehicleLand(int VehicleModel) 
+{
 	return
 		(VehicleModelInfo[(VehicleModel)] & VEHICLE_LAND);
 }
 
-inline bool IsVehicleAir(int VehicleModel) {
+inline bool IsVehicleAir(int VehicleModel)
+{
 	return
 		(VehicleModelInfo[(VehicleModel)] & VEHICLE_AIR);
 }
 
-inline bool IsVehicleBoat(int VehicleModel) {
+inline bool IsVehicleBoat(int VehicleModel) 
+{
 	return
 		(VehicleModelInfo[(VehicleModel)] & VEHICLE_BOAT);
 }
 
-inline bool IsVehicleWater(int VehicleModel) {
+inline bool IsVehicleWater(int VehicleModel)
+{
 	return
 		(VehicleModelInfo[(VehicleModel)] & VEHICLE_WATER);
 }
 
-inline bool IsVehicleCar(int VehicleModel) {
+inline bool IsVehicleCar(int VehicleModel)
+{
 	return
 		(VehicleModelInfo[(VehicleModel)] & VEHICLE_CAR);
 }
 
-inline bool IsVehicleTrain(int VehicleModel) {
+inline bool IsVehicleTrain(int VehicleModel)
+{
 	return
 		(VehicleModelInfo[(VehicleModel)] & VEHICLE_TRAIN);
 }
 
-inline bool IsVehicleTrainTrailer(int VehicleModel) {
+inline bool IsVehicleTrainTrailer(int VehicleModel) 
+{
 	return
 		(VehicleModelInfo[(VehicleModel)] & VEHICLE_TRAINTRAILER);
 }

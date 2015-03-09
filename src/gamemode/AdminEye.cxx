@@ -36,12 +36,14 @@ std::set<int> WatchingIncommingIPs;
 class AdminCmdEyeProcessor : public Extension::Base
 {
 public:
-	bool OnPlayerConnect(int playerid)
+	bool OnPlayerConnect(int playerid) override
 	{
 		std::string msg(Functions::string_format("[JOIN] [%3d] " + Player[playerid].PlayerName + " " + Player[playerid].ipv4.to_string(), playerid));
 		
 		for (auto i : WatchingIncommingIPs)
+		{
 			fixSendClientMessage(i, Color::COLOR_JOININFO, msg, false, false);
+		}
 
 		return true;
 	}
@@ -49,24 +51,30 @@ public:
 		We cleanup all the "watching lists" here to make sure the stupid bug doesn't happen again...
 		I mean the bug that everyone could see which commands all other people use :x
 	*/
-	bool OnPlayerDisconnect(int playerid, int reason)
+	bool OnPlayerDisconnect(int playerid, int reason) override
 	{
 		std::string msg(Functions::string_format("[LEAVE] [%3d] " + Player[playerid].PlayerName + " " + Player[playerid].ipv4.to_string(), playerid));
 
 		for (auto i : WatchingIncommingIPs)
+		{
 			fixSendClientMessage(i, Color::COLOR_LEAVEINFO, msg, false, false);
+		}
 
 		/*
 			So, first: We make sure all admins are not watching the leaving playerid anymore
 		*/
 		for (auto admin : PlayerEyeCmdAdmins[playerid])
+		{
 			IsWatchingPlayers[admin].erase(playerid);
+		}
 
 		/*
 			Then.. We make sure that any players this player is watching are not watched anymore by this player
 		*/
 		for (auto player : IsWatchingPlayers[playerid])
+		{
 			PlayerEyeCmdAdmins[player].erase(playerid);
+		}
 
 		/*
 			And finally clear all watching targets for the current player
@@ -86,7 +94,7 @@ public:
 		Here the Command Spy takes over, sure does a good job but it doesn't work for mini-games command because those command really don't exist
 		Maybe need to fix that in a future version, would require editing the mini-game system, not this
 	*/
-	void OnPlayerCommandExecuted(int playerid, std::string& command, std::string& params, bool success)
+	void OnPlayerCommandExecuted(int playerid, std::string& command, std::string& params, bool success) override
 	{
 		std::string totalcommand = command + " " + params;
 		Player[playerid].InsertCommandHistory(totalcommand);
@@ -94,18 +102,22 @@ public:
 		totalcommand.insert(0, Functions::string_format("[%-3d]" + Player[playerid].PlayerName + "-> ", playerid));
 
 		for (auto admin : PlayerEyeCmdAdmins[playerid])
+		{
 			fixSendClientMessage(admin, Color::COLOR_INFO3, totalcommand);
+		}
 
 		for (auto admin : WatchingAllCommands)
 		{
 			if (admin != playerid)
+			{
 				fixSendClientMessage(admin, Color::COLOR_INFO3, totalcommand);
+			}
 		}
 	}
 	/*
 		Just some user settings loading when the player joins the game
 	*/
-	void OnPlayerGameBegin(int playerid)
+	void OnPlayerGameBegin(int playerid) override
 	{ 
 		if (Player[playerid].Achievementdata.ShowIpOnConnect && Player[playerid].statistics.privilidges >= PERMISSION_MODERATOR)
 		{
@@ -152,7 +164,9 @@ ZCMD(eyecmdall, PERMISSION_MODERATOR, RESTRICTION_NONE, cmd_alias({ "/cmdeyeall"
 	if (WatchingAllCommands.find(playerid) == WatchingAllCommands.end())
 	{	
 		for (auto i : IsWatchingPlayers[playerid])
+		{
 			PlayerEyeCmdAdmins[i].erase(playerid);
+		}
 		IsWatchingPlayers[playerid].clear();
 		WatchingAllCommands.insert(playerid);
 		SendClientMessage(playerid, Color::COLOR_INFO2, L_eyecmdall_enabled);
@@ -266,7 +280,9 @@ ZCMD3(players, PERMISSION_MODERATOR, RESTRICTION_NONE)
 		{
 			toshow.append(Functions::string_format("{%06X}[" + ip.first.to_string() + "]{%06X}[%-3d]" + Player[player].PlayerName + " ", xcolor, Player[player].Color, player));
 			if (++switcher % 7 == 0)
+			{
 				toshow.append("\n");
+			}
 		}
 	}
 	ShowPlayerCustomDialog(playerid, DLG_DUMMY, DIALOG_STYLE_MSGBOX, "Online", toshow, "V", "X");

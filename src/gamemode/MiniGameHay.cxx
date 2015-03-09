@@ -69,7 +69,9 @@ namespace TerrainGenerator
 		float currentdistance = hay_size.x / 2.0f;
 
 		if (width == 0)//square approximation
+		{
 			width = (size_t)((dist - currentdistance) / hay_size.y);
+		}
 
 		for (size_t i = 0; i < width; ++i)
 		{
@@ -84,7 +86,9 @@ namespace TerrainGenerator
 		float currentdistance = 0.0f;
 		float rx = 1000.0f;
 		if (!xrot)
+		{
 			rx = 0.0f;
+		}
 		int i = 0;
 		while (currentdistance < dist)
 		{

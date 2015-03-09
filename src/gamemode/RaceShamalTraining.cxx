@@ -84,12 +84,12 @@ namespace RaceShamalTraining
 			});
 		}
 
-		void StreamerInit()
+		void StreamerInit() override
 		{
 			//tutaj obiekty itp robiæ
 		}
 
-		void OnPlayerReachNextCheckPoint(int playerid, unsigned short current_lap, unsigned short current_checkpoint, unsigned long long current_race_time, bool is_checkpoint_finish, bool race_finish)
+		void OnPlayerReachNextCheckPoint(int playerid, unsigned short current_lap, unsigned short current_checkpoint, unsigned long long current_race_time, bool is_checkpoint_finish, bool race_finish) override
 		{
 			if (race_finish)
 			{

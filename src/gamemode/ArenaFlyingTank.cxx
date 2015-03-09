@@ -90,13 +90,13 @@ namespace FlyingTank
 			return true; 
 		}
 
-		bool OnGameModeInit()
+		bool OnGameModeInit() override
 		{
 			MakeAllDynamicObjects(ArenaObjects, CurrentGameVW);
 			return true;
 		}
 
-		int GetCommandRestrictions() 
+		int GetCommandRestrictions() override
 		{ 
 			return RESTRICTION_IN_VEHICLE_OR_ONFOOT | RESTRICTION_NOT_IN_A_GAME | RESTRICTION_NOT_AFTER_FIGHT | RESTRICTION_USING_EXE24PLUS;
 		}
@@ -129,20 +129,20 @@ namespace FlyingTank
 
 		}
 
-		bool OnKeepInGameSpawn(int playerid) 
+		bool OnKeepInGameSpawn(int playerid) override 
 		{ 
 			PutPlayerIntoGame(playerid);
 			return true; 
 		}
 
-		bool OnGameCommandExecute(int playerid, std::string params)
+		bool OnGameCommandExecute(int playerid, std::string params) override
 		{
 			AddPlayer(playerid, true);
 			PutPlayerIntoGame(playerid);
 			return true;
 		}
 
-		bool OnPlayerDeath(int playerid, int killerid, int reason)
+		bool OnPlayerDeath(int playerid, int killerid, int reason) override
 		{
 			//compensate for loss
 			if (killerid == INVALID_PLAYER_ID)
@@ -154,7 +154,7 @@ namespace FlyingTank
 			return true;
 		}
 
-		bool PlayerRequestGameExit(int playerid, int reason)
+		bool PlayerRequestGameExit(int playerid, int reason) override
 		{
 			switch (reason)
 			{

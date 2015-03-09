@@ -63,8 +63,8 @@ bool CheckCommandAllowed(int playerid, int this_restrictions, bool showmessage)
 			fixSendClientMessage(playerid, -1, L_commandrestriction_game);
 		}
 		return false;
-	}else
-	if (bIsBitEnabled(this_restrictions, RESTRICTION_ONLY_IN_A_GAME) && 
+	}
+	else if (bIsBitEnabled(this_restrictions, RESTRICTION_ONLY_IN_A_GAME) && 
 		Player[playerid].CurrentGameID == nullptr)
 	{
 		if (showmessage)
@@ -289,13 +289,13 @@ class LoginRegisterProcessor : public Extension::Base
 {
 public:
 	LoginRegisterProcessor() : Base(ExecutionPriorities::LoginRegister){}
-	bool OnGameModeInit()
+	bool OnGameModeInit() override
 	{
 		PrepareZeroDialog("languagechooser", DIALOG_STYLE_LIST, " ", language_list, "V", "");
 		PrepareZeroDialog("languagechooserb", DIALOG_STYLE_LIST, " ", language_list, "V", "X");
 		return true;
 	}
-	bool OnPlayerUpdate(int playerid)
+	bool OnPlayerUpdate(int playerid) override
 	{
 		if (Player[playerid].IsRegistered)
 		{
@@ -303,7 +303,7 @@ public:
 		}
 		return true;
 	}
-	bool OnPlayerDataAcquired(int playerid, int result)
+	bool OnPlayerDataAcquired(int playerid, int result) override
 	{
 		if (Player[playerid].Connected)
 		{
@@ -372,28 +372,30 @@ public:
 		}
 		return true;
 	}
-	bool OnPlayerRequestSpawn(int playerid)
+	bool OnPlayerRequestSpawn(int playerid) override
 	{
 		return Test(playerid);
 	}
-	bool OnPlayerRequestClass(int playerid, int classid)
+	bool OnPlayerRequestClass(int playerid, int classid) override
 	{
 		Test(playerid);
 		return true;
 	}
-	bool OnPlayerText(int playerid, std::string text)
+	bool OnPlayerText(int playerid, std::string text) override
 	{
 		return Test(playerid);
 	}
-	bool OnPlayerSpawn(int playerid)
+	bool OnPlayerSpawn(int playerid) override
 	{
 		PerformPlayerSkinIdCheck(playerid);
 		return true;
 	}
-	bool OnPlayerCommandReceived(int playerid, std::string& command, std::string& params, int min_execute_level, int this_restrictions)
+	bool OnPlayerCommandReceived(int playerid, std::string& command, std::string& params, int min_execute_level, int this_restrictions) override
 	{
 		if (!Test(playerid))
+		{
 			return false;
+		}
 		//allow unless proven otherwise
 #ifndef _LOCALHOST_DEBUG 
 #ifndef _FRIENDS
@@ -722,7 +724,9 @@ ZCMD(email, PERMISSION_NONE, RESTRICTION_REGISTERED_AND_LOADED, cmd_alias({ "/no
 ZERO_DIALOG(email_action_change)
 {
 	if (!response)
+	{
 		return;
+	}
 	unsigned long long TimeNow = Functions::GetTime();
 	size_t at_sign = inputtext.find("@");
 	size_t dot = inputtext.find_last_of(".");

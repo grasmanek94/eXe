@@ -1488,9 +1488,8 @@ class NativeSAVehicleLocations : public Extension::Base
 {
 public:
 	NativeSAVehicleLocations() : Base() {}
-	bool OnGameModeInit()
+	bool OnGameModeInit() override
 	{
-
 		MakeAllNativeVehicles();
 
 		return true;

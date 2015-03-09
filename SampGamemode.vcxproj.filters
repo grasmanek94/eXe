@@ -860,9 +860,6 @@
     <ClInclude Include="bin\other\LVDM3012.HXX">
       <Filter>PawnGameMode</Filter>
     </ClInclude>
-    <ClInclude Include="src\gamemode\Odliczanie.hxx">
-      <Filter>gamemode\Player\TextDraw\CountDown</Filter>
-    </ClInclude>
     <ClInclude Include="src\gamemode\SpeedoMeter.hxx">
       <Filter>gamemode\Player\TextDraw\Speedo</Filter>
     </ClInclude>
@@ -874,9 +871,6 @@
     </ClInclude>
     <ClInclude Include="src\gamemode\Teleports.hxx">
       <Filter>gamemode\Player\Teleport\Global</Filter>
-    </ClInclude>
-    <ClInclude Include="src\gamemode\PlayerTeleport.hxx">
-      <Filter>gamemode\Player\Teleport\Local</Filter>
     </ClInclude>
     <ClInclude Include="src\gamemode\LoginRegister.hxx">
       <Filter>gamemode\Player\Account&amp;Permissions</Filter>

@@ -23,7 +23,7 @@
 
 class Icons : public Extension::Base
 {
-	bool OnGameModeInit() 
+	bool OnGameModeInit() override
 	{
 		StreamerLibrary::CreateDynamicMapIcon(1980.9590, 1025.1013, 10.8203, 44, 0, 0, -1, -1, 200); //4smoczki
 		StreamerLibrary::CreateDynamicMapIcon(2185.7031, 1615.0219, 9.1074, 25, 0, 0, -1, -1, 200); //Caligula

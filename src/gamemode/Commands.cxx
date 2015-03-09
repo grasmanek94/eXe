@@ -235,16 +235,20 @@ ZCMD(all, PERMISSION_NONE, RESTRICTION_NOT_AFTER_FIGHT | RESTRICTION_NOT_IN_A_GA
 {
 	GivePlayerAchievement(playerid, EAM_NononononoDead, 1);
 	if (Player[playerid].IsDriver)
+	{
 		safeRepairVehicle(Player[playerid].CurrentVehicle);
+	}
 	fixSetPlayerArmour(playerid, 100.0);
 	fixSetPlayerHealth(playerid, 100.0);
 	return true;
 }
 
-ZCMD(clearchat, PERMISSION_NONE, RESTRICTION_NONE, cmd_alias({ "/clear-chat", "/wyczysc-czat" }))
+ZCMD(clearchat, PERMISSION_NONE, RESTRICTION_NONE, cmd_alias({ "/clear-chat", "/wyczysc-czat", "/clean-chat", "/cleanchat" }))
 {
 	for (size_t i = 0; i < 20; ++i)
+	{
 		fixSendClientMessage(playerid, -1, " ");
+	}
 	return true;
 }
 
@@ -286,7 +290,9 @@ ZCMDF(color, PERMISSION_NONE, RESTRICTION_NONE, cmd_alias({ "/kolor", "/stalykol
 	{
 		unsigned long color = parser.Get<unsigned long>();
 		if (color > 0xFFFFFF)
+		{
 			color = 0xFFFFFF;
+		}
 		if (color == 0)
 		{
 			fixSendClientMessage(playerid, Color::COLOR_INFO2, L_setcolor_removed);
@@ -298,8 +304,8 @@ ZCMDF(color, PERMISSION_NONE, RESTRICTION_NONE, cmd_alias({ "/kolor", "/stalykol
 				SetPlayerColor(playerid, Player[playerid].FullColor);
 			}
 			return true;
-		}else
-		if (Functions::GetColorBrightness(color) >= 33)
+		}
+		else if (Functions::GetColorBrightness(color) >= 33)
 		{
 			Player[playerid].statistics.staticcolor = color;
 			if (Player[playerid].Mafia == nullptr)
@@ -318,6 +324,7 @@ ZCMDF(color, PERMISSION_NONE, RESTRICTION_NONE, cmd_alias({ "/kolor", "/stalykol
 	return true;
 }
 
+//TODO fix possible ip ad bug (though a VIP is very unlikely to spam IP's on the chat)
 ZCMD(say, PERMISSION_NONE, RESTRICTION_IS_NOT_CHAT_MUTED, cmd_alias({ "/asay", "/vsay", "/ssay", "/msay", "/me" }))
 {
 	if (params.size() && params.size() < 111)

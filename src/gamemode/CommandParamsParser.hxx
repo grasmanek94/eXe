@@ -24,10 +24,15 @@
 #include "GameMode.hxx"
 
 template <typename ElemT>
-struct HexTo {
+struct HexTo 
+{
 	ElemT value;
-	operator ElemT() const { return value; }
-	friend std::istream& operator>>(std::istream& in, HexTo& out) {
+	operator ElemT() const 
+	{ 
+		return value; 
+	}
+	friend std::istream& operator>>(std::istream& in, HexTo& out) 
+	{
 		in >> std::hex >> out.value;
 		return in;
 	}
@@ -41,7 +46,10 @@ namespace detail
 		T default_;
 		get_with_default_visitor(T dv) : default_(dv) {}
 
-		T const& operator()(T const& v) const { return v; }
+		T const& operator()(T const& v) const 
+		{ 
+			return v; 
+		}
 
 		template <typename Other> T operator()(Other const&) const 
 		{

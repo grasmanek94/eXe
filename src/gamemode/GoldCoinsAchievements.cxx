@@ -50,7 +50,7 @@ std::map<int, size_t> ObjectIDToIndex;
 class GoldCoinsAchievmentsProcessor : public Extension::Base
 {
 public:
-	bool OnGameModeInit()
+	bool OnGameModeInit() override
 	{
 		for (size_t i = 0; i < GoldCoins.size(); ++i)
 		{
@@ -58,7 +58,7 @@ public:
 		}
 		return true;
 	}
-	bool OnPlayerShootDynamicObject(int playerid, int weaponid, int objectid, float x, float y, float z)
+	bool OnPlayerShootDynamicObject(int playerid, int weaponid, int objectid, float x, float y, float z) override
 	{
 		auto index = ObjectIDToIndex.find(objectid);
 		if (index != ObjectIDToIndex.end())

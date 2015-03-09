@@ -104,9 +104,13 @@ struct CPolishReplacementInitHack
 			std::string tmpstdstr(tmpstr);
 			auto replacement = PolishReplacementMap.find(tmpstdstr);
 			if (replacement == PolishReplacementMap.end())
+			{
 				PolishReplacement[c] = boost::to_lower_copy(tmpstdstr)[0];
+			}
 			else
+			{
 				PolishReplacement[c] = boost::to_lower_copy(replacement->second)[0];
+			}
 		}
 	}
 } _CPolishReplacementInitHack;
@@ -116,7 +120,9 @@ void FilterBadWords(std::string& s)
 {
 	std::string sc(s);
 	for (auto& character : sc)
+	{
 		character = PolishReplacement[(unsigned char)character];
+	}
 
 	for (auto &badword : badwords)
 	{
@@ -140,6 +146,8 @@ bool is_message_allowed(std::string& s, bool allowmodify, bool modify_only_if_al
 {
 	bool notallowed = has_string_ip_ad(s);
 	if (allowmodify && (modify_only_if_allowed ? notallowed : true))
+	{
 		FilterBadWords(s);
+	}
 	return !notallowed;
 }

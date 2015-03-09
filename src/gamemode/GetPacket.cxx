@@ -168,10 +168,14 @@ void generate_shuffles(int timerid, void * param)
 	std::vector<size_t> vec;
 
 	for (size_t i = 0; i < 16; ++i)
+	{
 		vec.push_back((size_t)(rand() % 6));
+	}
 
 	for (size_t i = 0; i < 8; ++i)
+	{
 		shuffle[i] = (get_vec_remove_num(vec)) + (get_vec_remove_num(vec));
+	}
 
 	shuffle[7] = rand() % 3;
 }
@@ -288,11 +292,17 @@ static const size_t PLUGIN_DATA_RAKSERVER = 0xE2; // RakServerInterface* PluginG
 void* Detour(unsigned char* src, unsigned char* dst, int num)
 {
 	if (src == (unsigned char*)0)
+	{
 		return (void*)0;
+	}
 	if (dst == (unsigned char*)0)
+	{
 		return (void*)0;
+	}
 	if (num < 5)
+	{
 		return (void*)0;
+	}
 
 	unsigned char *all = new unsigned char[5 + num];
 
@@ -339,13 +349,21 @@ void* Detour(unsigned char* src, unsigned char* dst, int num)
 void Retour(unsigned char* src, unsigned char** all, int num)
 {
 	if (all == (unsigned char**)0)
+	{
 		return;
+	}
 	if (*all == (unsigned char*)0)
+	{
 		return;
+	}
 	if (src == (unsigned char*)0)
+	{
 		return;
+	}
 	if (num < 5)
+	{
 		return;
+	}
 
 #if defined __LINUX__
 	size_t pagesize = sysconf(_SC_PAGESIZE);
@@ -379,10 +397,16 @@ void Retour(unsigned char* src, unsigned char** all, int num)
 void CleanupUnusedWhitelistSlots(int timerid, void * param)
 {
 	for (auto i = ip_whitelist.begin(); i != ip_whitelist.end();)
+	{
 		if (ip_whitelist_online.find(*i) == ip_whitelist_online.end())
+		{
 			i = ip_whitelist.erase(i);
+		}
 		else
+		{
 			++i;
+		}
+	}
 }
 
 /*
@@ -430,7 +454,7 @@ public:
 		because of the protections we put in place
 	
 	*/
-	bool OnIncomingConnection(int playerid, std::string ip_address, int port)
+	bool OnIncomingConnection(int playerid, std::string ip_address, int port) override
 	{
 		unsigned int ip_data[2] = { boost::asio::ip::address_v4::from_string(ip_address).to_ulong(), port };
 		if (PlayerIPSET[playerid] != 0)
@@ -440,19 +464,19 @@ public:
 		PlayerIPSET[playerid] = *(unsigned long long*)ip_data;
 		return true;
 	}
-	bool OnPlayerConnect(int playerid)
+	bool OnPlayerConnect(int playerid) override
 	{
 		ip_whitelist_online.insert(PlayerIPSET[playerid]);
 		return true;
 	}
-	bool OnPlayerDisconnect(int playerid, int reason)
+	bool OnPlayerDisconnect(int playerid, int reason) override
 	{
 		ip_whitelist_online.erase(PlayerIPSET[playerid]);
 		ip_whitelist.erase(PlayerIPSET[playerid]);
 		PlayerIPSET[playerid] = 0;
 		return true;
 	}
-	bool OnGameModeInit()
+	bool OnGameModeInit() override
 	{
 		Functions::RandomGenerator->SetSeed(Functions::GetTimeSeconds());
 		generate_shuffles(0, 0);
@@ -508,7 +532,7 @@ public:
 		Send the packet below
 		If the receive functions gets a correct packet mark the player as having the module installed
 	*/
-	void OnPlayerGameBegin(int playerid)
+	void OnPlayerGameBegin(int playerid) override
 	{
 		BitStream bs;
 		bs.Write((unsigned char)77);
@@ -553,11 +577,10 @@ BYTE GetPacketID(Packet *p)
 std::array<int, MAX_PLAYERS> ARC_PlayerVehicle;
 std::array<int, MAX_VEHICLES + 1> ARC_VehicleDriver;
 
-
 class RemoteControlDetector : public Extension::Base
 {
 public:
-	bool OnGameModeInit()
+	bool OnGameModeInit() override
 	{
 		for (auto &i : ARC_VehicleDriver)
 		{
@@ -565,12 +588,12 @@ public:
 		}
 		return true;
 	}
-	bool OnPlayerConnect(int playerid)
+	bool OnPlayerConnect(int playerid) override
 	{
 		ARC_PlayerVehicle[playerid] = 0;
 		return true;
 	}
-	bool OnPlayerDisconnect(int playerid, int reason)
+	bool OnPlayerDisconnect(int playerid, int reason) override
 	{
 		if (ARC_PlayerVehicle[playerid])
 		{
@@ -579,7 +602,7 @@ public:
 		}
 		return true;
 	}
-	bool OnPlayerStateChange(int playerid, int newstate, int oldstate)
+	bool OnPlayerStateChange(int playerid, int newstate, int oldstate) override
 	{
 		if (newstate == PLAYER_STATE_DRIVER)
 		{		

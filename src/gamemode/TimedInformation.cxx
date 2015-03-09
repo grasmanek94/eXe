@@ -79,7 +79,7 @@ namespace TimedInformation
 	class TimedInformationProcessor : public Extension::Base
 	{
 	public:
-		bool OnGameModeInit()
+		bool OnGameModeInit() override
 		{
 			TimedInformationTextDraw.Create(320.0, 415.0, L_tip_01, 2, 255, 1, 0.24, 1.1, -1, 1, 1, 0, 0);
 

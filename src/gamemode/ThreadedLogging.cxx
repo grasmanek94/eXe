@@ -162,22 +162,22 @@ class ThreadedLoggingProcessor : public Extension::Base
 {
 public:
 	ThreadedLoggingProcessor() : Base(ExecutionPriorities::ThreadedLogging) {}
-	void Load()
+	void Load() override
 	{
 		InitializeGlobalThreadedLogger();
 		sampgdk_SetTimerEx(30000, true, FlushAllData, nullptr, this);
 	}
-	bool OnPlayerConnect(int playerid) 
+	bool OnPlayerConnect(int playerid) override
 	{
 		gtLog(LOG_CONNECT,Functions::string_format("[%d][%s][%s] Connected", playerid, _GetPlayerName(playerid).c_str(), _GetPlayerIP(playerid).c_str()));
 		return true; 
 	}
-	bool OnPlayerDisconnect(int playerid, int reason) 
+	bool OnPlayerDisconnect(int playerid, int reason) override
 	{ 
 		gtLog(LOG_DISCONNECT, Functions::string_format("[%d][%s][%s] Disconnected(%s)", playerid, Player[playerid].PlayerName.c_str(), Player[playerid].ipv4.to_string().c_str(), DisconnectReasons[reason].c_str()));
 		return true; 
 	}
-	bool OnPlayerDeath(int playerid, int killerid, int reason) 
+	bool OnPlayerDeath(int playerid, int killerid, int reason) override
 	{ 
 		if (killerid != INVALID_PLAYER_ID)
 			gtLog(LOG_DEATH, Functions::string_format("[%d][%s] killed by [%d][%s] with [%d]", playerid, Player[playerid].PlayerName.c_str(), killerid, Player[killerid].PlayerName.c_str(), reason));
@@ -185,31 +185,31 @@ public:
 			gtLog(LOG_DEATH, Functions::string_format("[%d][%s] suicided", playerid, Player[playerid].PlayerName.c_str()));
 		return true;
 	}
-	bool OnPlayerText(int playerid, std::string text)
+	bool OnPlayerText(int playerid, std::string text) override
 	{
 		gtLog(LOG_CHAT, Functions::string_format("[%d][%s]: %s", playerid, Player[playerid].PlayerName.c_str(), text.c_str()));
 		return true;
 	}
-	bool OnPlayerCommandText(int playerid, std::string cmdtext) 
+	bool OnPlayerCommandText(int playerid, std::string cmdtext) override
 	{
 		gtLog(LOG_COMMANDS, Functions::string_format("[%d][%s]: %s", playerid, Player[playerid].PlayerName.c_str(), cmdtext.c_str()));
 		return true; 
 	}
-	bool OnRconCommand(std::string cmd) 
+	bool OnRconCommand(std::string cmd) override
 	{
 		gtLog(LOG_RCONCMD, Functions::string_format("%s", cmd.c_str()));
 		return false;
 	}
-	bool OnRconLoginAttempt(std::string ip, std::string password, bool success) 
+	bool OnRconLoginAttempt(std::string ip, std::string password, bool success) override
 	{ 
 		gtLog(LOG_RCONATTEMPT, Functions::string_format("[%s][%s][%d]", ip.c_str(), password.c_str(),success));
 		return true;
 	}
-	void OnPlayerGameBegin(int playerid)
+	void OnPlayerGameBegin(int playerid) override
 	{
 		gtLog(LOG_IP, Functions::string_format("[%d][%s][%s]", playerid, Player[playerid].PlayerName.c_str(), Player[playerid].ipv4.to_string().c_str()));
 	}
-	void Unload()
+	void Unload() override
 	{
 		for (auto i : ID_TO_LOGGER)
 		{

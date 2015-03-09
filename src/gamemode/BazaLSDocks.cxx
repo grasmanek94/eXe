@@ -171,7 +171,7 @@ namespace BazaLSDocks
 			{ 2064, 2773.0671387, -2423.5356445, 13.1690702, 0.0000000, 0.0000000, 270.0000000 } //object(cj_feildgun) (2)
 			})
 			{}
-		bool OnGameModeInit()
+		bool OnGameModeInit() override
 		{
 			Zabawy::MakeAllDynamicObjects(Objects, 0, -1, -1, 300.0f);
 			MakeAllSpawnInfoVehicles(Vehicles);

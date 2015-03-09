@@ -269,7 +269,7 @@ namespace Minigun
 				})
 				{}
 
-		bool OnGameModeInit()
+		bool OnGameModeInit() override
 		{
 			MakeAllDynamicObjects(ArenaObjects, CurrentGameVW);
 			return true;
@@ -296,20 +296,20 @@ namespace Minigun
 			
 		}
 
-		bool OnKeepInGameSpawn(int playerid)
+		bool OnKeepInGameSpawn(int playerid) override
 		{
 			PutPlayerIntoGame(playerid);
 			return true;
 		}
 
-		bool OnGameCommandExecute(int playerid, std::string params)
+		bool OnGameCommandExecute(int playerid, std::string params) override
 		{
 			AddPlayer(playerid, true, 0xFFFFFF00);
 			PutPlayerIntoGame(playerid);
 			return true;
 		}
 
-		bool OnPlayerDeath(int playerid, int killerid, int reason)
+		bool OnPlayerDeath(int playerid, int killerid, int reason) override
 		{
 			GivePlayerAchievement(playerid, EAM_ZabawyMinigunDeaths, 1);
 			if (killerid != INVALID_PLAYER_ID)
@@ -319,7 +319,7 @@ namespace Minigun
 			return true;
 		}
 
-		bool PlayerRequestGameExit(int playerid, int reason)
+		bool PlayerRequestGameExit(int playerid, int reason) override
 		{
 			switch (reason)
 			{

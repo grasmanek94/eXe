@@ -380,7 +380,9 @@ int MakeSpawnInfoVehicle(VehicleSpawnInfo& info)
 void MakeAllSpawnInfoVehicles(std::vector<VehicleSpawnInfo>& vehicles)
 {
 	for (auto i : vehicles)
+	{
 		MakeSpawnInfoVehicle(i);
+	}
 }
 
 void PrintAmountOfvehicleAfterOnGameModeInit(int timerid, void* param)

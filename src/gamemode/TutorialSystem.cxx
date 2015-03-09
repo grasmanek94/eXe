@@ -44,9 +44,13 @@ ZCMDF(poradnik, PERMISSION_NONE, RESTRICTION_NOT_IN_A_GAME, cmd_alias({ "/tutori
 {
 	unsigned long which = 0;
 	if (parser.Good())
+	{
 		which = parser.Get<unsigned long>();
+	}
 	if (which >= TutorialTextDraws.size())
+	{
 		which = TutorialTextDraws.size() - 1;
+	}
 	if (Player[playerid].CurrentTutorialID != -1)
 	{
 		TextDrawHideForPlayer(playerid, Player[playerid].CurrentTutorial);
@@ -71,7 +75,7 @@ ZCMD(poradnikhide, PERMISSION_NONE, RESTRICTION_NOT_IN_A_GAME, cmd_alias({ "/por
 class TutorialSystemProcessor : public Extension::Base
 {
 public:
-	bool OnGameModeInit()
+	bool OnGameModeInit() override
 	{
 		for (size_t i = 0; i < Tutorial::Text.size(); ++i)
 		{

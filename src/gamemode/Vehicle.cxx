@@ -26,8 +26,12 @@ int VehicleModelInfo[612];
 // templated version of my_equal so it could work with both char and wchar_t
 template<typename charT>
 struct my_equal {
-	my_equal(const std::locale& loc) : loc_(loc) {}
-	bool operator()(charT ch1, charT ch2) {
+	my_equal(const std::locale& loc) : loc_(loc) 
+	{
+	
+	}
+	bool operator()(charT ch1, charT ch2) 
+	{
 		return std::toupper(ch1, loc_) == std::toupper(ch2, loc_);
 	}
 private:
@@ -40,7 +44,10 @@ int ci_find_substr(const T& str1, const T& str2, const std::locale& loc = std::l
 {
 	T::const_iterator it = std::search(str1.begin(), str1.end(),
 		str2.begin(), str2.end(), my_equal<T::value_type>(loc));
-	if (it != str1.end()) return it - str1.begin();
+	if (it != str1.end())
+	{
+		return it - str1.begin();
+	}
 	else return -1; // not found
 }
 
@@ -68,7 +75,7 @@ void CreatePlayerVehicleSafe(int playerid, int modelid, float ax, float ay, floa
 	fixPutPlayerInVehicle(playerid, Player[playerid].PlayerVehicle, 0);
 }
 
-ZERO_COMMAND(v, PERMISSION_NONE, RESTRICTION_NOT_IN_A_GAME | RESTRICTION_NOT_AFTER_FIGHT | RESTRICTION_ONLY_ON_FOOT, cmd_alias({ "/car", "/pojazd", "/p" }))
+ZERO_COMMAND(v, PERMISSION_NONE, RESTRICTION_NOT_IN_A_GAME | RESTRICTION_NOT_AFTER_FIGHT | RESTRICTION_ONLY_ON_FOOT, cmd_alias({ "/car", "/pojazd", "/p", "/vehicle", "/veh" }))
 {
 	if (params.empty())
 	{
@@ -91,9 +98,13 @@ ZERO_COMMAND(v, PERMISSION_NONE, RESTRICTION_NOT_IN_A_GAME | RESTRICTION_NOT_AFT
 				else//modelid == 447 (seasparrow)
 				{
 					if (ci_find_substr<std::string>(params, "se") == -1)//did user search for '*se*'?
+					{
 						ModelID = 469;//normal sparrow
+					}
 					else
-						ModelID = 447;//seasparrow						
+					{
+						ModelID = 447;//seasparrow		
+					}
 					break;
 				}
 			}
@@ -163,7 +174,7 @@ ZCMD3(v2, 0, 0)
 }
 #endif
 
-ZERO_COMMAND(cars, PERMISSION_NONE, RESTRICTION_NOT_IN_A_GAME | RESTRICTION_NOT_AFTER_FIGHT | RESTRICTION_ONLY_ON_FOOT, cmd_alias({ "/pojazdy" }))
+ZERO_COMMAND(cars, PERMISSION_NONE, RESTRICTION_NOT_IN_A_GAME | RESTRICTION_NOT_AFTER_FIGHT | RESTRICTION_ONLY_ON_FOOT, cmd_alias({ "/pojazdy", "/vehicles", "/vehs" }))
 {
 	ShowPlayerCustomDialog(playerid, "vehiclespawner_a", DIALOG_STYLE_LIST, TranslateP(playerid, L_vehicles_carlist), 
 		 TranslateP(playerid, L_vehicles_carlist), "V", "X");
@@ -175,10 +186,14 @@ ZERO_DIALOG(vehiclespawner_b)
 	if (response)
 	{
 		if (inputtext.compare("<–") == 0)
+		{
 			ShowPlayerCustomDialog(playerid, "vehiclespawner_a", DIALOG_STYLE_LIST, TranslateP(playerid, L_vehicles_carlist),
 				TranslateP(playerid, L_vehicles_carlist), "V", "X");
+		}
 		else
+		{
 			ZCMD_CALL_COMMAND(playerid, "/v", inputtext);
+		}
 	}
 }
 
@@ -286,7 +301,7 @@ void ProcessAddVehicles()
 class MakeVehicleFuckingWorkAfter8FuckingHoursAndFuckHardCodingArrays : public Extension::Base
 {
 public:
-	bool OnGameModeInit()
+	bool OnGameModeInit() override
 	{
 		ProcessAddVehicles();
 		return true;
@@ -324,7 +339,9 @@ ZCMDF(vcolor, PERMISSION_NONE, RESTRICTION_ONLY_DRIVER | RESTRICTION_NOT_IN_A_GA
 	{
 		unsigned long colors[2] = { parser.Get<unsigned long>(0), parser.Get<unsigned long>(1) };
 		if (parser.Good() == 1)
+		{
 			colors[1] = colors[0];
+		}
 		if (colors[0] < 256 && colors[1] < 256)
 		{
 			fixChangeVehicleColor(Player[playerid].CurrentVehicle, colors[0], colors[1]);
@@ -359,11 +376,17 @@ ZCMD(tune, PERMISSION_NONE, RESTRICTION_ONLY_DRIVER | RESTRICTION_ONLY_IN_CAR | 
 
 	int model = GetVehicleModel(Player[playerid].CurrentVehicle);
 	if (NotTuningVehicles.find(model) != NotTuningVehicles.end())
+	{
 		return fixSendClientMessage(playerid, Color::COLOR_ERROR, TranslateP(playerid, L_tune_cannot_tune_error));
+	}
 	if (SFvehicles.find(model) != SFvehicles.end())
+	{
 		return ZCMD_CALL_COMMAND(playerid, "/tunesf", "");
+	}
 	if (LSvehicles.find(model) != LSvehicles.end())
+	{
 		return ZCMD_CALL_COMMAND(playerid, "/tunels", "");
+	}
 	return ZCMD_CALL_COMMAND(playerid, "/tunelv", "");
 }
 

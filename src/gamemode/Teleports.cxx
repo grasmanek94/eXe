@@ -28,20 +28,29 @@ void TeleportPlayer(int playerid, float x, float y, float z, float a, bool vehic
 	if (PlayersOnline.find(playerid) != PlayersOnline.end())
 	{
 		if (reset_weapons)
+		{
 			safeResetPlayerWeapons(playerid);
+		}
 
 		float adder[2] = { 0.0f, 0.0f };
 
 		if (maxrx != 0.0)
+		{
 			adder[0] = Functions::gen_random_float(-maxrx, +maxrx);
+		}
+
 		if (maxry != 0.0)
+		{
 			adder[1] = Functions::gen_random_float(-maxry, +maxry);
+		}
 
 		SetPlayerInterior(playerid, interiorid);
 		fixSetPlayerVirtualWorld(playerid, virtualworldid);
 
 		if (gametext.size())
+		{
 			GameTextForPlayer(playerid, gametext.c_str(), gametexttime, gametextstyle);
+		}
 
 		if (vehicle && Player[playerid].CurrentVehicle && GetPlayerState(playerid) == PLAYER_STATE_DRIVER)
 		{

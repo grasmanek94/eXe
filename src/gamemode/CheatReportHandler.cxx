@@ -77,7 +77,7 @@ unsigned long long TimeNow;
 class Resettor : public Extension::Base
 {
 public:
-	bool OnPlayerConnect(int playerid)
+	bool OnPlayerConnect(int playerid) override
 	{
 		PlayerSpeedCheck[playerid].reset();
 		PlayerAirbreakCheck[playerid].reset();
@@ -110,8 +110,13 @@ void CheatHandler(int playerid, int type, int extraint, float extrafloat, int ex
 		{
 			debug_fixSendClientMessage(playerid, "Speed");
 			if (PlayerSpeedCheck[playerid].add_detect(TimeNow))
+			{
 				aKick(playerid, 2, false, INVALID_PLAYER_ID, "Speed Hack");
-			else GivePlayerAchievement(playerid, EAM_Czitek, 1);
+			}
+			else
+			{
+				GivePlayerAchievement(playerid, EAM_Czitek, 1);
+			}
 			break;
 		}
 		case CHECK_IPFLOOD:
@@ -122,7 +127,9 @@ void CheatHandler(int playerid, int type, int extraint, float extrafloat, int ex
 		case CHECK_PING:
 		{
 			if (Player[playerid].Connected && (Functions::GetTimeSeconds() - Player[playerid].StartPlayTime) > 5)
+			{
 				aKick(playerid, 2, false, INVALID_PLAYER_ID, "PING > 1000");
+			}
 			break;
 		}
 		case CHECK_INACTIVITY:
@@ -133,15 +140,22 @@ void CheatHandler(int playerid, int type, int extraint, float extrafloat, int ex
 		case CHECK_TELEPORT:
 		{
 			if (TimeNow - Reported[playerid] < 60000)
+			{
 				aKick(playerid, 2, false, INVALID_PLAYER_ID, "Teleport Hack");
+			}
 			Reported[playerid] = TimeNow;
 			break;
 		}
 		case CHECK_AIRBREAK:
 		{
 			if (PlayerAirbreakCheck[playerid].add_detect(TimeNow))
+			{
 				aKick(playerid, 2, false, INVALID_PLAYER_ID, "Airbreak Hack");
-			else GivePlayerAchievement(playerid, EAM_Czitek, 1);
+			}
+			else
+			{
+				GivePlayerAchievement(playerid, EAM_Czitek, 1);
+			}
 			break;
 		}
 		case CHECK_FASTCONNECT:
@@ -174,9 +188,6 @@ void CheatHandler(int playerid, int type, int extraint, float extrafloat, int ex
 
 ZCMD3(ac, PERMISSION_GAMER, RESTRICTION_NONE)
 {
-	if (_stricmp(params.c_str(), "off") == 0)
-		AntyCheatEnabled = false;
-	else 
-		AntyCheatEnabled = true;
+	AntyCheatEnabled = !(_stricmp(params.c_str(), "off") == 0);
 	return true;
 }

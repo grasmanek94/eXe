@@ -107,7 +107,9 @@ namespace SentryGunSystem
 			StreamerLibrary::DestroyDynamicObject(*Object_IDs.begin());
 			auto foundobj = ObjectToSentryGun.find(*Object_IDs.begin());
 			if (foundobj != ObjectToSentryGun.end())
+			{
 				ObjectToSentryGun.erase(foundobj);
+			}
 			Object_IDs.erase(Object_IDs.begin());
 		}
 
@@ -126,7 +128,9 @@ namespace SentryGunSystem
 			StreamerLibrary::DestroyDynamicObject(*Object_IDs.begin());
 			auto foundobj = ObjectToSentryGun.find(*Object_IDs.begin());
 			if (foundobj != ObjectToSentryGun.end())
+			{
 				ObjectToSentryGun.erase(foundobj);
+			}
 			Object_IDs.erase(Object_IDs.begin());
 		}
 		if (LabelID != INVALID_3DTEXT_ID)
@@ -139,7 +143,9 @@ namespace SentryGunSystem
 			StreamerLibrary::DestroyDynamicArea(AreaID);
 			auto found = AreaToSentryGun.find(AreaID);
 			if (found != AreaToSentryGun.end())
+			{
 				AreaToSentryGun.erase(found);
+			}
 			AreaID = 0xFFFF;
 		}
 	}
@@ -187,7 +193,9 @@ namespace SentryGunSystem
 			StreamerLibrary::DestroyDynamicArea(AreaID);
 			auto found = AreaToSentryGun.find(AreaID);
 			if (found != AreaToSentryGun.end())
+			{
 				AreaToSentryGun.erase(found);
+			}
 			AreaID = 0xFFFF;
 		}
 
@@ -206,7 +214,9 @@ namespace SentryGunSystem
 			;
 
 		if (!do_not_add)
+		{
 			PlayersInShootingArea.insert(playerid);
+		}
 		PlayersInArea.insert(playerid);
 	}
 
@@ -229,7 +239,9 @@ namespace SentryGunSystem
 		for (auto playerid : PlayersInShootingArea)
 		{
 			if (++count == maxcount)
+			{
 				break;
+			}
 			if (Player[playerid].Spawned)
 			{
 				GetPlayerPos(playerid, &fHitTarget[0], &fHitTarget[1], &fHitTarget[2]);
@@ -287,7 +299,9 @@ namespace SentryGunSystem
 		{
 			health += 2.0;
 			if (health > maxhealth)
+			{
 				health = maxhealth;
+			}
 		}
 	}
 
@@ -299,7 +313,9 @@ namespace SentryGunSystem
 		rot_z = angle;
 
 		if (rebuild)
+		{
 			RefreshSentryGun();
+		}
 
 		NeedsSave();
 	}
@@ -317,7 +333,9 @@ namespace SentryGunSystem
 		AreaOffsets_b.z =  r*sqrt2;
 
 		if (rebuild)
+		{
 			RefreshArea();
+		}
 
 		NeedsSave();
 	}
@@ -333,7 +351,9 @@ namespace SentryGunSystem
 		AreaOffsets_b.z = std::max(minx, maxz) - Position.z;
 
 		if (rebuild)
+		{
 			RefreshArea();
+		}
 
 		NeedsSave();
 	}
@@ -349,7 +369,9 @@ namespace SentryGunSystem
 		AreaOffsets_b.z =  z;
 
 		if (rebuild)
+		{
 			RefreshArea();
+		}
 
 		NeedsSave();
 	}
@@ -416,7 +438,9 @@ namespace SentryGunSystem
 	{
 		double lvl = std::pow((double)experience, 0.3) + 1.0;
 		if (lvl > 21.0)
+		{
 			lvl = 21.0;
+		}
 		return lvl;
 	}
 
@@ -464,9 +488,13 @@ K/D/V: % d / %d / %d / DMG: %.0f / HP: %.0f\n\
 
 		int whichcolor = 0;
 		if (deactivated)
+		{
 			whichcolor = 2;
+		}
 		else if (destroyed)
+		{
 			whichcolor = 1;
+		}
 
 		return Functions::string_format(
 			SentryInformationLabelText,
@@ -603,13 +631,17 @@ K/D/V: % d / %d / %d / DMG: %.0f / HP: %.0f\n\
 		{
 			auto toerase = DbIdToSentryGun.find(ID);
 			if (toerase != DbIdToSentryGun.end())
+			{
 				DbIdToSentryGun.erase(toerase);
+			}
 		}
 
 		{
 			auto toerase = Owners.find(owner_name);
 			if (toerase != Owners.end())
+			{
 				Owners.erase(toerase);
+			}
 		}
 		
 		NeedsSaving.erase(this);
@@ -705,7 +737,7 @@ K/D/V: % d / %d / %d / DMG: %.0f / HP: %.0f\n\
 	class SentryGunProcessor : public Extension::Base
 	{
 	public:
-		bool OnGameModeInit()
+		bool OnGameModeInit() override
 		{
 			sampgdk_SetTimerEx(1333, true, ProcessSentryGunsTimer, nullptr, this);
 			sampgdk_SetTimerEx(60000, true, ProcessSentryGunsSaveTimer, nullptr, this);
@@ -724,7 +756,9 @@ K/D/V: % d / %d / %d / DMG: %.0f / HP: %.0f\n\
 				gun->RefreshSentryGun();
 
 				if (gHighestSentryID < gun->ID)
+				{
 					gHighestSentryID = gun->ID;
+				}
 			}
 
 			t.commit();
@@ -733,14 +767,14 @@ K/D/V: % d / %d / %d / DMG: %.0f / HP: %.0f\n\
 			return true;
 		}
 
-		bool OnPlayerConnect(int playerid)
+		bool OnPlayerConnect(int playerid) override
 		{
 			LastHitBySentry[playerid].first = nullptr;
 			LastHitBySentry[playerid].second = 0;
 			return true;
 		}
 
-		bool OnPlayerDisconnect(int playerid, int reason)
+		bool OnPlayerDisconnect(int playerid, int reason) override
 		{
 			while (SentriesNotKillingPlayerId[playerid].size())
 			{
@@ -750,7 +784,7 @@ K/D/V: % d / %d / %d / DMG: %.0f / HP: %.0f\n\
 			return true;
 		}
 
-		bool OnPlayerDeath(int playerid, int killerid, int reason)
+		bool OnPlayerDeath(int playerid, int killerid, int reason) override
 		{
 			if (LastHitBySentry[playerid].first != nullptr && Functions::GetTime() < LastHitBySentry[playerid].second)
 			{
@@ -763,7 +797,7 @@ K/D/V: % d / %d / %d / DMG: %.0f / HP: %.0f\n\
 			return true;
 		}
 
-		bool OnPlayerEnterDynamicArea(int playerid, int areaid) 
+		bool OnPlayerEnterDynamicArea(int playerid, int areaid) override
 		{
 			auto vsentrygun = AreaToSentryGun.find(areaid);
 			if (vsentrygun != AreaToSentryGun.end())
@@ -773,7 +807,7 @@ K/D/V: % d / %d / %d / DMG: %.0f / HP: %.0f\n\
 			return true; 
 		}
 
-		bool OnPlayerLeaveDynamicArea(int playerid, int areaid) 
+		bool OnPlayerLeaveDynamicArea(int playerid, int areaid) override
 		{ 
 			auto vsentrygun = AreaToSentryGun.find(areaid);
 			if (vsentrygun != AreaToSentryGun.end())
@@ -783,7 +817,7 @@ K/D/V: % d / %d / %d / DMG: %.0f / HP: %.0f\n\
 			return true;
 		}
 
-		bool OnPlayerShootDynamicObject(int playerid, int weaponid, int objectid, float x, float y, float z) 
+		bool OnPlayerShootDynamicObject(int playerid, int weaponid, int objectid, float x, float y, float z) override
 		{ 
 			auto sentrygun = ObjectToSentryGun.find(objectid);
 			if (sentrygun != ObjectToSentryGun.end())
@@ -814,7 +848,9 @@ ZCMDF(sentryturret_add, PERMISSION_GAMER, RESTRICTION_NOT_IN_A_GAME, cmd_alias({
 			gun->SetRange(r, false);
 			int ownerid = parser.Get<ParsePlayer>(1).playerid;
 			if (ownerid != INVALID_PLAYER_ID)
+			{
 				gun->SetOwner(Player[ownerid].PlayerName, 1);
+			}
 			gun->RefreshSentryGun();
 			fixSendClientMessage(playerid, -1, L_sentrygun_created);
 			return true;
@@ -953,9 +989,13 @@ ZCMDF(sgm, PERMISSION_GAMER, RESTRICTION_NOT_IN_A_GAME, cmd_alias({ "/sentrygunm
 						{
 							int ownerid = second_parser.Get<ParsePlayer>(0).playerid;
 							if (ownerid != INVALID_PLAYER_ID)
+							{
 								current_gun->SetOwner(Player[ownerid].PlayerName, 1);
+							}
 							else
+							{
 								current_gun->SetOwner("", 0);
+							}
 							fixSendClientMessage(playerid, -1, found_action->second.success);
 							return true;
 						}

@@ -67,9 +67,13 @@ int fixCreateVehicle(int modelid, float x, float y, float z, float a, int col1, 
 	const std::array<int, 2> carColor = GTACarColorGenerator::GenerateColorByCarModel(modelid);
 
 	if (col1 == -1 || col1 > 126)
+	{
 		col1 = carColor[0];
+	}
 	if (col2 == -1 || col2 > 126)
+	{
 		col2 = carColor[1];
+	}
 
 	int id = CreateVehicle(modelid, x, y, z, a, col1, col2, respawntime);
 	if (id != 0xFFFF && id)
@@ -86,7 +90,7 @@ int fixCreateVehicle(int modelid, float x, float y, float z, float a, int col1, 
 class CVehicleExtraFunctions : public Extension::Base
 {
 public:
-	void Load()
+	void Load() override
 	{
 		for (auto&vehicle : ExtraVehicleInfo)
 		{
@@ -96,18 +100,18 @@ public:
 
 		}
 	}
-	bool OnVehicleRespray(int playerid, int vehicleid, int color1, int color2)
+	bool OnVehicleRespray(int playerid, int vehicleid, int color1, int color2) override
 	{
 		ExtraVehicleInfo[vehicleid].Color[0] = color1;
 		ExtraVehicleInfo[vehicleid].Color[1] = color2;
 		return true;
 	}
-	bool OnVehiclePaintjob(int playerid, int vehicleid, int paintjobid)
+	bool OnVehiclePaintjob(int playerid, int vehicleid, int paintjobid) override
 	{
 		ExtraVehicleInfo[vehicleid].Paintjob = paintjobid;
 		return true;
 	}
-	bool OnVehicleStreamIn(int vehicleid, int forplayerid)
+	bool OnVehicleStreamIn(int vehicleid, int forplayerid) override
 	{
 		ReApplyShit(vehicleid);
 		return true;

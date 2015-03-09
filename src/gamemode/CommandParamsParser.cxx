@@ -27,17 +27,17 @@
 
 bool ParseInput::DoParse(char f, std::string& input, size_t& current_pos, unsigned char delim)
 {
-	static long _l;
-	static unsigned long _ul;
-	static long long _ll;
-	static unsigned long long _ull;
-	static float _f;
-	static double _d;
-	static long double _ld;
-	static HexTo<long> _hl;
-	static HexTo<unsigned long> _hul;
-	static HexTo<long long> _hll;
-	static HexTo<unsigned long long> _hull;
+	long _l;
+	unsigned long _ul;
+	long long _ll;
+	unsigned long long _ull;
+	float _f;
+	double _d;
+	long double _ld;
+	HexTo<long> _hl;
+	HexTo<unsigned long> _hul;
+	HexTo<long long> _hll;
+	HexTo<unsigned long long> _hull;
 
 	if (input.size() && current_pos != std::string::npos)
 	{
@@ -293,9 +293,13 @@ void ParseInput::ExecuteManualParse(std::string input, unsigned char delim)
 		for (auto f : format)
 		{
 			if (DoParse(f, input, current_pos, delimeter))
+			{
 				++current_param;
+			}
 			else
+			{
 				break;
+			}
 		}
 	}
 }

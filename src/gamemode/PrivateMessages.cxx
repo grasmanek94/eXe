@@ -41,7 +41,7 @@ std::array<SPlayerPMSettings, MAX_PLAYERS> PlayerPMSettings;
 class PrivateMessageManager : public Extension::Base
 {
 public:
-	bool OnPlayerConnect(int playerid)
+	bool OnPlayerConnect(int playerid) override
 	{
 		PlayerPMSettings[playerid].Enabled = true;
 		PlayerPMSettings[playerid].Muted = false;
@@ -50,7 +50,7 @@ public:
 		PlayerPMSettings[playerid].BlockedBy.clear();
 		return true;
 	}
-	bool OnPlayerDisconnect(int playerid, int reason)
+	bool OnPlayerDisconnect(int playerid, int reason) override
 	{
 		if (PlayerPMSettings[playerid].LastSender != INVALID_PLAYER_ID)
 		{

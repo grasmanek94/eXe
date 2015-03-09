@@ -10,7 +10,9 @@ namespace GTAMath
 
 		//fix division by 0
 		if (diff == 0)
+		{
 			return inclusive_min;
+		}
 
 		return (((unsigned long long)(rng() * 100000000.0)) % diff) + inclusive_min;
 	}

@@ -37,11 +37,17 @@ namespace HostBan
 		const unsigned short * parts = GetSplitIP(ip.to_ulong());
 		auto found = HostBans.find(parts[1]);
 		if (found == HostBans.end())
+		{
 			return nullptr;
+		}
 		if (!found->second.IsBanned(parts[0]))
+		{
 			return nullptr;
+		}
 		if (found->second.ban_entry.bannedtime < Functions::GetTime())
+		{
 			return nullptr;
+		}
 		return &found->second.ban_entry;
 	}
 
@@ -55,9 +61,13 @@ namespace HostBan
 			if (bannedtime > bannedidentificator)
 			{
 				if (range_begin < found->second.range_begin)
+				{
 					found->second.range_begin = range_begin;
+				}
 				if (range_end > found->second.range_end)
+				{
 					found->second.range_end = range_end;
+				}
 				found->second.ban_entry.bannedtime = bannedtime;
 				found->second.ban_entry.bannedidentificator = bannedidentificator;
 				found->second.ban_entry.banneduser = banneduser;
@@ -86,7 +96,9 @@ namespace HostBan
 		const unsigned short * parts = GetSplitIP(ip.to_ulong());
 		auto found = HostBans.find(parts[1]);
 		if (found == HostBans.end())
+		{
 			return false;
+		}
 		HostBans.erase(found);
 		return true;
 	}
@@ -188,7 +200,7 @@ namespace HostBan
 	class HostBansProcessor : public Extension::Base
 	{
 	public:
-		bool OnGameModeInit()
+		bool OnGameModeInit() override
 		{
 			ReloadHostBans();
 			sampgdk_SetTimerEx(60 * 60 * 1000, true, TimedHostBanSaveCheck, nullptr, nullptr);

@@ -67,15 +67,23 @@ namespace RaceSystem
 		if (FinishedPlayers.size())
 		{
 			for (auto i : FinishedPlayers)
+			{
 				PlayerPositions.push_back(&Player[i].RaceData);
+			}
 
 			if (RaceType == eRT_RaceDrifting)
+			{
 				std::sort(PlayerPositions.begin(), PlayerPositions.end(), ScorePrioritizer);
+			}
 			else
+			{
 				std::sort(PlayerPositions.begin(), PlayerPositions.end(), TimePrioritizer);
+			}
 
 			for (auto i : PlayerPositions)
+			{
 				FinishedPositions.push_back(std::pair<int, std::pair<unsigned long long, unsigned long>>(i->playerid, std::pair<unsigned long long, unsigned long>(i->RaceCurrentTime, i->Score)));
+			}
 		}
 		FinishedPlayers.clear();
 		return FinishedPositions;
@@ -105,7 +113,9 @@ namespace RaceSystem
 		NitroEnabled(EnableNitro)
 	{
 		for (size_t playerid = 0; playerid < MAX_PLAYERS; ++playerid)
+		{
 			Player[playerid].RaceData.playerid = playerid;//playeridceptionlololololol
+		}
 		CurrentGameState = 0;
 		Counter = 0;
 		TIMER = INVALID_TIMER_ID;
@@ -235,19 +245,27 @@ namespace RaceSystem
 				);
 
 			if (!Player[playerid].RaceData.Finished)
+			{
 				UpdatePlayerCheckPoint(playerid);
+			}
 			else
+			{
 				DisablePlayerRaceCheckpoint(playerid);
+			}
 
 			if (!RaceRunning)
 			{
 				RaceFinished(GetPositions(), true);
 				for (auto i : GetPlayersCopy())
+				{
 					PlayerExitGame(i);
+				}
 				SetGameState(0);
 			}
 			if (Player[playerid].RaceData.Finished)
+			{
 				PlayerExitGame(playerid);
+			}
 		}
 		return true;
 	}
@@ -350,7 +368,9 @@ namespace RaceSystem
 					SetGameState(2);
 
 					for (auto i : GetPlayersCopy())
+					{
 						PutPlayerIntoGame(i);
+					}
 
 					TIMER = CreateTimer<Race>(1000, true, &Race::Tick);
 
@@ -388,7 +408,9 @@ namespace RaceSystem
 								ResetPlayerRaceData(i);
 								CreatePlayerVehicleSafe(i, VehicleModel, 0.0, 0.0, 0.0);
 								if (VehicleGodMode)
+								{
 									safeSetVehicleHealth(Player[i].PlayerVehicle, 1000000.0);
+								}
 								SetCameraBehindPlayer(i);
 							}
 							else if (Counter == 2)
@@ -402,7 +424,9 @@ namespace RaceSystem
 								{
 									CreatePlayerVehicleSafe(i, VehicleModel, 0.0, 0.0, 0.0);
 									if (VehicleGodMode)
+									{
 										safeSetVehicleHealth(Player[i].PlayerVehicle, 1000000.0);
+									}
 									SetCameraBehindPlayer(i);
 								}
 							}
@@ -485,7 +509,9 @@ namespace RaceSystem
 			{
 				safeRepairVehicle(Player[playerid].CurrentVehicle);
 				if (VehicleGodMode)
+				{
 					safeSetVehicleHealth(Player[playerid].CurrentVehicle, 100000.0);
+				}
 				if (bIsBitEnabled(EnabledActions, eRKA_FixBehaviourRestore))
 				{
 					auto u = CheckPointsPositions[(Player[playerid].RaceData.Checkpoints == 0) ? CheckpointsSizeMinusOne : (Player[playerid].RaceData.Checkpoints - 1)];

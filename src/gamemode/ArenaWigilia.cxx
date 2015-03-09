@@ -349,7 +349,7 @@ namespace Wigilia
 			}
 		}
 
-		bool OnGameModeInit()
+		bool OnGameModeInit() override
 		{
 			MakeAllDynamicObjects(ArenaObjects, CurrentGameVW);
 
@@ -383,7 +383,7 @@ namespace Wigilia
 			return true;
 		}
 
-		bool OnDynamicObjectMoved(int objectid) 
+		bool OnDynamicObjectMoved(int objectid) override 
 		{ 
 			auto i = statki.find(objectid);
 			if (i != statki.end())
@@ -421,14 +421,14 @@ namespace Wigilia
 				PlayAudioStreamForPlayer(playerid, url.c_str(), 0.0, 0.0, 0.0, 0.0, false);
 		}
 
-		bool OnKeepInGameSpawn(int playerid)
+		bool OnKeepInGameSpawn(int playerid) override
 		{
 			AddPlayer(playerid, true, -1);
 			PutPlayerIntoGame(playerid, true);
 			return true;
 		}
 
-		bool OnGameCommandExecute(int playerid, std::string params)
+		bool OnGameCommandExecute(int playerid, std::string params) override
 		{
 			if (UniversalModeDate.date().year_month_day().day == 24 && UniversalModeDate.date().year_month_day().month == 12)
 			{
@@ -439,7 +439,7 @@ namespace Wigilia
 			return false;
 		}
 
-		bool PlayerRequestGameExit(int playerid, int reason)
+		bool PlayerRequestGameExit(int playerid, int reason) override
 		{
 			switch (reason)
 			{
@@ -454,7 +454,7 @@ namespace Wigilia
 			return true;
 		}
 
-		bool OnPlayerPickUpDynamicPickup(int playerid, int pickupid)
+		bool OnPlayerPickUpDynamicPickup(int playerid, int pickupid) override
 		{
 			auto &i = PlayerWigilia[Player[playerid].PlayerName];
 

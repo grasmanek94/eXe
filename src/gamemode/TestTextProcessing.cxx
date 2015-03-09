@@ -31,8 +31,13 @@ size_t count_substrings(const std::string& haystack, const std::string& needle)
 	{
 		current_pos = haystack.find(needle, current_pos+1);
 		if (current_pos == std::string::npos)
+		{
 			break;
-		else ++count;
+		}
+		else
+		{
+			++count;
+		}
 	}
 	return count;
 }
@@ -40,7 +45,7 @@ size_t count_substrings(const std::string& haystack, const std::string& needle)
 class TEST_ProcessStrings : public Extension::Base
 {
 public:
-	bool OnGameModeInit()
+	bool OnGameModeInit() override
 	{
 		int color_1 = 0xAABBCCDD;
 		int color_2 = 0xABCDEF12;

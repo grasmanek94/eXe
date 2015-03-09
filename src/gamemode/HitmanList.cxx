@@ -23,21 +23,26 @@
 
 std::unordered_set<int> Bountiies;
 
+//TODO move onplayerdeath code from worlddata to here (the code which is for the hitman/bounty stuff)
 class HitmanListProcessor : public Extension::Base
 {
 public:
-	void OnPlayerGameBegin(int playerid)
+	void OnPlayerGameBegin(int playerid) override
 	{
 		if (Player[playerid].statistics.bounty)
+		{
 			Bountiies.insert(playerid);
+		}
 	}
-	bool OnPlayerDeath(int playerid, int killerid, int reason)
+	bool OnPlayerDeath(int playerid, int killerid, int reason) override
 	{
 		if (killerid != INVALID_PLAYER_ID)
+		{
 			Bountiies.erase(playerid);
+		}
 		return true;
 	}
-	bool OnPlayerDisconnect(int playerid, int reason)
+	bool OnPlayerDisconnect(int playerid, int reason) override
 	{
 		Bountiies.erase(playerid);
 		return true;
@@ -88,9 +93,13 @@ ZCMD(hitmanlista, PERMISSION_NONE, RESTRICTION_NONE, cmd_alias({ "/hitman.lista"
 {
 	std::string toshow;
 	for (auto&i : Bountiies)
+	{
 		toshow.append(Functions::string_format("\t%-3d " + Player[i].PlayerName + " $%I64u\n", i, Player[i].statistics.bounty));
+	}
 	if (!toshow.size())
+	{
 		toshow.append(TranslateP(playerid, L_bounty_noheadsonline));
+	}
 	toshow.insert(0, TranslateP(playerid, L_bounty_preinfo));
 	ShowPlayerCustomDialog(playerid, DLG_DUMMY, DIALOG_STYLE_MSGBOX, TranslateP(playerid, L_bounty_title), toshow, "V", "X");
 	return true;

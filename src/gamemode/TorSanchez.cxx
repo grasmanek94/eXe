@@ -87,7 +87,7 @@ public:
 		{ 468, 2390.7051, 3192.9900, 7.0002, 357.1570, 7, 7, 0, 0 }
 	})
 	{}
-	bool OnGameModeInit()
+	bool OnGameModeInit() override
 	{
 		Zabawy::MakeAllDynamicObjects(Objects, 0);
 		MakeAllSpawnInfoVehicles(Vehicles);

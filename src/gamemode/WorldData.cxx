@@ -50,7 +50,9 @@ boost::posix_time::time_duration UniversalModeTime;
 int ValidPlayerID(int playerid)
 {
 	if (PlayersOnline.find(playerid) == PlayersOnline.end())
+	{
 		return INVALID_PLAYER_ID;
+	}
 	return playerid;
 }
 
@@ -89,7 +91,9 @@ public:
 		{
 			Player[i].sp_PlayerID = i;
 			if (!Player[i].QuickMenu)
+			{
 				Player[i].QuickMenu = SPlayer::PlayerMenuPointer(new PlayerMenu::Display(i));
+			}
 		}
 		for (size_t i = 0; i < MAX_VEHICLES + 1; ++i)
 		{
@@ -243,8 +247,6 @@ public:
 
 					SafeAddULL(Player[killerid].Achievementdata.WeaponExperience[reason], killexp);
 				}
-
-
 			}
 			else
 			{
@@ -320,28 +322,32 @@ public:
 	}
 	//bool OnPlayerUpdate(int playerid) override
 	//{
-		//static int currweaponid;
-		//currweaponid = GetPlayerWeapon(playerid);
-		//if (currweaponid != Player[playerid].CurrentWeaponID)
-		//{
-		//	//OnPlayerWeaponChange(playerid, currweaponid, Player[playerid].CurrentWeaponID)
-		//	Player[playerid].CurrentWeaponID = currweaponid;
-		//}
+	//	static int currweaponid;
+	//	currweaponid = GetPlayerWeapon(playerid);
+	//	if (currweaponid != Player[playerid].CurrentWeaponID)
+	//	{
+	//		//OnPlayerWeaponChange(playerid, currweaponid, Player[playerid].CurrentWeaponID)
+	//		Player[playerid].CurrentWeaponID = currweaponid;
+	//	}
 	//	return true;
 	//}
 } _WorldDataProcessor;
 
 void ___OnVehicleLostHealth(int playerid, int vehicleid, float oldhealth, float newhealth)
 {
-	if (abs(oldhealth-newhealth) > 30)
+	if (abs(oldhealth - newhealth) > 30)
+	{
 		Player[playerid].LastDamageTime = Functions::GetTime() + 7000;
+	}
 }
 
 void InsertGolbalChatHistory(std::string message)
 {
 	GlobalChatHistory.push_back("{FFFFFF}[" + TextDraws::ActualTimeText + "]" + message + "\n");
 	if (GlobalChatHistory.size() > 32)
+	{
 		GlobalChatHistory.erase(GlobalChatHistory.begin());
+	}
 }
 
 void SPlayer::SendChat(std::string text)
@@ -351,193 +357,218 @@ void SPlayer::SendChat(std::string text)
 	bool sendmsg = false;
 	switch (text[0])
 	{
-	case '!':
-		if (Mafia != nullptr)
+		case '!':
 		{
-			GivePlayerAchievement(sp_PlayerID, EAM_SpammerMafiaChat, 1);
-			text[0] = ' ';
-			std::string temp(Functions::string_format("{81AFE3}!M  {FFFFFF}%-3d {%06X}%s{81AFE3}:%s", sp_PlayerID, Color, PlayerName.c_str(), text.c_str()));
-			boost::replace_all(temp, "•", "%");
-			InsertChatHistory(temp);
-			InsertGolbalChatHistory(temp);
-			makesmallerstrings(temp, vec, 136);
-			bool first = true;
-			sendmsg = true;
-			for (auto i : vec)
+			if (Mafia != nullptr)
 			{
-				if (first)
+				GivePlayerAchievement(sp_PlayerID, EAM_SpammerMafiaChat, 1);
+				text[0] = ' ';
+				std::string temp(Functions::string_format("{81AFE3}!M  {FFFFFF}%-3d {%06X}%s{81AFE3}:%s", sp_PlayerID, Color, PlayerName.c_str(), text.c_str()));
+				boost::replace_all(temp, "•", "%");
+				InsertChatHistory(temp);
+				InsertGolbalChatHistory(temp);
+				makesmallerstrings(temp, vec, 136);
+				bool first = true;
+				sendmsg = true;
+				for (auto i : vec)
 				{
-					first = false;
-					Mafia->SendMessageToMafia(-1, i);
-				}
-				else
-				{
-					std::string sendmsg(("{000000}" + std::string(5 + PlayerName.size(), '_') + "{81AFE3}" + i));
-					Player[sp_PlayerID].Mafia->SendMessageToMafia(-1, sendmsg);
+					if (first)
+					{
+						first = false;
+						Mafia->SendMessageToMafia(-1, i);
+					}
+					else
+					{
+						std::string sendmsg(("{000000}" + std::string(5 + PlayerName.size(), '_') + "{81AFE3}" + i));
+						Player[sp_PlayerID].Mafia->SendMessageToMafia(-1, sendmsg);
+					}
 				}
 			}
 		}
 		break;
-	case '@':
-		if (statistics.privilidges >= PERMISSION_ADMIN)
+		case '@':
 		{
-			GivePlayerAchievement(sp_PlayerID, EAM_SpammerAdminChat, 1);
-			text[0] = ' ';
-			std::string temp(Functions::string_format("{E8A854}@A {FFFFFF}%-3d {%06X}%s{E8A854}:%s", sp_PlayerID, Color, PlayerName.c_str(), text.c_str()));
-			boost::replace_all(temp, "•", "%");
-			InsertChatHistory(temp);
-			InsertGolbalChatHistory(temp);
-			makesmallerstrings(temp, vec, 136);
-			bool first = true;
-			sendmsg = true;
-			for (auto i : vec)
+			if (statistics.privilidges >= PERMISSION_ADMIN)
 			{
-				if (first)
-					first = false, SendMessageToAdmins(-1, i);
-				else
+				GivePlayerAchievement(sp_PlayerID, EAM_SpammerAdminChat, 1);
+				text[0] = ' ';
+				std::string temp(Functions::string_format("{E8A854}@A {FFFFFF}%-3d {%06X}%s{E8A854}:%s", sp_PlayerID, Color, PlayerName.c_str(), text.c_str()));
+				boost::replace_all(temp, "•", "%");
+				InsertChatHistory(temp);
+				InsertGolbalChatHistory(temp);
+				makesmallerstrings(temp, vec, 136);
+				bool first = true;
+				sendmsg = true;
+				for (auto i : vec)
 				{
-					std::string sendmsg(("{000000}" + std::string(5 + PlayerName.size(), '_') + "{E8A854}" + i));
-					SendMessageToAdmins(-1, sendmsg);
+					if (first)
+					{
+						first = false;
+						SendMessageToAdmins(-1, i);
+					}
+					else
+					{
+						std::string sendmsg(("{000000}" + std::string(5 + PlayerName.size(), '_') + "{E8A854}" + i));
+						SendMessageToAdmins(-1, sendmsg);
+					}
 				}
 			}
 		}
 		break;
-	case '#':
-		if (statistics.privilidges >= PERMISSION_VIP)
+		case '#':
 		{
-			GivePlayerAchievement(sp_PlayerID, EAM_SpammerVipChat, 1);
-			text[0] = ' ';
-			std::string temp(Functions::string_format("{EAF20A}#V  {FFFFFF}%-3d {%06X}%s{EAF20A}:%s", sp_PlayerID, Color, PlayerName.c_str(), text.c_str()));
-			boost::replace_all(temp, "•", "%");
-			InsertChatHistory(temp);
-			InsertGolbalChatHistory(temp);
-			makesmallerstrings(temp, vec, 136);
-			bool first = true;
-			sendmsg = true;
-			for (auto i : vec)
+			if (statistics.privilidges >= PERMISSION_VIP)
 			{
-				if (first)
+				GivePlayerAchievement(sp_PlayerID, EAM_SpammerVipChat, 1);
+				text[0] = ' ';
+				std::string temp(Functions::string_format("{EAF20A}#V  {FFFFFF}%-3d {%06X}%s{EAF20A}:%s", sp_PlayerID, Color, PlayerName.c_str(), text.c_str()));
+				boost::replace_all(temp, "•", "%");
+				InsertChatHistory(temp);
+				InsertGolbalChatHistory(temp);
+				makesmallerstrings(temp, vec, 136);
+				bool first = true;
+				sendmsg = true;
+				for (auto i : vec)
 				{
-					first = false;
-					SendMessageToVips(-1, i);
-				}
-				else
-				{
-					std::string sendmsg(("{000000}" + std::string(5 + PlayerName.size(), '_') + "{EAF20A}" + i));
-					SendMessageToVips(-1, sendmsg);
+					if (first)
+					{
+						first = false;
+						SendMessageToVips(-1, i);
+					}
+					else
+					{
+						std::string sendmsg(("{000000}" + std::string(5 + PlayerName.size(), '_') + "{EAF20A}" + i));
+						SendMessageToVips(-1, sendmsg);
+					}
 				}
 			}
 		}
 		break;
-	case '$':
-		if (statistics.privilidges >= PERMISSION_SPONSOR)
+		case '$':
 		{
-			GivePlayerAchievement(sp_PlayerID, EAM_SpammerSponsorChat, 1);
-			text[0] = ' ';
-			std::string temp(Functions::string_format("{E03DBA}$S  {FFFFFF}%-3d {%06X}%s{E03DBA}:%s", sp_PlayerID, Color, PlayerName.c_str(), text.c_str()));
-			boost::replace_all(temp, "•", "%");
-			InsertChatHistory(temp);
-			InsertGolbalChatHistory(temp);
-			makesmallerstrings(temp, vec, 136);
-			bool first = true;
-			sendmsg = true;
-			for (auto i : vec)
+			if (statistics.privilidges >= PERMISSION_SPONSOR)
 			{
-				if (first)
+				GivePlayerAchievement(sp_PlayerID, EAM_SpammerSponsorChat, 1);
+				text[0] = ' ';
+				std::string temp(Functions::string_format("{E03DBA}$S  {FFFFFF}%-3d {%06X}%s{E03DBA}:%s", sp_PlayerID, Color, PlayerName.c_str(), text.c_str()));
+				boost::replace_all(temp, "•", "%");
+				InsertChatHistory(temp);
+				InsertGolbalChatHistory(temp);
+				makesmallerstrings(temp, vec, 136);
+				bool first = true;
+				sendmsg = true;
+				for (auto i : vec)
 				{
-					first = false;
-					SendMessageToSponsors(-1, i);
-				}
-				else
-				{
-					std::string sendmsg(("{000000}" + std::string(5 + PlayerName.size(), '_') + "{E03DBA}" + i));
-					SendMessageToSponsors(-1, sendmsg);
+					if (first)
+					{
+						first = false;
+						SendMessageToSponsors(-1, i);
+					}
+					else
+					{
+						std::string sendmsg(("{000000}" + std::string(5 + PlayerName.size(), '_') + "{E03DBA}" + i));
+						SendMessageToSponsors(-1, sendmsg);
+					}
 				}
 			}
 		}
 		break;
-	case '&':
-		if (statistics.privilidges >= PERMISSION_MODERATOR)
+		case '&':
 		{
-			GivePlayerAchievement(sp_PlayerID, EAM_SpammerModeratorChat, 1);
-			text[0] = ' ';
-			std::string temp(Functions::string_format("{B1E334}&P {FFFFFF}%-3d {%06X}%s{B1E334}:%s", sp_PlayerID, Color, PlayerName.c_str(), text.c_str()));
-			boost::replace_all(temp, "•", "%");
-			InsertChatHistory(temp);
-			InsertGolbalChatHistory(temp);
-			makesmallerstrings(temp, vec, 136);
-			bool first = true;
-			sendmsg = true;
-			for (auto i : vec)
+			if (statistics.privilidges >= PERMISSION_MODERATOR)
 			{
-				if (first)
-					first = false, SendMessageToStaff(-1, i.c_str());
-				else
+				GivePlayerAchievement(sp_PlayerID, EAM_SpammerModeratorChat, 1);
+				text[0] = ' ';
+				std::string temp(Functions::string_format("{B1E334}&P {FFFFFF}%-3d {%06X}%s{B1E334}:%s", sp_PlayerID, Color, PlayerName.c_str(), text.c_str()));
+				boost::replace_all(temp, "•", "%");
+				InsertChatHistory(temp);
+				InsertGolbalChatHistory(temp);
+				makesmallerstrings(temp, vec, 136);
+				bool first = true;
+				sendmsg = true;
+				for (auto i : vec)
 				{
-					std::string sendmsg(("{000000}" + std::string(5 + PlayerName.size(), '_') + "{B1E334}" + i));
-					SendMessageToStaff(-1, sendmsg.c_str());
+					if (first)
+					{
+						first = false;
+						SendMessageToStaff(-1, i.c_str());
+					}
+					else
+					{
+						std::string sendmsg(("{000000}" + std::string(5 + PlayerName.size(), '_') + "{B1E334}" + i));
+						SendMessageToStaff(-1, sendmsg.c_str());
+					}
 				}
 			}
 		}
 		break;
-	case '|':
-	{
-		text[0] = ' ';
-		boost::replace_all(text, "•", "%");
-		sendmsg = true;
-		if (text.size() < 136)
+		case '|':
 		{
-			fixSetPlayerChatBubble(sp_PlayerID, text.c_str(), -1, 150.0f, 5000);
-			std::string temp = Functions::string_format("{FFFFFF}|G %-3d {%06X}%s{FFFFFF}:%s", sp_PlayerID, Color, PlayerName.c_str(), text.c_str());
-			InsertChatHistory(temp);
-			InsertGolbalChatHistory(temp);
-			SendMessageToStaff(-1, temp.c_str());
-			if (statistics.privilidges < PERMISSION_MODERATOR)
-				fixSendClientMessage(sp_PlayerID, -1, temp);
+			text[0] = ' ';
+			boost::replace_all(text, "•", "%");
+			sendmsg = true;
+			if (text.size() < 136)
+			{
+				fixSetPlayerChatBubble(sp_PlayerID, text.c_str(), -1, 150.0f, 5000);
+				std::string temp = Functions::string_format("{FFFFFF}|G %-3d {%06X}%s{FFFFFF}:%s", sp_PlayerID, Color, PlayerName.c_str(), text.c_str());
+				InsertChatHistory(temp);
+				InsertGolbalChatHistory(temp);
+				SendMessageToStaff(-1, temp.c_str());
+				if (statistics.privilidges < PERMISSION_MODERATOR)
+				{
+					fixSendClientMessage(sp_PlayerID, -1, temp);
+				}
+			}
+			else
+			{
+				SendClientMessage(sp_PlayerID, -1, L_local_message_too_long);
+			}
 		}
-		else
+		break;
+		case '\\':
 		{
-			SendClientMessage(sp_PlayerID, -1, L_local_message_too_long);
+			if (Team != 0)
+			{
+				text[0] = ' ';
+				std::string temp(Functions::string_format("{EC9EFF}\\T {FFFFFF}%-3d {%06X}%s{EC9EFF}:%s", sp_PlayerID, Color, PlayerName.c_str(), text.c_str()));
+				boost::replace_all(temp, "•", "%");
+				InsertChatHistory(temp);
+				InsertGolbalChatHistory(temp);
+				makesmallerstrings(temp, vec, 136);
+				bool first = true;
+				sendmsg = true;
+				for (auto i : vec)
+				{
+					if (first)
+					{
+						first = false;
+						for (auto team_member : TeamPlayers[Team])
+						{
+							fixSendClientMessage(team_member, -1, i);
+						}
+					}
+					else
+					{
+						std::string sendmsg(("{000000}" + std::string(5 + PlayerName.size(), '_') + "{EC9EFF}" + i));
+						for (auto team_member : TeamPlayers[Team])
+						{
+							fixSendClientMessage(team_member, -1, sendmsg);
+						}
+					}
+				}
+			}
+		}
+		break;
+		case '`':
+		{
+			text.erase(text.begin(), text.begin()+1);
+			boost::replace_all(text, "•", "%");
+			ZCMD_CALL_COMMAND(sp_PlayerID, "/odp", text);
+			sendmsg = true;
 		}
 		break;
 	}
-	case '\\':
-		if (Team != 0)
-		{
-			text[0] = ' ';
-			std::string temp(Functions::string_format("{EC9EFF}\\T {FFFFFF}%-3d {%06X}%s{EC9EFF}:%s", sp_PlayerID, Color, PlayerName.c_str(), text.c_str()));
-			boost::replace_all(temp, "•", "%");
-			InsertChatHistory(temp);
-			InsertGolbalChatHistory(temp);
-			makesmallerstrings(temp, vec, 136);
-			bool first = true;
-			sendmsg = true;
-			for (auto i : vec)
-			{
-				if (first)
-				{
-					first = false;
-					for (auto team_member : TeamPlayers[Team])
-						fixSendClientMessage(team_member, -1, i);
-				}
-				else
-				{
-					std::string sendmsg(("{000000}" + std::string(5 + PlayerName.size(), '_') + "{EC9EFF}" + i));
-					for (auto team_member : TeamPlayers[Team])
-						fixSendClientMessage(team_member, -1, sendmsg);
-				}
-			}
-			break;
-		}
-	case '`':
-	{
-		text.erase(text.begin(), text.begin()+1);
-		boost::replace_all(text, "•", "%");
-		ZCMD_CALL_COMMAND(sp_PlayerID, "/odp", text);
-		sendmsg = true;
-		break;
-	}
-	}
+
 	if (!sendmsg)
 	{
 		std::string temp(Functions::string_format("{FFFFFF}%-3d {%06X}%s{FFFFFF}: %s", sp_PlayerID, Color, PlayerName.c_str(), text.c_str()));
@@ -550,9 +581,14 @@ void SPlayer::SendChat(std::string text)
 		for (auto i : vec)
 		{
 			if (first)
-				first = false, fixSendClientMessageToAll(-1, i, false, false);
+			{
+				first = false;
+				fixSendClientMessageToAll(-1, i, false, false);
+			}
 			else
+			{
 				fixSendClientMessageToAll(-1, ("{000000}" + std::string(5 + PlayerName.size(), '_') + "{FFFFFF}" + i), false, false);
+			}
 		}
 	}
 }
@@ -565,81 +601,96 @@ void SPlayer::SendChatIpAds(std::string text)
 	switch (text[0])
 	{
 		case '!':
-		if (Mafia != nullptr)
 		{
-			text[0] = ' ';
-			std::string temp(Functions::string_format("{81AFE3}!M  {FFFFFF}%-3d {%06X}%s{81AFE3}:%s", sp_PlayerID, Color, PlayerName.c_str(), text.c_str()));
-			boost::replace_all(temp, "•", "%");
-			additional_color = "{81AFE3}";
-			makesmallerstrings(temp, vec, 136);
+			if (Mafia != nullptr)
+			{
+				text[0] = ' ';
+				std::string temp(Functions::string_format("{81AFE3}!M  {FFFFFF}%-3d {%06X}%s{81AFE3}:%s", sp_PlayerID, Color, PlayerName.c_str(), text.c_str()));
+				boost::replace_all(temp, "•", "%");
+				additional_color = "{81AFE3}";
+				makesmallerstrings(temp, vec, 136);
+			}
 		}
 		break;
 		case '@':
-		if (statistics.privilidges >= PERMISSION_ADMIN)
 		{
-			text[0] = ' ';
-			std::string temp(Functions::string_format("{E8A854}@A {FFFFFF}%-3d {%06X}%s{E8A854}:%s", sp_PlayerID, Color, PlayerName.c_str(), text.c_str()));
-			boost::replace_all(temp, "•", "%");
-			additional_color = "{E8A854}";
-			makesmallerstrings(temp, vec, 136);
+			if (statistics.privilidges >= PERMISSION_ADMIN)
+			{
+				text[0] = ' ';
+				std::string temp(Functions::string_format("{E8A854}@A {FFFFFF}%-3d {%06X}%s{E8A854}:%s", sp_PlayerID, Color, PlayerName.c_str(), text.c_str()));
+				boost::replace_all(temp, "•", "%");
+				additional_color = "{E8A854}";
+				makesmallerstrings(temp, vec, 136);
+			}
 		}
 		break;
 		case '#':
-		if (statistics.privilidges >= PERMISSION_VIP)
 		{
-			text[0] = ' ';
-			std::string temp(Functions::string_format("{EAF20A}#V  {FFFFFF}%-3d {%06X}%s{EAF20A}:%s", sp_PlayerID, Color, PlayerName.c_str(), text.c_str()));
-			boost::replace_all(temp, "•", "%");
-			additional_color = "{EAF20A}";
-			makesmallerstrings(temp, vec, 136);
+			if (statistics.privilidges >= PERMISSION_VIP)
+			{
+				text[0] = ' ';
+				std::string temp(Functions::string_format("{EAF20A}#V  {FFFFFF}%-3d {%06X}%s{EAF20A}:%s", sp_PlayerID, Color, PlayerName.c_str(), text.c_str()));
+				boost::replace_all(temp, "•", "%");
+				additional_color = "{EAF20A}";
+				makesmallerstrings(temp, vec, 136);
+			}
 		}
 		break;
 		case '$':
-		if (statistics.privilidges >= PERMISSION_SPONSOR)
 		{
-			text[0] = ' ';
-			std::string temp(Functions::string_format("{E03DBA}$S  {FFFFFF}%-3d {%06X}%s{E03DBA}:%s", sp_PlayerID, Color, PlayerName.c_str(), text.c_str()));
-			boost::replace_all(temp, "•", "%");
-			additional_color = "{E03DBA}";
-			makesmallerstrings(temp, vec, 136);
+			if (statistics.privilidges >= PERMISSION_SPONSOR)
+			{
+				text[0] = ' ';
+				std::string temp(Functions::string_format("{E03DBA}$S  {FFFFFF}%-3d {%06X}%s{E03DBA}:%s", sp_PlayerID, Color, PlayerName.c_str(), text.c_str()));
+				boost::replace_all(temp, "•", "%");
+				additional_color = "{E03DBA}";
+				makesmallerstrings(temp, vec, 136);
+			}
 		}
 		break;
 		case '&':
-		if (statistics.privilidges >= PERMISSION_MODERATOR)
 		{
-			text[0] = ' ';
-			std::string temp(Functions::string_format("{B1E334}&P {FFFFFF}%-3d {%06X}%s{B1E334}:%s", sp_PlayerID, Color, PlayerName.c_str(), text.c_str()));
-			boost::replace_all(temp, "•", "%");
-			additional_color = "{B1E334}";
-			makesmallerstrings(temp, vec, 136);
+			if (statistics.privilidges >= PERMISSION_MODERATOR)
+			{
+				text[0] = ' ';
+				std::string temp(Functions::string_format("{B1E334}&P {FFFFFF}%-3d {%06X}%s{B1E334}:%s", sp_PlayerID, Color, PlayerName.c_str(), text.c_str()));
+				boost::replace_all(temp, "•", "%");
+				additional_color = "{B1E334}";
+				makesmallerstrings(temp, vec, 136);
+			}
 		}
 		break;
 		case '|':
 		{
 			sendmsg = true;
 			if (text.size() >= 136)
+			{
 				SendClientMessage(sp_PlayerID, -1, L_local_message_too_long);
-			break;
+			}
 		}
+		break;
 		case '\\':
-		if (Team != NO_TEAM)
 		{
-			text[0] = ' ';
-			std::string temp(Functions::string_format("{EC9EFF}\\T {FFFFFF}%-3d {%06X}%s{EC9EFF}:%s", sp_PlayerID, Color, PlayerName.c_str(), text.c_str()));
-			boost::replace_all(temp, "•", "%");
-			additional_color = "{EC9EFF}";
-			makesmallerstrings(temp, vec, 136);
-			break;
+			if (Team != NO_TEAM)
+			{
+				text[0] = ' ';
+				std::string temp(Functions::string_format("{EC9EFF}\\T {FFFFFF}%-3d {%06X}%s{EC9EFF}:%s", sp_PlayerID, Color, PlayerName.c_str(), text.c_str()));
+				boost::replace_all(temp, "•", "%");
+				additional_color = "{EC9EFF}";
+				makesmallerstrings(temp, vec, 136);
+			}
 		}
+		break;
 		case '`':
 		{
 			text[0] = ' ';
 			boost::replace_all(text, "•", "%");
 			ZCMD_CALL_COMMAND(sp_PlayerID, "/odp", text);
-			sendmsg = true;
-			break;
+			sendmsg = true;		
 		}
+		break;
 	}
+
 	if (!sendmsg)
 	{
 		if (!additional_color.size())
@@ -653,9 +704,14 @@ void SPlayer::SendChatIpAds(std::string text)
 		for (auto i : vec)
 		{
 			if (first)
-				first = false, fixSendClientMessage(sp_PlayerID, -1, i, false, false);
+			{
+				first = false;
+				fixSendClientMessage(sp_PlayerID, -1, i, false, false);
+			}
 			else
-				fixSendClientMessage(sp_PlayerID , - 1, ("{000000}" + std::string(5 + PlayerName.size(), '_') + additional_color + i), false, false);
+			{
+				fixSendClientMessage(sp_PlayerID, -1, ("{000000}" + std::string(5 + PlayerName.size(), '_') + additional_color + i), false, false);
+			}
 		}
 	}
 }
@@ -712,21 +768,27 @@ void SPlayer::InsertMessageHistory(std::string message)
 {
 	MessageHistory.push_back("{FFFFFF}[" + TextDraws::ActualTimeText + "] " + message + "\n");
 	if (MessageHistory.size() > 32)
+	{
 		MessageHistory.erase(MessageHistory.begin());
+	}
 }
 
 void SPlayer::InsertCommandHistory(std::string cmdtext)
 {
 	CommandHistory.push_back("{FFFFFF}[" + TextDraws::ActualTimeText + "] " + cmdtext + "\n");
 	if (CommandHistory.size() > 32)
+	{
 		CommandHistory.erase(CommandHistory.begin());
+	}
 }
 
 void SPlayer::InsertChatHistory(std::string message)
 {
 	ChatHistory.push_back("{FFFFFF}[" + TextDraws::ActualTimeText + "] " + message + "\n");
 	if (ChatHistory.size() > 32)
+	{
 		ChatHistory.erase(ChatHistory.begin());
+	}
 }
 
 void SPlayer::SetMoney(long long money)
@@ -780,9 +842,13 @@ void SPlayer::GiveExperience(unsigned long long exp)
 	double Old = GetLevel();
 	unsigned long long temp = statistics.experience + exp;
 	if (temp < statistics.experience)
+	{
 		statistics.experience = std::numeric_limits<unsigned long long>::max();
+	}
 	else
+	{
 		statistics.experience = temp;
+	}
 	statistics.experience += exp;
 	UpdatePlayerLevelTextDraw(sp_PlayerID);
 	CheckNewLevel(Old, GetLevel());
@@ -797,9 +863,13 @@ void SPlayer::GiveExperience(long long exp)
 {
 	double Old = GetLevel();
 	if (exp >= 0)
+	{
 		statistics.experience = SafeAddULL(statistics.experience, exp);
+	}
 	else
+	{
 		statistics.experience = SafeSubULL(statistics.experience, -exp);
+	}
 	UpdatePlayerLevelTextDraw(sp_PlayerID);
 	CheckNewLevel(Old, GetLevel());
 	#ifdef FAILSAFE_MODE
@@ -811,7 +881,9 @@ unsigned long long SafeAddULL(unsigned long long& value, unsigned long long toad
 {
 	unsigned long long temp = value + toadd;
 	if (temp < value)
+	{
 		temp = std::numeric_limits<unsigned long long>::max();
+	}
 	value = temp;
 	return temp;
 }
@@ -820,7 +892,9 @@ unsigned long long SafeSubULL(unsigned long long& value, unsigned long long tosu
 {
 	unsigned long long temp = value - tosubstract;
 	if (temp > value)
+	{
 		temp = 0;
+	}
 	value = temp;
 	return temp;
 }
@@ -846,9 +920,13 @@ unsigned long long SPlayer::GetExperience()
 double SPlayer::GetLevel(double dexp)
 {
 	if (dexp == -1.0)
+	{
 		dexp = (double)statistics.experience;
+	}
 	if (dexp < 0.0)
+	{
 		dexp = 0.0;
+	}
 	return std::pow(dexp, 0.3) + 1.0;
 }
 
@@ -958,9 +1036,13 @@ void SPlayer::PlayerConnect()
 		LoadingData.insert(PlayerName);
 		CreateWorkerRequest(sp_PlayerID, PlayerName, nullptr, DATABASE_REQUEST_OPERATION_FIND_LOAD, DATABASE_POINTER_TYPE_USER, 0, 0);
 		if (IP_SUPER_WHITELIST.find(ipv4) == IP_SUPER_WHITELIST.end())
+		{
 			CreateWorkerRequest(sp_PlayerID, PlayerName, nullptr, DATABASE_REQUEST_OPERATION_CHECK_BAN, DATABASE_POINTER_TYPE_BAN, ipv4.to_ulong(), 0);
+		}
 		else
+		{
 			BanImmunity = true;
+		}
 	}
 }
 
@@ -972,7 +1054,9 @@ void SPlayer::LoadStats(user * userpointer, bool registered, bool forcedata)
 		IsRegistered = registered;
 	}
 	if (DataLoaded)
+	{
 		return;
+	}
 
 	#define LoadStat(name) statistics.name = userdata.name()
 	if (userpointer && !forcedata)
@@ -986,7 +1070,9 @@ void SPlayer::LoadStats(user * userpointer, bool registered, bool forcedata)
 		for (size_t i = 0; i < 48; ++i)
 		{
 			if (weapondata.weapon[i].Owned)
+			{
 				OwnedWeapons.insert(i);
+			}
 		}
 		memcpy((void*)&Achievementdata, userdata.achievementdata(), 4096);
 		HasAlreadyAchievement.clear();
@@ -1119,7 +1205,9 @@ void SPlayer::PlayerDisconnect(bool saveonly, bool emulate_logged_in)
 		{
 			foundip->second.erase(sp_PlayerID);
 			if (!foundip->second.size())
+			{
 				IPtoPlayers.erase(foundip);
+			}
 		}
 
 		Connected = false;
@@ -1143,7 +1231,9 @@ void SPlayer::PlayerDisconnect(bool saveonly, bool emulate_logged_in)
 			{
 				foundteam->second.erase(sp_PlayerID);
 				if (!foundteam->second.size())
+				{
 					TeamPlayers.erase(foundteam);
+				}
 			}
 		}
 	}
@@ -1160,14 +1250,20 @@ void SPlayer::StateChange(int newstate, int oldstate)
 			if (CurrentVehicle >= 0 && CurrentVehicle < MAX_VEHICLES)
 			{
 				if (newstate == PLAYER_STATE_DRIVER)
+				{
 					IsDriver = true;
+				}
 				else
+				{
 					IsDriver = false;
+				}
 
 				IsPassenger = !IsDriver;
 
 				if (IsDriver)
+				{
 					VehicleDriver[CurrentVehicle] = sp_PlayerID;
+				}
 
 				CurrentVehicleModel = GetVehicleModel(CurrentVehicle);
 				GameTextForPlayer(sp_PlayerID, NazwyPojazdow[CurrentVehicleModel].c_str(), 1500, 6);
@@ -1179,11 +1275,15 @@ void SPlayer::StateChange(int newstate, int oldstate)
 			if (CurrentVehicle)
 			{
 				if (IsDriver)
+				{
 					VehicleDriver[CurrentVehicle] = INVALID_PLAYER_ID;
+				}
 				IsDriver = false;
 				IsPassenger = false;
 				if (CurrentVehicleModel == 449)
+				{
 					SetCameraBehindPlayer(sp_PlayerID);
+				}
 				CurrentVehicle = 0;
 				CurrentVehicleModel = 0;
 			}

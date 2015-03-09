@@ -259,7 +259,9 @@ namespace ZabawaTDM
 			}
 
 			if (!PlayersInGame.size())
+			{
 				ResetGame();
+			}
 		}
 
 		bool PlayerRequestGameExit(int playerid, int reason) override

@@ -27,7 +27,7 @@
 void GetVehicleMatrix(int vehicleid, glm::mat4x3& Mat4x3)
 {
 //initial processing step - gathering information
-	static float rx, ry, rz, rw, x, y, z;
+	float rx, ry, rz, rw, x, y, z;
 
     GetVehicleRotationQuat(vehicleid,&rw,&rx,&ry,&rz);
     GetVehiclePos(vehicleid,&x, &y, &z);
@@ -145,7 +145,9 @@ glm::quat GetQuatRotForVehBetweenCoords2D(glm::vec3 pointa, glm::vec3 pointb)
 	GetPitchYawBetweenCoords(pointa, pointb, rot);
 	rot.x = std::fmod(450.0f - rot.x, 360.0f);
 	if (rot.x < 0.0f)
+	{
 		rot.x += 360.0f;
+	}
 	return glm::quat(glm::vec3(-rot.y*cos(rot.x*DEG_TO_RAD), -rot.y*sin(-rot.x*DEG_TO_RAD), rot.x)*DEG_TO_RAD);
 }
 
@@ -160,11 +162,14 @@ glm::quat GetQuatRotForVehBetweenCoords3D(glm::vec3 pointa, glm::vec3 pointb, gl
 
 	YawPitchRotations[0].x = std::fmod(450.0f - YawPitchRotations[0].x, 360.0f);
 	if (YawPitchRotations[0].x < 0.0f)
+	{
 		YawPitchRotations[0].x += 360.0f;
+	}
 
 	float PitchDc = -YawPitchRotations[0].y*cos(YawPitchRotations[0].x*DEG_TO_RAD);
 	float PitchDs = -YawPitchRotations[0].y*sin(-YawPitchRotations[0].x*DEG_TO_RAD);
 	float RollDc = YawPitchRotations[1].y*cos(YawPitchRotations[0].x*DEG_TO_RAD);
 	float RollDs = YawPitchRotations[1].y*sin(YawPitchRotations[0].x*DEG_TO_RAD);
+
 	return glm::quat(glm::vec3(RollDs + PitchDc,RollDc + PitchDs,YawPitchRotations[0].x)*DEG_TO_RAD);
 }

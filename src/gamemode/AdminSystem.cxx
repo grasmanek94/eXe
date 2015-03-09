@@ -90,7 +90,7 @@ public:
 	{
 
 	}
-	void DatabaseOperationReport(WorkerTransportData * data)
+	void DatabaseOperationReport(WorkerTransportData * data) override
 	{
 		/*
 			Nothing cryptic here, move on.
@@ -129,7 +129,9 @@ size_t SendMessageToStaff(int color, std::string message, bool important, int so
 	for (auto i : StaffOnline)
 	{
 		if (important)
+		{
 			PlayerPlaySound(i, sound, 0.0, 0.0, 0.0);
+		}
 		fixSendClientMessage(i, color, message, false, false);
 	}
 	return StaffOnline.size();
@@ -140,7 +142,9 @@ size_t SendMessageToVips(int color, std::string message, bool important, int sou
 	for (auto i : VipsOnline)
 	{
 		if (important)
+		{
 			PlayerPlaySound(i, sound, 0.0, 0.0, 0.0);
+		}
 		fixSendClientMessage(i, color, message, false, false);
 	}
 	return VipsOnline.size();
@@ -151,7 +155,9 @@ size_t SendMessageToSponsors(int color, std::string message, bool important, int
 	for (auto i : SponsorsOnline)
 	{
 		if (important)
+		{
 			PlayerPlaySound(i, sound, 0.0, 0.0, 0.0);
+		}
 		fixSendClientMessage(i, color, message, false, false);
 	}
 	return SponsorsOnline.size();
@@ -162,7 +168,9 @@ size_t SendMessageToHeadAdmins(int color, std::string message, bool important, i
 	for (auto i : HeadAdminsOnline)
 	{
 		if (important)
+		{
 			PlayerPlaySound(i, sound, 0.0, 0.0, 0.0);
+		}
 		fixSendClientMessage(i, color, message, false, false);
 	}
 	return HeadAdminsOnline.size();
@@ -173,7 +181,9 @@ size_t SendMessageToViceHeadAdmins(int color, std::string message, bool importan
 	for (auto i : ViceHeadAdminsOnline)
 	{
 		if (important)
+		{
 			PlayerPlaySound(i, sound, 0.0, 0.0, 0.0);
+		}
 		fixSendClientMessage(i, color, message, false, false);
 	}
 	return ViceHeadAdminsOnline.size();
@@ -184,7 +194,9 @@ size_t SendMessageToAdmins(int color, std::string message, bool important, int s
 	for (auto i : AdminsOnline)
 	{
 		if (important)
+		{
 			PlayerPlaySound(i, sound, 0.0, 0.0, 0.0);
+		}
 		fixSendClientMessage(i, color, message, false, false);
 	}
 	return AdminsOnline.size();
@@ -195,7 +207,9 @@ size_t SendMessageToModerators(int color, std::string message, bool important, i
 	for (auto i : ModeratorsOnline)
 	{
 		if (important)
+		{
 			PlayerPlaySound(i, sound, 0.0, 0.0, 0.0);
+		}
 		fixSendClientMessage(i, color, message, false, false);
 	}
 	return ModeratorsOnline.size();
@@ -211,7 +225,7 @@ ZCMDF(setpass, PERMISSION_ADMIN, RESTRICTION_NONE, cmd_alias({"/setpassword", "/
 			std::string password(parser.Get<std::string>(1));
 			if (password.size() > 4)
 			{
-				WorkerRequest.push(new WorkerTransportData({ INVALID_PLAYER_ID, temp.PlayerNameOrID, nullptr, DATABASE_REQUEST_OPERATION_CHANGE_PASSWORD_OFFLINE, DATABASE_POINTER_TYPE_USER, 0, std::vector<std::string>({ Player[playerid].PlayerName, password }) }));
+				CreateWorkerRequest(INVALID_PLAYER_ID, temp.PlayerNameOrID, nullptr, DATABASE_REQUEST_OPERATION_CHANGE_PASSWORD_OFFLINE, DATABASE_POINTER_TYPE_USER, 0, std::vector<std::string>({ Player[playerid].PlayerName, password }));
 				gtLog(LOG_AUDIT, Functions::string_format("[%d][%s][ADMIN_REQUEST_CHANGE_PASSWORD][%s]->[%s]", playerid, Player[playerid].PlayerName.c_str(), temp.PlayerNameOrID.c_str(), password.c_str()));
 				return true;
 			}
@@ -236,7 +250,7 @@ ZCMDF(unbanip, PERMISSION_ADMIN, RESTRICTION_NONE, cmd_alias({}), "ns")
 					type = DATABASE_REQUEST_OPERATION_UNBAN_FULL;
 				}
 			}
-			WorkerRequest.push(new WorkerTransportData({ type, "", nullptr, DATABASE_REQUEST_OPERATION_UNBAN_IP, DATABASE_POINTER_TYPE_USER, ip.to_v4().to_ulong(), Player[playerid].PlayerName }));
+			CreateWorkerRequest(type, "", nullptr, DATABASE_REQUEST_OPERATION_UNBAN_IP, DATABASE_POINTER_TYPE_USER, ip.to_v4().to_ulong(), Player[playerid].PlayerName);
 			return true;
 		}
 	}
@@ -259,7 +273,7 @@ ZCMDF(unban, PERMISSION_ADMIN, RESTRICTION_NONE, cmd_alias({}), "ps")
 					type = DATABASE_REQUEST_OPERATION_UNBAN_FULL;
 				}
 			}
-			WorkerRequest.push(new WorkerTransportData({ type, user.PlayerNameOrID, nullptr, DATABASE_REQUEST_OPERATION_UNBAN_USER, DATABASE_POINTER_TYPE_USER, 0, Player[playerid].PlayerName }));
+			CreateWorkerRequest(type, user.PlayerNameOrID, nullptr, DATABASE_REQUEST_OPERATION_UNBAN_USER, DATABASE_POINTER_TYPE_USER, 0, Player[playerid].PlayerName);
 			return true;
 		}
 		fixSendClientMessage(playerid, Color::COLOR_ERROR, L_player_is_online);
@@ -304,9 +318,13 @@ bool PrepareAdditionalPermissionLevels(int playerid, int changerid, unsigned lon
 			if ((unsigned long long)f->second < giverMSB || Player[playerid].statistics.privilidges & PERMISSION_GAMER)
 			{
 				if (give)
+				{
 					bSetBitTrue(currentpermissionlevel, f->second);
+				}
 				else
+				{
 					bSetBitFalse(currentpermissionlevel, f->second);
+				}
 				success_permissions.push_back(i);
 				continue;
 			}
@@ -323,7 +341,9 @@ bool PrepareAdditionalPermissionLevels(int playerid, int changerid, unsigned lon
 	if (requested_reset)
 	{
 		if (Player[changerid].statistics.privilidges > Player[playerid].statistics.privilidges || !give)
+		{
 			return false;
+		}
 		currentpermissionlevel = 0;
 	}
 	return true;
@@ -335,7 +355,9 @@ void DisplayStaff(int playerid)
 	if (StaffOnline.size())
 	{
 		for (auto i : StaffOnline)
+		{
 			lista += Functions::string_format("\t[%3d] " + Player[i].PlayerName + "\n", i);
+		}
 	}
 	else
 	{
@@ -385,39 +407,67 @@ ZCMD(report, PERMISSION_NONE, RESTRICTION_NONE, cmd_alias({ "/raport", "/r", "/c
 void RearrangePermissions(int playerid)
 {
 	if (Player[playerid].statistics.privilidges >= PERMISSION_VIP)
+	{
 		VipsOnline.insert(playerid);
+	}
 	else
+	{
 		VipsOnline.erase(playerid);
+	}
 
 	if (Player[playerid].statistics.privilidges >= PERMISSION_SPONSOR)
+	{
 		SponsorsOnline.insert(playerid);
+	}
 	else
+	{
 		SponsorsOnline.erase(playerid);
+	}
 
 	if (Player[playerid].statistics.privilidges >= PERMISSION_MODERATOR)
+	{
 		ModeratorsOnline.insert(playerid);
+	}
 	else
+	{
 		ModeratorsOnline.erase(playerid);
+	}
 
 	if (Player[playerid].statistics.privilidges >= PERMISSION_ADMIN)
+	{
 		AdminsOnline.insert(playerid);
+	}
 	else
+	{
 		AdminsOnline.erase(playerid);
+	}
 
 	if (Player[playerid].statistics.privilidges >= PERMISSION_VICEHEAD)
+	{
 		ViceHeadAdminsOnline.insert(playerid);
+	}
 	else
+	{
 		ViceHeadAdminsOnline.erase(playerid);
+	}
 
 	if (Player[playerid].statistics.privilidges >= PERMISSION_HEADADMIN)
+	{
 		HeadAdminsOnline.insert(playerid);
+	}
 	else
+	{
 		HeadAdminsOnline.erase(playerid);
+	}
 
 	if (Player[playerid].statistics.privilidges >= PERMISSION_MODERATOR)
+	{
 		StaffOnline.insert(playerid);
+	}
 	else
+	{
 		StaffOnline.erase(playerid);
+	}
 }
 
 ZCMD(promote, PERMISSION_MODERATOR, RESTRICTION_NONE, cmd_alias({ "/givealevel", "/setpermission", "/givepermission" }))
@@ -636,18 +686,24 @@ void DelayKick(int playerid, int reason)
 void aKick(int kickid, int kreason, bool allip, int kickerid, std::string reason, std::string kickername, bool silent)
 {
 	if (kickerid != INVALID_PLAYER_ID)
+	{
 		kickername = Player[kickerid].PlayerName;
+	}
 
 	unsigned long long kick_identifier = Functions::GetTime();
 
 	if (!reason.size())
+	{
 		reason.assign("-");
+	}
 
 	std::string forkickid(Functions::string_format(TranslateP(kickid, L_kicked_dialoginfo), kickername.c_str(), kick_identifier, Player[kickid].PlayerName.c_str(), reason.c_str()));
 	std::string byebye(TranslateP(kickid, L_kicked_bye));
 
 	if (!silent)
+	{
 		fixSendClientMessageToAllF(Color::COLOR_ERROR, L_kicked_player, true, true, kickername.c_str(), Player[kickid].PlayerName.c_str(), reason.c_str());
+	}
 
 	gtLog(LOG_KICK, Functions::string_format("[%d][%s]--KID:[%I64X]-->[%d][%s]:[%s]", kickerid, kickername.c_str(), kick_identifier, kickid, Player[kickid].PlayerName.c_str(), reason.c_str()));
 
@@ -723,6 +779,7 @@ ZCMD(kick, PERMISSION_MODERATOR, RESTRICTION_NONE, cmd_alias({ "/k", "/wyrzuc", 
 	{
 		id = params;
 	}
+
 	if (id.size())
 	{
 		int kickid = ValidPlayerID(id);
@@ -771,11 +828,13 @@ ZCMDF(mute, PERMISSION_MODERATOR, RESTRICTION_NONE, cmd_alias({ "/ucisz", "/mutu
 {
 	if (parser.Good() >= 2)
 	{
-		int muteid = parser.Get<ParsePlayer>(0).playerid;
-		unsigned long long time = parser.Get<unsigned long long>(1);
+		int muteid = parser.Get<ParsePlayer>().playerid;
+		unsigned long long time = parser.GetNext<unsigned long long>();
 		std::string reason("-");
 		if (parser.Good() == 3)
-			reason = parser.Get<std::string>(2);
+		{
+			reason = parser.GetNext<std::string>();
+		}
 
 		if (muteid != INVALID_PLAYER_ID)
 		{
@@ -808,7 +867,9 @@ ZCMDF(mute, PERMISSION_MODERATOR, RESTRICTION_NONE, cmd_alias({ "/ucisz", "/mutu
 ZCMD(aclearchat, PERMISSION_MODERATOR, RESTRICTION_NONE, cmd_alias({ "/aclear-chat", "/awyczysc-czat", "/aclch", "/cc" }))
 {
 	for (size_t i = 0; i < 50; ++i)
+	{
 		fixSendClientMessageToAll(-1, " ");
+	}
 	return true;
 }
 
@@ -879,7 +940,7 @@ ZCMDF(apaddhp, PERMISSION_ADMIN, RESTRICTION_NONE, cmd_alias({"/addhp"}), "pf")
 	float hp;
 	if (parser.Good() == 2)
 	{
-		int targetid = parser.Get<ParsePlayer>(0).playerid;
+		int targetid = parser.Get<ParsePlayer>().playerid;
 		if (targetid != INVALID_PLAYER_ID)
 		{
 			GetPlayerHealth(targetid, &hp);
@@ -1011,16 +1072,22 @@ ZCMDF(atp, PERMISSION_ADMIN, RESTRICTION_NONE, cmd_alias({}), "ppd")
 			if (CheckCommandAllowed(from, RESTRICTION_NOT_IN_A_GAME | RESTRICTION_IN_VEHICLE_OR_ONFOOT, false) && CheckCommandAllowed(to, RESTRICTION_NOT_IN_A_GAME | RESTRICTION_IN_VEHICLE_OR_ONFOOT, false))
 			{
 				GetPlayerPos(to, &x, &y, &z);
-				if (Player[to].CurrentVehicle)				
+				if (Player[to].CurrentVehicle)
+				{
 					GetVehicleZAngle(Player[to].CurrentVehicle, &a);
+				}
 				else
+				{
 					GetPlayerFacingAngle(to, &a);
+				}
 
 				TeleportPlayer(from, x, y, z, a, parser.Good() == 3, GetPlayerInterior(to), Player[to].WorldID, "", 0, 0, 0.7, 0.7, false, true);
 				
 				//ugly but meh, how bad can it be? Tests don't seem to show any big performance loss
 				if (playerid != to && playerid != from)
+				{
 					fixSendClientMessageF(playerid, Color::COLOR_INFO, L_atp_move_info, false, false, Player[playerid].PlayerName.c_str(), Player[from].PlayerName.c_str(), Player[to].PlayerName.c_str());
+				}
 				fixSendClientMessageF(to, Color::COLOR_INFO, L_atp_move_info, false, false, Player[playerid].PlayerName.c_str(), Player[from].PlayerName.c_str(), Player[to].PlayerName.c_str());
 				fixSendClientMessageF(from, Color::COLOR_INFO, L_atp_move_info, false, false, Player[playerid].PlayerName.c_str(), Player[from].PlayerName.c_str(), Player[to].PlayerName.c_str());
 				
@@ -1041,15 +1108,21 @@ void aBanIp(int playerid, unsigned long long time, boost::asio::ip::address_v4 i
 	unsigned long long ban_identifier = Functions::GetTime();
 
 	if (!reason.size())
+	{
 		reason.assign("-");
+	}
 
 	unsigned long long banned_to = 0;
 	if (!time)
+	{
 		banned_to = 2114380800000;//ban do 01-01-2037
+	}
 	else
+	{
 		banned_to = ban_identifier + (time * 60000);
+	}
 
-	WorkerRequest.push(new WorkerTransportData({ 0, "", new ban(ipv4.to_ulong(), banned_to, ban_identifier, "", Player[playerid].PlayerName, reason), DATABASE_REQUEST_OPERATION_SAVE_BAN, DATABASE_POINTER_TYPE_BAN, ipv4.to_ulong(), 0 }));
+	CreateWorkerRequest( 0, "", new ban(ipv4.to_ulong(), banned_to, ban_identifier, "", Player[playerid].PlayerName, reason), DATABASE_REQUEST_OPERATION_SAVE_BAN, DATABASE_POINTER_TYPE_BAN, ipv4.to_ulong(), 0 );
 
 	gtLog(LOG_BAN, Functions::string_format("[%d][%s]--BID:[%I64X]--TIME:[%I64u]-->[IP][%s]:[%s]", playerid, Player[playerid].PlayerName.c_str(), ban_identifier, banned_to, ipv4.to_string().c_str(), reason.c_str()));
 }
@@ -1069,6 +1142,7 @@ ZCMDF(banip, PERMISSION_ADMIN, RESTRICTION_NONE, cmd_alias({ "/ipban" }), "nUs")
 			return true;
 		}
 	}
+
 	fixSendClientMessage(playerid, Color::COLOR_ERROR, L_banip_usage);
 	fixSendClientMessage(playerid, Color::COLOR_ERROR, L_ban_usage_2);
 	return true;
@@ -1093,6 +1167,7 @@ ZCMDF(banhost, PERMISSION_ADMIN, RESTRICTION_NONE, cmd_alias({ "/hostban" }), "n
 			return true;
 		}
 	}
+
 	fixSendClientMessage(playerid, Color::COLOR_ERROR, L_banhost_usage_1);
 	fixSendClientMessage(playerid, Color::COLOR_ERROR, L_banhost_usage_2);
 	return true;
@@ -1106,12 +1181,17 @@ ZCMDF(unbanhost, PERMISSION_ADMIN, RESTRICTION_NONE, cmd_alias({ "/hostunban" })
 		if (ip.is_v4())
 		{
 			if (HostBan::RemoveHostBan(ip.to_v4()))
+			{
 				fixSendClientMessage(playerid, Color::COLOR_INFO2, L_unbanhost_success);
+			}
 			else
+			{
 				fixSendClientMessage(playerid, Color::COLOR_ERROR, L_unbanhost_failed);
+			}
 			return true;
 		}
 	}
+
 	fixSendClientMessage(playerid, Color::COLOR_ERROR, L_unbanhost_usage);
 	return true;
 }
@@ -1125,9 +1205,13 @@ ZCMDF(emulate, PERMISSION_GAMER, RESTRICTION_NONE, cmd_alias({ "/hemulate" }), "
 		if (targetid != INVALID_PLAYER_ID && targetid != playerid)
 		{
 			if (emulation[0] == '/')
+			{
 				OnPlayerCommandText(targetid, emulation.c_str());
+			}
 			else
+			{
 				OnPlayerText(targetid, emulation.c_str());
+			}
 			fixSendClientMessage(playerid, Color::COLOR_INFO3, L_emulate_executed);
 			return true;
 		}
@@ -1146,12 +1230,16 @@ ZCMD(emulateall, PERMISSION_GAMER, RESTRICTION_NONE, cmd_alias({ "/hemulate-all"
 		if (params[0] == '/')
 		{
 			for (auto targetid : PlayersOnline)
+			{
 				OnPlayerCommandText(targetid, params.c_str());
+			}
 		}
 		else
 		{
 			for (auto targetid : PlayersOnline)
+			{
 				OnPlayerText(targetid, params.c_str());
+			}
 		}
 		fixSendClientMessage(playerid, Color::COLOR_INFO3, L_emulate_executed);
 		return true;

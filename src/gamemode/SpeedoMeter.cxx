@@ -53,15 +53,21 @@ void UpdateSpeedoTds(int timerid, void * param)
 
 		float percentage = vh / 10.0;
 		if (percentage > 100.0)
+		{
 			percentage = 100.0;
+		}
 
 		unsigned char star_count = 6 - (size_t)floor(vh / (1000.0f / 6.0f));
 		if (star_count > 5)
+		{
 			star_count = 5;
+		}
 
 		unsigned char star_count_speed = (size_t)floor(speed / (400.0f / 6.0f));
 		if (star_count_speed > 5)
+		{
 			star_count_speed = 5;
+		}
 
 		PlayerTextDrawSetString(i, PlayerSpeedo[i], Functions::string_format("~w~[%s%3.0f KM/H~w~][%s%3.0f%%~w~]", star_maker[star_count_speed].c_str(), speed, star_maker[star_count].c_str(), percentage).c_str());
 	}

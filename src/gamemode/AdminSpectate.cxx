@@ -46,9 +46,14 @@ bool PlayerSpactatable(int playerid)
 bool DisablePlayerSpectate(int playerid, bool doexit = true)
 {
 	if (PlayerCurrentlySpectating[playerid] == INVALID_PLAYER_ID)
+	{
 		return false;
+	}
+
 	if (doexit)
+	{
 		fixTogglePlayerSpectating(playerid, false);
+	}
 
 	PlayerSpectators[PlayerCurrentlySpectating[playerid]].erase(playerid);
 	PlayerCurrentlySpectating[playerid] = INVALID_PLAYER_ID;
@@ -58,7 +63,9 @@ bool DisablePlayerSpectate(int playerid, bool doexit = true)
 bool PlayerSpectateOtherPlayer(int playerid, int specid, int ignoreid = INVALID_PLAYER_ID)
 {
 	if (playerid == specid || PlayerCurrentlySpectating[playerid] == specid || !PlayerSpactatable(specid) || specid == ignoreid)
+	{
 		return false;
+	}
 
 	fixSetPlayerVirtualWorld(playerid, Player[specid].WorldID);
 	SetPlayerInterior(playerid, GetPlayerInterior(specid));
@@ -66,12 +73,18 @@ bool PlayerSpectateOtherPlayer(int playerid, int specid, int ignoreid = INVALID_
 	fixTogglePlayerSpectating(playerid, true);
 
 	if (Player[specid].CurrentVehicle)
+	{
 		PlayerSpectateVehicle(playerid, Player[specid].CurrentVehicle, SPECTATE_MODE_NORMAL);
+	}
 	else
+	{
 		PlayerSpectatePlayer(playerid, specid, SPECTATE_MODE_NORMAL);
+	}
 
 	if (PlayerCurrentlySpectating[playerid] != INVALID_PLAYER_ID)
+	{
 		PlayerSpectators[PlayerCurrentlySpectating[playerid]].erase(playerid);
+	}
 
 	PlayerSpectators[specid].insert(playerid);
 	PlayerCurrentlySpectating[playerid] = specid;
@@ -83,12 +96,20 @@ bool SpectateNextPlayer(int playerid, int ignoreid = INVALID_PLAYER_ID)
 	auto current = PlayersOnline.find(PlayerCurrentlySpectating[playerid]);
 
 	for (auto it = current; it != PlayersOnline.end(); ++it)
+	{
 		if (PlayerSpectateOtherPlayer(playerid, *it, ignoreid))
+		{
 			return true;
+		}
+	}
 
 	for (auto it = PlayersOnline.begin(); it != current; ++it)
+	{
 		if (PlayerSpectateOtherPlayer(playerid, *it, ignoreid))
+		{
 			return true;
+		}
+	}
 
 	return false;
 }
@@ -98,12 +119,20 @@ bool SpectatePreviousPlayer(int playerid, int ignoreid = INVALID_PLAYER_ID)
 	auto rcurrent = find(PlayersOnline.rbegin(), PlayersOnline.rend(), PlayerCurrentlySpectating[playerid]);
 
 	for (auto it = rcurrent; it != PlayersOnline.rend(); ++it)
+	{
 		if (PlayerSpectateOtherPlayer(playerid, *it, ignoreid))
+		{
 			return true;
+		}
+	}
 
 	for (auto it = PlayersOnline.rbegin(); it != rcurrent; ++it)
+	{
 		if (PlayerSpectateOtherPlayer(playerid, *it, ignoreid))
+		{
 			return true;
+		}
+	}
 
 	return false;
 }
@@ -125,12 +154,12 @@ void DoSpectateCleanup(int playerid)
 class AdminSpectateProcessor : public Extension::Base
 {
 public:
-	bool OnPlayerConnect(int playerid)
+	bool OnPlayerConnect(int playerid) override
 	{
 		PlayerCurrentlySpectating[playerid] = INVALID_PLAYER_ID;
 		return true;
 	}
-	bool OnPlayerDisconnect(int playerid, int reason)
+	bool OnPlayerDisconnect(int playerid, int reason) override
 	{
 		//guaranteed here PlayersOnline doesn't contain playerid << NOTE
 		//because PlayersOnline is erased in WorldData.cxx/SPlayer class which has a higher execution priority (first)
@@ -138,14 +167,16 @@ public:
 		DoSpectateCleanup(playerid);
 
 		if (PlayerCurrentlySpectating[playerid] != INVALID_PLAYER_ID)
+		{
 			PlayerSpectators[PlayerCurrentlySpectating[playerid]].erase(playerid);
+		}
 
 		return true;
 	}
 	/*
 		Do some state checking here and decide if we need to take any action on the spectators (if there are any)
 	*/
-	bool OnPlayerStateChange(int playerid, int newstate, int oldstate)
+	bool OnPlayerStateChange(int playerid, int newstate, int oldstate) override
 	{ 
 		static int states = 0;
 		if (PlayerSpectators[playerid].size())
@@ -172,35 +203,47 @@ public:
 					break;
 				case 2:
 					for (auto i : PlayerSpectators[playerid])
+					{
 						PlayerSpectatePlayer(i, playerid, SPECTATE_MODE_NORMAL);
+					}
 					break;
 				case 1:
 					for (auto i : PlayerSpectators[playerid])
+					{
 						PlayerSpectateVehicle(i, Player[playerid].CurrentVehicle, SPECTATE_MODE_NORMAL);
+					}
 					break;
 			}
 		}
 		return true;
 	}
-	bool OnPlayerInteriorChange(int playerid, int newinteriorid, int oldinteriorid)
+	bool OnPlayerInteriorChange(int playerid, int newinteriorid, int oldinteriorid) override
 	{
 		for (auto i : PlayerSpectators[playerid])
+		{
 			SetPlayerInterior(i, newinteriorid);
+		}
 		return true;
 	}
-	void OnPlayerVirtualWorldChange(int playerid, int newVWid, int oldVWid)
+	void OnPlayerVirtualWorldChange(int playerid, int newVWid, int oldVWid) override
 	{
 		for (auto i : PlayerSpectators[playerid])
+		{
 			fixSetPlayerVirtualWorld(i, newVWid);
+		}
 	}
-	bool OnPlayerKeyStateChange(int playerid, int newkeys, int oldkeys)
+	bool OnPlayerKeyStateChange(int playerid, int newkeys, int oldkeys) override
 	{
 		if (PlayerCurrentlySpectating[playerid] != INVALID_PLAYER_ID)
 		{
 			if (PRESSED(KEY_FIRE))
+			{
 				SpectateNextPlayer(playerid);
+			}
 			if (PRESSED(KEY_HANDBRAKE))
+			{
 				SpectatePreviousPlayer(playerid);
+			}
 		}
 		return true;
 	}
