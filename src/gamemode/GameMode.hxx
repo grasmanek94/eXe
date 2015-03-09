@@ -14,7 +14,7 @@
 		-	30-01-2015: As of now I came to the realization we need
 			some standard rules as to when or when not use ordered/
 			unordered containes, so the following rules will apply:
-				- STATIC containers (containers inited ONCE, pure lookup containers [find, contains]) should use `unordered`
+				- STATIC containers (containers inited ONCE, pure lookup containers [find, contains]) should use `unordered`, except for strings due to collisions
 				- DYNAMIC containers (lots of inserts/ereases) should use `ordered`
 
 	________________________________________________________________
