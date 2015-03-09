@@ -310,7 +310,7 @@ namespace HouseSystem
 class HouseSystemProcessor : public Extension::Base
 {
 public:
-	bool OnGameModeInit()
+	bool OnGameModeInit() override
 	{
 		typedef odb::query<house> query;
 		typedef odb::result<house> result;
@@ -338,10 +338,12 @@ public:
 			++loadcount;
 			if (i.first->rented_to_nickname.size())
 			{
-					PlayerHouse.insert(std::pair<std::string, SHouseData*>(i.first->rented_to_nickname, i.first));
+				PlayerHouse.insert(std::pair<std::string, SHouseData*>(i.first->rented_to_nickname, i.first));
 			}
 			if (i.first->houseptr.id() > gHighestHouseID)
+			{
 				gHighestHouseID = i.first->houseptr.id();
+			}
 		}
 
 		sampgdk_SetTimerEx(30 * 60 * 1000, true, HouseSaveTimer, nullptr, nullptr);
@@ -349,13 +351,13 @@ public:
 		std::cout << "Loaded " << loadcount << " houses" << std::endl;
 		return true;
 	}
-	bool OnPlayerConnect(int playerid)
+	bool OnPlayerConnect(int playerid) override
 	{
 		CurrentVisitingHouse[playerid] = nullptr;
 		HouseInvites[playerid].clear();
 		return true;
 	}
-	bool OnPlayerPickUpDynamicPickup(int playerid, int pickupid)
+	bool OnPlayerPickUpDynamicPickup(int playerid, int pickupid) override
 	{
 		auto found = PickupToHouse.find(pickupid);
 		if (found != PickupToHouse.end() && found->second != CurrentVisitingHouse[playerid])
@@ -372,26 +374,101 @@ public:
 
 ZCMDF(dom, PERMISSION_NONE, RESTRICTION_REGISTERED_AND_LOADED | RESTRICTION_ONLY_LOGGED_IN | RESTRICTION_NOT_IN_A_GAME | RESTRICTION_ONLY_ON_FOOT, cmd_alias({"/house", "/huis", "/prop", "/property"}), "ws")
 {
-	if (boost::iequals(params, "tp"))
+	unsigned long long TimeNow = Functions::GetTime();
+
+	auto ownshouse = PlayerHouse.find(Player[playerid].PlayerName);
+
+	bool hasownrentinghouse = false;
+
+	std::string w(parser.Get<std::string>());
+	std::string r("");
+	ParseInput parser2;
+	if (parser.Good() == 2)
 	{
-		auto iter = PlayerHouse.find(Player[playerid].PlayerName);
-		if (iter != PlayerHouse.end())
-		{
-			if (CheckCommandAllowed(playerid, RESTRICTION_NOT_AFTER_FIGHT))
-				TeleportPlayer(playerid, iter->second->world_posX, iter->second->world_posY, iter->second->world_posZ, iter->second->world_angle, false, 0, 0, "", 0, 0, 0.0f, 0.0f, false, false);
-			return true;
-		}
-		fixSendClientMessage(playerid, -1, L_house_nohouse);
-		return true;
+		r.assign(parser.GetNext<std::string>());
 	}
+
+	//Player has house but is not owner of this house
+	if (ownshouse != PlayerHouse.end() && 
+		ownshouse->second != nullptr && 
+		ownshouse->second->rented_to_date > TimeNow && ownshouse->second->rented_to_nickname.size())//and still renting?
+	{
+		hasownrentinghouse = true;
+		SHouseData* localhouse = ownshouse->second;
+
+		switch (w[0])
+		{
+			case 't':
+			case 'T':
+			{
+				if (CheckCommandAllowed(playerid, RESTRICTION_NOT_AFTER_FIGHT))
+				{
+					TeleportPlayer(playerid, localhouse->world_posX, localhouse->world_posY, localhouse->world_posZ, localhouse->world_angle, false, 0, 0, "", 0, 0, 0.0f, 0.0f, false, false);
+				}
+				return true;
+			}
+			case 'z':
+			case 'Z':
+			{
+				parser2.SetFormat("p");
+				parser2.ExecuteManualParse(r);
+
+				if (!parser2.Good())
+				{
+					fixSendClientMessage(playerid, -1, L_house_uninvite_usage);
+					return true;
+				}
+
+				int inviteid = parser2.Get<ParsePlayer>().playerid;
+				if (inviteid == INVALID_PLAYER_ID)
+				{
+					SendClientMessage(playerid, -1, L_invalid_playerid);
+					return true;
+				}
+
+				auto iter = HouseInvites[inviteid].find(localhouse);
+				if (iter != HouseInvites[inviteid].end())
+				{
+					HouseInvites[inviteid].erase(iter);
+					fixSendClientMessage(playerid, -1, L_house_uninvite_success_1);
+				}
+				else
+				{
+					HouseInvites[inviteid].insert(localhouse);
+					fixSendClientMessage(playerid, -1, L_house_uninvite_success_2);
+				}
+				return true;
+			}
+
+			case 'q':
+			case 'Q':
+			{
+				PlayerHouse.erase(ownshouse);
+
+				localhouse->rented_to_nickname.assign("");
+
+				if (localhouse->CurrentPickupType == eHS_owned)
+				{
+					FixHousePickup(localhouse);
+				}
+
+				localhouse->save();
+
+				fixSendClientMessage(playerid, -1, L_house_action_executed);
+				return true;
+			}
+		}
+		//fixSendClientMessage(playerid, -1, L_house_nohouse);//Need to put this somewhere?
+	}
+
 	SHouseData* phouse = CurrentVisitingHouse[playerid];
+
 	if (phouse != nullptr)
 	{
 		bool outside = (GetPlayerDistanceFromPoint(playerid, phouse->world_posX, phouse->world_posY, phouse->world_posZ) < 5.0f && GetPlayerInterior(playerid) == 0);
 		bool inside = (unsigned long)Player[playerid].WorldID == GetHouseVirtualWorldId(phouse) && GetPlayerInterior(playerid) == phouse->interiorid;
 		if (outside || inside)
 		{
-			unsigned long long TimeNow = Functions::GetTime();
 			bool already_rented = phouse->rented_to_date > TimeNow && phouse->rented_to_nickname.size();
 			bool isowner = boost::iequals(phouse->rented_to_nickname, Player[playerid].PlayerName);
 			if (!parser.Good())
@@ -402,24 +479,36 @@ ZCMDF(dom, PERMISSION_NONE, RESTRICTION_REGISTERED_AND_LOADED | RESTRICTION_ONLY
 					information.append(TranslatePF(playerid, L_house_infostringbuilder_a, phouse->rented_to_nickname.c_str(), Functions::GetTimeStrFromMs(phouse->rented_to_date).c_str()));
 
 					if (phouse->locked)
+					{
 						information.append(TranslateP(playerid, L_house_infostringbuilder_locked));
+					}
 
 					if (phouse->CurrentPickupType == eHS_none)
+					{
 						FixHousePickup(phouse);
+					}
 				}
 				else
 				{
 					information.append(TranslateP(playerid, L_house_infostringbuilder_b));
 
 					if (phouse->CurrentPickupType == eHS_owned)
+					{
 						FixHousePickup(phouse);
+					}
 				}
 
 				information.append(TranslateP(playerid, L_house_infostringbuilder_c));
+
 				if (phouse->rent_cost_cash_per_day)
+				{
 					information.append(TranslatePF(playerid, L_house_infostringbuilder_money, phouse->rent_cost_cash_per_day, phouse->rent_cost_cash_per_day * 7, phouse->rent_cost_cash_per_day * 14, phouse->rent_cost_cash_per_day * 21));
+				}
+
 				if (phouse->rent_cost_respect_per_day)
+				{
 					information.append(TranslatePF(playerid, L_house_infostringbuilder_score, phouse->rent_cost_respect_per_day, phouse->rent_cost_respect_per_day * 7, phouse->rent_cost_respect_per_day * 14, phouse->rent_cost_respect_per_day * 21));
+				}
 
 				information.append(TranslateP(playerid, L_house_infostringbuilder_d));
 
@@ -434,11 +523,6 @@ ZCMDF(dom, PERMISSION_NONE, RESTRICTION_REGISTERED_AND_LOADED | RESTRICTION_ONLY
 			}
 			else
 			{
-				std::string w(parser.Get<std::string>(0));
-				std::string r("");
-				ParseInput parser2;
-				if (parser.Good() == 2)
-					r.assign(parser.Get<std::string>(1));
 				switch (w[0])
 				{
 					case 'p':
@@ -446,29 +530,37 @@ ZCMDF(dom, PERMISSION_NONE, RESTRICTION_REGISTERED_AND_LOADED | RESTRICTION_ONLY
 					{
 						auto iter = HouseInvites[playerid].find(phouse);
 						if (outside && (!phouse->locked || isowner || iter != HouseInvites[playerid].end() || !already_rented))
+						{
 							TeleportPlayer(playerid, phouse->interior_posX, phouse->interior_posY, phouse->interior_posZ, phouse->interior_angle, false, phouse->interiorid, GetHouseVirtualWorldId(phouse), "", 0, 0, 0.0f, 0.0f, false, false);
+						}
 						else if (inside)
+						{
 							TeleportPlayer(playerid, phouse->world_posX, phouse->world_posY, phouse->world_posZ, phouse->world_angle, false, 0, 0, "", 0, 0, 0.0f, 0.0f, false, false);
+						}
 						else
+						{
 							fixSendClientMessage(playerid, -1, L_house_enter_permissionerror);
+						}
 					}
 					break;
 					case 'k':
 					case 'K':
 					{
-						bool ownshouse = PlayerHouse.find(Player[playerid].PlayerName) != PlayerHouse.end();
-						if (ownshouse && !isowner)
+						if (hasownrentinghouse && !isowner)
 						{
 							fixSendClientMessage(playerid, -1, L_house_rentlimit_reached);
 							return true;
 						}
+
 						parser2.SetFormat("U");
 						parser2.ExecuteManualParse(r);
 						if (parser2.Good())
 						{
 							unsigned long long max_rent_days = 5 * 24 * 60 * 60 * 1000;
 							if (Player[playerid].statistics.privilidges >= PERMISSION_VIP)
+							{
 								max_rent_days *= 3;
+							}
 
 							unsigned long long days = (parser2.Get<unsigned long long>()*24*60*60*1000);
 
@@ -483,14 +575,18 @@ ZCMDF(dom, PERMISSION_NONE, RESTRICTION_REGISTERED_AND_LOADED | RESTRICTION_ONLY
 								{
 									unsigned long long still_rented = phouse->rented_to_date - TimeNow;
 									if (days > max_rent_days)
+									{
 										days = max_rent_days;
+									}
 									days -= still_rented;
 								}
 							}
 							else
 							{
 								if (days > max_rent_days)
+								{
 									days = max_rent_days;
+								}
 							}
 
 							if (days < 1 * 24 * 60 * 60 * 1000)
@@ -517,14 +613,18 @@ ZCMDF(dom, PERMISSION_NONE, RESTRICTION_REGISTERED_AND_LOADED | RESTRICTION_ONLY
 							{
 								auto iter_n = PlayerHouse.find(phouse->rented_to_nickname);
 								if (iter_n != PlayerHouse.end())
+								{
 									PlayerHouse.erase(iter_n);
+								}
 							}
 
 							phouse->rented_to_nickname.assign(Player[playerid].PlayerName);
 							phouse->rented_to_date = TimeNow + days;
 
 							if (phouse->CurrentPickupType == eHS_none)
+							{
 								FixHousePickup(phouse);
+							}
 
 							phouse->save();
 
@@ -550,9 +650,13 @@ ZCMDF(dom, PERMISSION_NONE, RESTRICTION_REGISTERED_AND_LOADED | RESTRICTION_ONLY
 						}
 
 						if (phouse->locked)
+						{
 							fixSendClientMessage(playerid, -1, L_house_door_open);
+						}
 						else
+						{
 							fixSendClientMessage(playerid, -1, L_house_door_close);
+						}
 
 						phouse->locked = !phouse->locked;
 
@@ -579,7 +683,7 @@ ZCMDF(dom, PERMISSION_NONE, RESTRICTION_REGISTERED_AND_LOADED | RESTRICTION_ONLY
 							fixSendClientMessage(playerid, -1, L_house_kick_usage);
 							return true;
 						}
-						int inviteid = parser2.Get<ParsePlayer>(0).playerid;
+						int inviteid = parser2.Get<ParsePlayer>().playerid;
 						if (inviteid == INVALID_PLAYER_ID)
 						{
 							SendClientMessage(playerid, -1, L_invalid_playerid);
@@ -598,201 +702,162 @@ ZCMDF(dom, PERMISSION_NONE, RESTRICTION_REGISTERED_AND_LOADED | RESTRICTION_ONLY
 					}
 					break;
 
-					case 'z':
-					case 'Z':
+					//set respekt / day
+					case '#':
 					{
-						if (!isowner)
+						if (Player[playerid].statistics.privilidges >= PERMISSION_GAMER)
 						{
-							fixSendClientMessage(playerid, -1, L_house_owneronly_action);
+							parser2.SetFormat("U");
+							parser2.ExecuteManualParse(r);
+							if (!parser2.Good())
+							{
+								fixSendClientMessage(playerid, -1, L_house_score_error);
+								return true;
+							}
+							phouse->rent_cost_respect_per_day = parser2.Get<unsigned long long>();
+							phouse->save();
+							fixSendClientMessage(playerid, -1, L_house_action_executed);
 							return true;
-						}
-
-						parser2.SetFormat("p");
-						parser2.ExecuteManualParse(r);
-						if (!parser2.Good())
-						{
-							fixSendClientMessage(playerid, -1, L_house_uninvite_usage);
-							return true;
-						}
-						int inviteid = parser2.Get<ParsePlayer>(0).playerid;
-						if (inviteid == INVALID_PLAYER_ID)
-						{
-							SendClientMessage(playerid, -1, L_invalid_playerid);
-							return true;
-						}
-
-						auto iter = HouseInvites[inviteid].find(phouse);
-						if (iter != HouseInvites[inviteid].end())
-						{
-							HouseInvites[inviteid].erase(iter);
-							fixSendClientMessage(playerid, -1, L_house_uninvite_success_1);
-						}
-						else
-						{
-							HouseInvites[inviteid].insert(phouse);
-							fixSendClientMessage(playerid, -1, L_house_uninvite_success_2);
 						}
 					}
 					break;
-
-					case 'q':
-					case 'Q':
-						if (isowner)
+					//set cash / day
+					case '$':
+					{
+						if (Player[playerid].statistics.privilidges >= PERMISSION_GAMER)
+						{
+							parser2.SetFormat("U");
+							parser2.ExecuteManualParse(r);
+							if (!parser2.Good())
+							{
+								fixSendClientMessage(playerid, -1, L_house_money_error);
+								return true;
+							}
+							phouse->rent_cost_cash_per_day = parser2.Get<unsigned long long>();
+							phouse->save();
+							fixSendClientMessage(playerid, -1, L_house_action_executed);
+							return true;
+						}
+					}
+					break;
+					//remove current owner
+					case ':':
+					{
+						if (Player[playerid].statistics.privilidges >= PERMISSION_GAMER)
 						{
 							if (phouse->rented_to_nickname.size())
 							{
 								auto iter_n = PlayerHouse.find(phouse->rented_to_nickname);
 								if (iter_n != PlayerHouse.end())
+								{
 									PlayerHouse.erase(iter_n);
+								}
 							}
 
 							phouse->rented_to_nickname.assign("");
 
 							if (phouse->CurrentPickupType == eHS_owned)
+							{
 								FixHousePickup(phouse);
+							}
 
 							phouse->save();
 
 							fixSendClientMessage(playerid, -1, L_house_action_executed);
 							return true;
 						}
-						break;
-					//set respekt / day
-					case '#':
-					if (Player[playerid].statistics.privilidges >= PERMISSION_GAMER)
-					{
-						parser2.SetFormat("U");
-						parser2.ExecuteManualParse(r);
-						if (!parser2.Good())
-						{
-							fixSendClientMessage(playerid, -1, L_house_score_error);
-							return true;
-						}
-						phouse->rent_cost_respect_per_day = parser2.Get<unsigned long long>();
-						phouse->save();
-						fixSendClientMessage(playerid, -1, L_house_action_executed);
-						return true;
-					}
-					break;
-					//set cash / day
-					case '$':
-					if (Player[playerid].statistics.privilidges >= PERMISSION_GAMER)
-					{
-						parser2.SetFormat("U");
-						parser2.ExecuteManualParse(r);
-						if (!parser2.Good())
-						{
-							fixSendClientMessage(playerid, -1, L_house_money_error);
-							return true;
-						}
-						phouse->rent_cost_cash_per_day = parser2.Get<unsigned long long>();
-						phouse->save();
-						fixSendClientMessage(playerid, -1, L_house_action_executed);
-						return true;
-					}
-					break;
-					//remove current owner
-					case ':':
-					if (Player[playerid].statistics.privilidges >= PERMISSION_GAMER)
-					{
-						if (phouse->rented_to_nickname.size())
-						{
-							auto iter_n = PlayerHouse.find(phouse->rented_to_nickname);
-							if (iter_n != PlayerHouse.end())
-								PlayerHouse.erase(iter_n);
-						}
-
-						phouse->rented_to_nickname.assign("");
-
-						if (phouse->CurrentPickupType == eHS_owned)
-							FixHousePickup(phouse);
-
-						phouse->save();
-
-						fixSendClientMessage(playerid, -1, L_house_action_executed);
-						return true;
 					}
 					break;
 					//make player owner for 5 days
 					case '+':
-					if (Player[playerid].statistics.privilidges >= PERMISSION_GAMER)
 					{
-						parser2.SetFormat("p");
-						parser2.ExecuteManualParse(r);
-						if (!parser2.Good())
+						if (Player[playerid].statistics.privilidges >= PERMISSION_GAMER)
 						{
-							fixSendClientMessage(playerid, -1, L_house_player_supplyerror);
-							return true;
+							parser2.SetFormat("p");
+							parser2.ExecuteManualParse(r);
+							if (!parser2.Good())
+							{
+								fixSendClientMessage(playerid, -1, L_house_player_supplyerror);
+								return true;
+							}
+							int targetid = parser2.Get<ParsePlayer>().playerid;
+							if (targetid == INVALID_PLAYER_ID)
+							{
+								fixSendClientMessage(playerid, -1, L_house_player_notonline);
+								return true;
+							}
+
+							if (phouse->rented_to_nickname.size())
+							{
+								auto iter_n = PlayerHouse.find(phouse->rented_to_nickname);
+								if (iter_n != PlayerHouse.end())
+								{
+									PlayerHouse.erase(iter_n);
+								}
+							}
+
+							phouse->rented_to_nickname.assign(Player[targetid].PlayerName);
+							phouse->rented_to_date = TimeNow + 5 * 24 * 60 * 60 * 1000;
+
+							PlayerHouse[Player[targetid].PlayerName] = phouse;
+
+							if (phouse->CurrentPickupType == eHS_none)
+							{
+								FixHousePickup(phouse);
+							}
+
+							phouse->save();
+							fixSendClientMessage(playerid, -1, L_house_action_executed);
 						}
-						int targetid = parser2.Get<ParsePlayer>().playerid;
-						if (targetid == INVALID_PLAYER_ID)
-						{
-							fixSendClientMessage(playerid, -1, L_house_player_notonline);
-							return true;
-						}
-
-						if (phouse->rented_to_nickname.size())
-						{
-							auto iter_n = PlayerHouse.find(phouse->rented_to_nickname);
-							if (iter_n != PlayerHouse.end())
-								PlayerHouse.erase(iter_n);
-						}
-
-						phouse->rented_to_nickname.assign(Player[targetid].PlayerName);
-						phouse->rented_to_date = TimeNow + 5 * 24 * 60 * 60 * 1000;
-
-						PlayerHouse[Player[targetid].PlayerName] = phouse;
-
-						if (phouse->CurrentPickupType == eHS_none)
-							FixHousePickup(phouse);
-
-						phouse->save();
-						fixSendClientMessage(playerid, -1, L_house_action_executed);
 					}
 					break;
 					//set expire to X hours in future
 					case '>':
-					if (Player[playerid].statistics.privilidges >= PERMISSION_GAMER)
 					{
-						parser2.SetFormat("U");
-						parser2.ExecuteManualParse(r);
-						if (!parser2.Good())
+						if (Player[playerid].statistics.privilidges >= PERMISSION_GAMER)
 						{
-							fixSendClientMessage(playerid, -1, L_house_invalid_hours);
-							return true;
+							parser2.SetFormat("U");
+							parser2.ExecuteManualParse(r);
+							if (!parser2.Good())
+							{
+								fixSendClientMessage(playerid, -1, L_house_invalid_hours);
+								return true;
+							}
+							phouse->rented_to_date = TimeNow + (parser2.Get<unsigned long long>() * 60 * 60 * 1000);
+							phouse->save();
+							fixSendClientMessage(playerid, -1, L_house_action_executed);
 						}
-						phouse->rented_to_date = TimeNow + (parser2.Get<unsigned long long>() * 60 * 60 * 1000);
-						phouse->save();
-						fixSendClientMessage(playerid, -1, L_house_action_executed);
 					}
 					break;
 					//set new type
 					case '*':
-					if (Player[playerid].statistics.privilidges >= PERMISSION_GAMER)
 					{
-						parser2.SetFormat("D");
-						parser2.ExecuteManualParse(r);
-						if (!parser2.Good())
+						if (Player[playerid].statistics.privilidges >= PERMISSION_GAMER)
 						{
-							fixSendClientMessage(playerid, -1, L_house_invalid_interiorid);
+							parser2.SetFormat("D");
+							parser2.ExecuteManualParse(r);
+							if (!parser2.Good())
+							{
+								fixSendClientMessage(playerid, -1, L_house_invalid_interiorid);
+								return true;
+							}
+							unsigned long type_id = parser2.Get<unsigned long>();
+							if (type_id >= HOUSE_MAXTYPES)
+							{
+								fixSendClientMessage(playerid, -1, L_house_invalid_interiorid);
+								return true;
+							}
+
+							phouse->interior_posX = StaticHouseData[type_id].interior_posX;
+							phouse->interior_posY = StaticHouseData[type_id].interior_posY;
+							phouse->interior_posZ = StaticHouseData[type_id].interior_posZ;
+							phouse->interior_angle = StaticHouseData[type_id].interior_angle;
+							phouse->interiorid = StaticHouseData[type_id].interiorid;
+							phouse->save();
+
+							fixSendClientMessage(playerid, -1, L_house_action_executed);
 							return true;
 						}
-						unsigned long type_id = parser2.Get<unsigned long>();
-						if (type_id >= HOUSE_MAXTYPES)
-						{
-							fixSendClientMessage(playerid, -1, L_house_invalid_interiorid);
-							return true;
-						}
-
-						phouse->interior_posX=StaticHouseData[type_id].interior_posX;
-						phouse->interior_posY=StaticHouseData[type_id].interior_posY;
-						phouse->interior_posZ=StaticHouseData[type_id].interior_posZ;
-						phouse->interior_angle=StaticHouseData[type_id].interior_angle;
-						phouse->interiorid=StaticHouseData[type_id].interiorid;
-						phouse->save();
-
-						fixSendClientMessage(playerid, -1, L_house_action_executed);
-						return true;
 					}
 					break;
 				}
@@ -800,6 +865,7 @@ ZCMDF(dom, PERMISSION_NONE, RESTRICTION_REGISTERED_AND_LOADED | RESTRICTION_ONLY
 			return true;
 		}
 	}
+
 	fixSendClientMessage(playerid, -1, L_house_range_error);
 	return true;
 }
