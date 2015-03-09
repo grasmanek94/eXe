@@ -719,17 +719,21 @@ namespace Language
 	const std::string TranslateF(unsigned long language, language_string_ids string_id, ...);
 	const std::string TranslatePF(int playerid, language_string_ids string_id, ...);
 
-	void SendClientMessageF(int playerid, int color, language_string_ids string_id, bool playSound, bool displayPrefix, ...);
-	void SendClientMessageToAllF(int color, language_string_ids string_id, bool playSound, bool displayPrefix, ...);
+	void SendClientMessageF(int playerid, int color, language_string_ids string_id, int playSound, bool displayPrefix, ...);
+	void SendClientMessageToAllF(int color, language_string_ids string_id, int playSound, bool displayPrefix, ...);
 
-	void SendClientMessage(int playerid, int color, language_string_ids string_id, bool playSound = false, bool displayPrefix = false);
-	void SendClientMessageToAll(int color, language_string_ids string_id, bool playSound = false, bool displayPrefix = false);
+	void SendClientMessage(int playerid, int color, language_string_ids string_id, int playSound = 0, bool displayPrefix = false);
 
-	void fixSendClientMessageF(int playerid, int color, language_string_ids string_id, bool playSound, bool displayPrefix, ...);
-	void fixSendClientMessageToAllF(int color, language_string_ids string_id, bool playSound, bool displayPrefix, ...);
+	void SendClientMessageToAll(int color, language_string_ids string_id, int playSound = 0, bool displayPrefix = false);
+
+
+	void fixSendClientMessageF(int playerid, int color, language_string_ids string_id, int playSound, bool displayPrefix, ...);
+	void fixSendClientMessageToAllF(int color, language_string_ids string_id, int playSound, bool displayPrefix, ...);
 		 
-	void fixSendClientMessage(int playerid, int color, language_string_ids string_id, bool playSound = false, bool displayPrefix = false);
-	void fixSendClientMessageToAll(int color, language_string_ids string_id, bool playSound = false, bool displayPrefix = false);
+	void fixSendClientMessage(int playerid, int color, language_string_ids string_id, int playSound = 0, bool displayPrefix = false);
+
+	void fixSendClientMessageToAll(int color, language_string_ids string_id, int playSound = 0, bool displayPrefix = false);
+
 
 	void AddPlayerToLanguage(int playerid, unsigned long language);
 };

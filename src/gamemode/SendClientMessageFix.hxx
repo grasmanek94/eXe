@@ -23,8 +23,10 @@
 #pragma once
 #include "GameMode.hxx"
 
-int fixSendClientMessage(int playerid, int color, std::string message, bool playSound = false, bool displayPrefix = false);
-int fixSendClientMessageToAll(int color, std::string message, bool playSound = false, bool displayPrefix = false);
+int fixSendClientMessage(int playerid, int color, std::string message, int playSound = false, bool displayPrefix = false);
+
+int fixSendClientMessageToAll(int color, std::string message, int playSound = false, bool displayPrefix = false);
+
 int fixSendPlayerMessageToAll(int senderid, std::string message);
 int fixSendPlayerMessageToPlayer(int playerid, int senderid, std::string message);
 int fixSetPlayerChatBubble(int playerid, std::string message, int color, float drawdistance, int expiretime);

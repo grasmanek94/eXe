@@ -24,65 +24,102 @@
 */
 #include "GameMode.hxx"
 
-int fixSendClientMessage(int playerid, int color, std::string message, bool playSound, bool displayPrefix)
+int fixSendClientMessage(int playerid, int color, std::string message, int playSound, bool displayPrefix)
 {
 	boost::algorithm::replace_all(message, "%", "%%");
 	ProcessStringWithBTag(color, message);
 
-	if (displayPrefix) message.insert(0, "››› ");
+	if (displayPrefix)
+	{
+		message.insert(0, "››› ");
+	}
 
 	if (playSound)
 	{
-		if (color == Color::COLOR_ERROR)
-			PlayerPlaySound(playerid, 1085, 0, 0, 0);
-		else 
-			PlayerPlaySound(playerid, 1150, 0, 0, 0);
+		PlayerPlaySound(playerid, color, 0, 0, 0);
 	}
 
-	return SendClientMessage(playerid, color, message.c_str());
+	if (message.size() > 144)
+	{
+		message.resize(144);
+	}
+
+	return sampgdk_SendClientMessage(playerid, color, message.c_str());
 }
 
-int fixSendClientMessageToAll(int color, std::string message, bool playSound, bool displayPrefix)
+int fixSendClientMessageToAll(int color, std::string message, int playSound, bool displayPrefix)
 {
 	boost::algorithm::replace_all(message, "%", "%%");
 	ProcessStringWithBTag(color, message);
 
-	if (displayPrefix) message.insert(0, "››› ");
+	if (displayPrefix)
+	{
+		message.insert(0, "››› ");
+	}
 
 	if (playSound)
 	{
-		if (color == Color::COLOR_ERROR)
-			for (auto playerid : PlayersOnline) PlayerPlaySound(playerid, 1085, 0, 0, 0);
-		else
-			for (auto playerid : PlayersOnline) PlayerPlaySound(playerid, 1150, 0, 0, 0);
+		for (auto playerid : PlayersOnline)
+		{
+			PlayerPlaySound(playerid, playSound, 0, 0, 0);
+		}
 	}
 
-	return SendClientMessageToAll(color, message.c_str());
+	if (message.size() > 144)
+	{
+		message.resize(144);
+	}
+
+	return sampgdk_SendClientMessageToAll(color, message.c_str());
 }
 
 int fixSendPlayerMessageToAll(int senderid, std::string message)
 {
 	boost::algorithm::replace_all(message, "%", "%%");
-	return SendPlayerMessageToAll(senderid, message.c_str());
+
+	if (message.size() > 144)
+	{
+		message.resize(144);
+	}
+
+	return sampgdk_SendPlayerMessageToAll(senderid, message.c_str());
 }
 
 int fixSendPlayerMessageToPlayer(int playerid, int senderid, std::string message)
 {
 	boost::algorithm::replace_all(message, "%", "%%");
-	return SendPlayerMessageToPlayer(playerid, senderid, message.c_str());
+
+	if (message.size() > 144)
+	{
+		message.resize(144);
+	}
+
+	return sampgdk_SendPlayerMessageToPlayer(playerid, senderid, message.c_str());
 }
 
 int fixSetPlayerChatBubble(int playerid, std::string message, int color, float drawdistance, int expiretime)
 {
 	boost::algorithm::replace_all(message, "%", "%%");
-	return SetPlayerChatBubble(playerid, message.c_str(), color, drawdistance, expiretime);
+
+	if (message.size() > 144)
+	{
+		message.resize(144);
+	}
+
+	return sampgdk_SetPlayerChatBubble(playerid, message.c_str(), color, drawdistance, expiretime);
 }
 
 void debug_fixSendClientMessage(int playerid, std::string message)
 {
 #ifdef _LOCALHOST_DEBUG
 	boost::algorithm::replace_all(message, "%", "%%");
-	SendClientMessage(playerid, -1, ("{FFEE00}[DEBUG]{FFFFFF}" + message).c_str());
+
+	if (message.size() > 144)
+	{
+		message.resize(144);
+	}
+
+	sampgdk_SendClientMessage(playerid, -1, ("{FFEE00}[DEBUG]{FFFFFF}" + message).c_str());
 #endif
 }
 
@@ -90,6 +127,12 @@ void debug_fixSendClientMessageToAll(std::string message)
 {
 #ifdef _LOCALHOST_DEBUG
 	boost::algorithm::replace_all(message, "%", "%%");
-	SendClientMessageToAll(-1, ("{FFEE00}[DEBUG]{FFFFFF}" + message).c_str());
+
+	if (message.size() > 144)
+	{
+		message.resize(144);
+	}
+
+	sampgdk_SendClientMessageToAll(-1, ("{FFEE00}[DEBUG]{FFFFFF}" + message).c_str());
 #endif
 }

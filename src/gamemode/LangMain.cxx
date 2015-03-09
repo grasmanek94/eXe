@@ -42,7 +42,9 @@ namespace Language
 			if (CURRENT_LANGUAGE_ID < LANGUAGES_SIZE)
 			{
 				for (auto t : translation)
+				{
 					Translations[CURRENT_LANGUAGE_ID][t.first].assign(t.second);
+				}
 
 				IndexToLanguageID[CURRENT_LANGUAGE_ID] = fnv_32a_str((char*)Translations[CURRENT_LANGUAGE_ID][L_language_name].c_str(), 0);
 				LanguageIDToIndex[IndexToLanguageID[CURRENT_LANGUAGE_ID]] = CURRENT_LANGUAGE_ID;
@@ -76,6 +78,7 @@ namespace Language
 	{
 		Message::RefreshTextDrawsOnLanguageChange(playerid, alreadyset);
 	}
+
 	void AddPlayerToLanguage(int playerid, unsigned long language)
 	{
 		if (language < CURRENT_LANGUAGE_ID)
@@ -130,16 +133,21 @@ namespace Language
 			std::string str;
 			std::unique_ptr<char[]> formatted;
 			va_list ap;
-			while (1) {
+			while (1) 
+			{
 				formatted.reset(new char[n]); // wrap the plain char array into the unique_ptr
 				strcpy_s(&formatted[0], n, fmt.c_str());
 				va_start(ap, string_id);
 				final_n = vsnprintf(&formatted[0], n, fmt.c_str(), ap);
 				va_end(ap);
 				if (final_n < 0 || final_n >= n)
+				{
 					n += abs(final_n - n + 1);
+				}
 				else
+				{
 					break;
+				}
 			}
 			fmt.assign(formatted.get());
 		}
@@ -154,23 +162,28 @@ namespace Language
 			std::string str;
 			std::unique_ptr<char[]> formatted;
 			va_list ap;
-			while (1) {
+			while (1) 
+			{
 				formatted.reset(new char[n]); // wrap the plain char array into the unique_ptr
 				strcpy_s(&formatted[0], n, fmt.c_str());
 				va_start(ap, string_id);
 				final_n = vsnprintf(&formatted[0], n, fmt.c_str(), ap);
 				va_end(ap);
 				if (final_n < 0 || final_n >= n)
+				{
 					n += abs(final_n - n + 1);
+				}
 				else
+				{
 					break;
+				}
 			}
 			fmt.assign(formatted.get());
 		}
 		return fmt;
 	}
 
-	void SendClientMessageToAllF(int color, language_string_ids string_id, bool playSound, bool displayPrefix, ...)
+	void SendClientMessageToAllF(int color, language_string_ids string_id, int playSound, bool displayPrefix, ...)
 	{
 		for (size_t i = 0; i < LANGUAGES_SIZE; ++i)
 		{
@@ -182,28 +195,36 @@ namespace Language
 					std::string str;
 					std::unique_ptr<char[]> formatted;
 					va_list ap;
-					while (1) {
+					while (1) 
+					{
 						formatted.reset(new char[n]); // wrap the plain char array into the unique_ptr
 						strcpy_s(&formatted[0], n, fmt.c_str());
 						va_start(ap, displayPrefix);
 						final_n = vsnprintf(&formatted[0], n, fmt.c_str(), ap);
 						va_end(ap);
 						if (final_n < 0 || final_n >= n)
+						{
 							n += abs(final_n - n + 1);
+						}
 						else
+						{
 							break;
+						}
 					}
 					fmt.assign(formatted.get());
 					FixMessageWithBTag(color, fmt, displayPrefix);
 				}
+
+				if (fmt.size() > 144)
+				{
+					fmt.resize(144);
+				}
+
 				for (auto& playerid : PlayersUsingLanguage[i])
 				{
 					if (playSound)
 					{
-						if (color == Color::COLOR_ERROR)
-							PlayerPlaySound(playerid, 1085, 0, 0, 0);
-						else
-							PlayerPlaySound(playerid, 1150, 0, 0, 0);
+						PlayerPlaySound(playerid, playSound, 0.0, 0.0, 0.0);
 					}
 					sampgdk_SendClientMessage(playerid, color, fmt.c_str());
 				}
@@ -211,7 +232,7 @@ namespace Language
 		}
 	}
 
-	void SendClientMessageF(int playerid, int color, language_string_ids string_id, bool playSound, bool displayPrefix, ...)
+	void SendClientMessageF(int playerid, int color, language_string_ids string_id, int playSound, bool displayPrefix, ...)
 	{
 		std::string fmt(Translate(Player[playerid].Language, string_id));
 		{
@@ -219,31 +240,40 @@ namespace Language
 			std::string str;
 			std::unique_ptr<char[]> formatted;
 			va_list ap;
-			while (1) {
+			while (1) 
+			{
 				formatted.reset(new char[n]); // wrap the plain char array into the unique_ptr
 				strcpy_s(&formatted[0], n, fmt.c_str());
 				va_start(ap, displayPrefix);
 				final_n = vsnprintf(&formatted[0], n, fmt.c_str(), ap);
 				va_end(ap);
 				if (final_n < 0 || final_n >= n)
+				{
 					n += abs(final_n - n + 1);
+				}
 				else
+				{
 					break;
+				}
 			}
 			fmt.assign(formatted.get());
 			FixMessageWithBTag(color, fmt, displayPrefix);
 		}
+
 		if (playSound)
 		{
-			if (color == Color::COLOR_ERROR)
-				PlayerPlaySound(playerid, 1085, 0, 0, 0);
-			else
-				PlayerPlaySound(playerid, 1150, 0, 0, 0);
+			PlayerPlaySound(playerid, playSound, 0.0, 0.0, 0.0);
 		}
+
+		if (fmt.size() > 144)
+		{
+			fmt.resize(144);
+		}
+
 		sampgdk_SendClientMessage(playerid, color, fmt.c_str());
 	}
 
-	void SendClientMessageToAll(int color, language_string_ids string_id, bool playSound, bool displayPrefix)
+	void SendClientMessageToAll(int color, language_string_ids string_id, int playSound, bool displayPrefix)
 	{
 		for (size_t i = 0; i < LANGUAGES_SIZE; ++i)
 		{
@@ -252,14 +282,16 @@ namespace Language
 				std::string message(Translate(i, string_id));
 				FixMessageWithBTag(color, message, displayPrefix);
 
+				if (message.size() > 144)
+				{
+					message.resize(144);
+				}
+
 				for (auto& playerid : PlayersUsingLanguage[i])
 				{
 					if (playSound)
 					{
-						if (color == Color::COLOR_ERROR)
-							PlayerPlaySound(playerid, 1085, 0, 0, 0);
-						else
-							PlayerPlaySound(playerid, 1150, 0, 0, 0);
+						PlayerPlaySound(playerid, playSound, 0.0, 0.0, 0.0);
 					}
 
 					sampgdk_SendClientMessage(playerid, color, message.c_str());
@@ -268,13 +300,13 @@ namespace Language
 		}
 	}
 
-	void SendClientMessage(int playerid, int color, language_string_ids string_id, bool playSound, bool displayPrefix)
+	void SendClientMessage(int playerid, int color, language_string_ids string_id, int playSound, bool displayPrefix)
 	{
 		::fixSendClientMessage(playerid, color, Translate(Player[playerid].Language, string_id), playSound, displayPrefix);
 	}
 
-
-	void fixSendClientMessageToAllF(int color, language_string_ids string_id, bool playSound, bool displayPrefix, ...)
+	//if color error then sound id if > 0 make it 1085 else if not color error and soundid not 0 then make soundid 1150
+	void fixSendClientMessageToAllF(int color, language_string_ids string_id, int playSound, bool displayPrefix, ...)
 	{
 		for (size_t i = 0; i < LANGUAGES_SIZE; ++i)
 		{
@@ -286,28 +318,36 @@ namespace Language
 					std::string str;
 					std::unique_ptr<char[]> formatted;
 					va_list ap;
-					while (1) {
+					while (1) 
+					{
 						formatted.reset(new char[n]); // wrap the plain char array into the unique_ptr
 						strcpy_s(&formatted[0], n, fmt.c_str());
 						va_start(ap, displayPrefix);
 						final_n = vsnprintf(&formatted[0], n, fmt.c_str(), ap);
 						va_end(ap);
 						if (final_n < 0 || final_n >= n)
+						{
 							n += abs(final_n - n + 1);
+						}
 						else
+						{
 							break;
+						}
 					}
 					fmt.assign(formatted.get());
 					FixMessageWithBTag(color, fmt, displayPrefix);
 				}
+
+				if (fmt.size() > 144)
+				{
+					fmt.resize(144);
+				}
+
 				for (auto& playerid : PlayersUsingLanguage[i])
 				{
 					if (playSound)
 					{
-						if (color == Color::COLOR_ERROR)
-							PlayerPlaySound(playerid, 1085, 0, 0, 0);
-						else
-							PlayerPlaySound(playerid, 1150, 0, 0, 0);
+						PlayerPlaySound(playerid, playSound, 0.0, 0.0, 0.0);
 					}
 
 					sampgdk_SendClientMessage(playerid, color, fmt.c_str());
@@ -316,7 +356,7 @@ namespace Language
 		}
 	}
 
-	void fixSendClientMessageF(int playerid, int color, language_string_ids string_id, bool playSound, bool displayPrefix, ...)
+	void fixSendClientMessageF(int playerid, int color, language_string_ids string_id, int playSound, bool displayPrefix, ...)
 	{
 		std::string fmt(Translate(Player[playerid].Language, string_id));
 		{
@@ -324,16 +364,21 @@ namespace Language
 			std::string str;
 			std::unique_ptr<char[]> formatted;
 			va_list ap;
-			while (1) {
+			while (1) 
+			{
 				formatted.reset(new char[n]); // wrap the plain char array into the unique_ptr
 				strcpy_s(&formatted[0], n, fmt.c_str());
 				va_start(ap, displayPrefix);
 				final_n = vsnprintf(&formatted[0], n, fmt.c_str(), ap);
 				va_end(ap);
 				if (final_n < 0 || final_n >= n)
+				{
 					n += abs(final_n - n + 1);
+				}
 				else
+				{
 					break;
+				}
 			}
 			fmt.assign(formatted.get());
 			FixMessageWithBTag(color, fmt, displayPrefix);
@@ -341,15 +386,18 @@ namespace Language
 
 		if (playSound)
 		{
-			if (color == Color::COLOR_ERROR)
-				PlayerPlaySound(playerid, 1085, 0, 0, 0);
-			else
-				PlayerPlaySound(playerid, 1150, 0, 0, 0);
+			PlayerPlaySound(playerid, playSound, 0.0, 0.0, 0.0);
 		}
+
+		if (fmt.size() > 144)
+		{
+			fmt.resize(144);
+		}
+
 		sampgdk_SendClientMessage(playerid, color, fmt.c_str());
 	}
 
-	void fixSendClientMessageToAll(int color, language_string_ids string_id, bool playSound, bool displayPrefix)
+	void fixSendClientMessageToAll(int color, language_string_ids string_id, int playSound, bool displayPrefix)
 	{
 		for (size_t i = 0; i < LANGUAGES_SIZE; ++i)
 		{
@@ -358,14 +406,16 @@ namespace Language
 				std::string message(Translate(i, string_id));
 				FixMessageWithBTag(color, message, displayPrefix);
 
+				if (message.size() > 144)
+				{
+					message.resize(144);
+				}
+
 				for (auto& playerid : PlayersUsingLanguage[i])
 				{
 					if (playSound)
 					{
-						if (color == Color::COLOR_ERROR) 
-							PlayerPlaySound(playerid, 1085, 0, 0, 0);
-						else 
-							PlayerPlaySound(playerid, 1150, 0, 0, 0);
+						PlayerPlaySound(playerid, playSound, 0.0, 0.0, 0.0);
 					}
 
 					sampgdk_SendClientMessage(playerid, color, message.c_str());
@@ -374,7 +424,7 @@ namespace Language
 		}
 	}
 
-	void fixSendClientMessage(int playerid, int color, language_string_ids string_id, bool playSound, bool displayPrefix)
+	void fixSendClientMessage(int playerid, int color, language_string_ids string_id, int playSound, bool displayPrefix)
 	{
 		::fixSendClientMessage(playerid, color, Translate(Player[playerid].Language, string_id), playSound, displayPrefix);
 	}

@@ -124,3 +124,32 @@ public:
 	}
 } _CMafiaTest;*/
 #endif
+/*
+ZCMD3(msgtest, 0, 0)
+{
+	std::string onehundredfourtyfourcharsstring("");
+	for (int i = 0; i < 144; ++i)
+	{
+		onehundredfourtyfourcharsstring.append(std::string(1, 'A' + rand() % 26));
+	}
+	sampgdk_SendClientMessage(playerid, -1, "144 chars: ");
+	sampgdk_SendClientMessage(playerid, -1, onehundredfourtyfourcharsstring.c_str());
+	sampgdk_SendClientMessage(playerid, -1, "145 chars: ");
+	onehundredfourtyfourcharsstring.append("X");
+	sampgdk_SendClientMessage(playerid, -1, onehundredfourtyfourcharsstring.c_str());
+
+	onehundredfourtyfourcharsstring.clear();
+	for (int i = 0; i < 144; ++i)
+	{
+		onehundredfourtyfourcharsstring.append(std::string(1, 'A' + rand() % 26));
+	}
+	onehundredfourtyfourcharsstring.insert(32, "{FF0000}");
+	onehundredfourtyfourcharsstring.insert(64, "{00FF00}");
+	onehundredfourtyfourcharsstring.insert(96, "{0000FF}");
+	sampgdk_SendClientMessage(playerid, -1, "144 chars with color coding: ");
+	sampgdk_SendClientMessage(playerid, -1, onehundredfourtyfourcharsstring.c_str());
+	sampgdk_SendClientMessage(playerid, -1, "145 chars with color coding: ");
+	onehundredfourtyfourcharsstring.append("X");
+	sampgdk_SendClientMessage(playerid, -1, onehundredfourtyfourcharsstring.c_str());
+	return true;
+}*/

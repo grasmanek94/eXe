@@ -24,12 +24,16 @@
 void ProcessStringWithBTag(unsigned int color, std::string& message)
 {
 	unsigned char tag_color[4];
+
 	color = (color >> 8);
+
 	(*(unsigned int*)tag_color) = color;
+
 	tag_color[0] = (unsigned char)((float)tag_color[0] * 0.7f);
 	tag_color[1] = (unsigned char)((float)tag_color[1] * 0.7f);
 	tag_color[2] = (unsigned char)((float)tag_color[2] * 0.7f);
 	tag_color[3] = (unsigned char)((float)tag_color[3] * 0.7f);
+
 	boost::replace_all(message, "{/b}", Functions::string_format("{%06X}", color));
 	boost::replace_all(message, "{b}", Functions::string_format("{%06X}", (*(unsigned int*)tag_color)));
 }
@@ -37,6 +41,11 @@ void ProcessStringWithBTag(unsigned int color, std::string& message)
 void FixMessageWithBTag(unsigned int color, std::string& message, bool displayPrefix)
 {
 	boost::algorithm::replace_all(message, "%", "%%");
+
 	ProcessStringWithBTag(color, message);
-	if (displayPrefix) message.insert(0, "››› ");
+
+	if (displayPrefix)
+	{
+		message.insert(0, "››› ");
+	}
 }

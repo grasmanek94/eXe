@@ -670,17 +670,25 @@ void aKick(int kickid, int kreason, bool allip, int kickerid, std::string reason
 void aBan(int banid, int breason, int playerid, unsigned long long time, std::string reason, std::string banername, bool silent)
 {
 	if (playerid != INVALID_PLAYER_ID)
+	{
 		banername = Player[playerid].PlayerName;
+	}
 
 	unsigned long long ban_identifier = Functions::GetTime();
 
 	if (!reason.size())
+	{
 		reason.assign("-");
+	}
 	
 	if (!time)
+	{
 		Player[banid].statistics.banned = 2114380800000;//ban expires 01-01-2037
+	}
 	else
+	{
 		Player[banid].statistics.banned = ban_identifier + (time * 60000);
+	}
 
 	Player[banid].statistics.ban_reason = reason;
 	Player[banid].statistics.ban_who = banername;
@@ -689,14 +697,14 @@ void aBan(int banid, int breason, int playerid, unsigned long long time, std::st
 
 	std::string forkickid(Functions::string_format(TranslateP(banid, L_banned_dialogdisplay), banername.c_str(), ban_identifier, Player[banid].PlayerName.c_str(), Player[banid].ipv4.to_string().c_str(), reason.c_str(), StaticVersionDeterminator.GetWebUrl().c_str(), Functions::GetTimeStrFromMs(Player[banid].statistics.banned).c_str(), Functions::GetTimeStrFromMs(ban_identifier).c_str()));
 
-	fixSendClientMessageToAllF(Color::COLOR_ERROR, L_banned_player, true, true, banername.c_str(), Player[banid].PlayerName.c_str(), reason.c_str());
+	fixSendClientMessageToAllF(Color::COLOR_ERROR, L_banned_player, false, false, banername.c_str(), Player[banid].PlayerName.c_str(), reason.c_str());
 	for (auto i : IPtoPlayers[Player[banid].ipv4])
 	{
 		ShowPlayerCustomDialog(i, DLG_DUMMY, DIALOG_STYLE_MSGBOX, TranslateP(banid, L_banned_ipandaccount), forkickid, "V", "X");
 		DelayKick(i, breason);
 	}
 
-	WorkerRequest.push(new WorkerTransportData({ 0, "", new ban(Player[banid].ipv4.to_ulong(), Player[banid].statistics.banned, ban_identifier, Player[banid].PlayerName, banername, reason), DATABASE_REQUEST_OPERATION_SAVE_BAN, DATABASE_POINTER_TYPE_BAN, Player[banid].ipv4.to_ulong(), 0 }));
+	CreateWorkerRequest(0, "", new ban(Player[banid].ipv4.to_ulong(), Player[banid].statistics.banned, ban_identifier, Player[banid].PlayerName, banername, reason), DATABASE_REQUEST_OPERATION_SAVE_BAN, DATABASE_POINTER_TYPE_BAN, Player[banid].ipv4.to_ulong(), 0);
 
 	gtLog(LOG_BAN, Functions::string_format("[%d][%s]--BID:[%I64X]--TIME:[%I64u]-->[%d][%s][%s]:[%s]", playerid, banername.c_str(), ban_identifier, Player[banid].statistics.banned, banid, Player[banid].PlayerName.c_str(), Player[banid].ipv4.to_string().c_str(), reason.c_str()));
 }
