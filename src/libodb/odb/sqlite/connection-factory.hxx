@@ -1,5 +1,5 @@
 // file      : odb/sqlite/connection-factory.hxx
-// copyright : Copyright (c) 2009-2013 Code Synthesis Tools CC
+// copyright : Copyright (c) 2009-2015 Code Synthesis Tools CC
 // license   : GNU GPL v2; see accompanying LICENSE file
 
 #ifndef ODB_SQLITE_CONNECTION_FACTORY_HXX
@@ -62,7 +62,7 @@ namespace odb
       single_connection_factory& operator= (const single_connection_factory&);
 
     protected:
-      class single_connection: public connection
+      class LIBODB_SQLITE_EXPORT single_connection: public connection
       {
       public:
         single_connection (database_type&, int extra_flags = 0);
@@ -178,7 +178,7 @@ namespace odb
       connection_pool_factory& operator= (const connection_pool_factory&);
 
     protected:
-      class pooled_connection: public connection
+      class LIBODB_SQLITE_EXPORT pooled_connection: public connection
       {
       public:
         pooled_connection (database_type&, int extra_flags = 0);

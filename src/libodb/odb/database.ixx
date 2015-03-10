@@ -1,14 +1,76 @@
 // file      : odb/database.ixx
-// copyright : Copyright (c) 2009-2013 Code Synthesis Tools CC
+// copyright : Copyright (c) 2009-2015 Code Synthesis Tools CC
 // license   : GNU GPL v2; see accompanying LICENSE file
 
 #include <cstring> // std::strlen()
 #include <utility> // std::move
+#include <iterator>
 
 #include <odb/transaction.hxx>
+#include <odb/pointer-traits.hxx>
 
 namespace odb
 {
+  template <typename T>
+  struct object_pointer_traits
+  {
+    typedef details::meta::no result_type;
+    typedef T object_type;
+    static const T& get_ref (const T& x) {return x;}
+  };
+
+  template <typename T>
+  struct object_pointer_traits<T*>
+  {
+    typedef details::meta::yes result_type;
+    typedef T object_type;
+    static const T& get_ref (const T* p) {return *p;}
+  };
+
+  template <typename T>
+  struct object_pointer_traits<T* const>
+  {
+    typedef details::meta::yes result_type;
+    typedef T object_type;
+    static const T& get_ref (const T* p) {return *p;}
+  };
+
+  template <typename T, template <typename> class P>
+  struct object_pointer_traits<P<T> >
+  {
+    typedef details::meta::yes result_type;
+    typedef T object_type;
+    static const T& get_ref (const P<T>& p) {
+      return pointer_traits<P<T> >::get_ref (p);}
+  };
+
+  template <typename T, typename A1, template <typename, typename> class P>
+  struct object_pointer_traits<P<T, A1> >
+  {
+    typedef details::meta::yes result_type;
+    typedef T object_type;
+    static const T& get_ref (const P<T, A1>& p) {
+      return pointer_traits<P<T, A1> >::get_ref (p);}
+  };
+
+  template <typename T, template <typename> class P>
+  struct object_pointer_traits<const P<T> >
+  {
+    typedef details::meta::yes result_type;
+    typedef T object_type;
+    static const T& get_ref (const P<T>& p) {
+      return pointer_traits<P<T> >::get_ref (p);}
+  };
+
+  template <typename T, typename A1, template <typename, typename> class P>
+  struct object_pointer_traits<const P<T, A1> >
+  {
+    typedef details::meta::yes result_type;
+    typedef T object_type;
+    static const T& get_ref (const P<T, A1>& p) {
+      return pointer_traits<P<T, A1> >::get_ref (p);}
+  };
+
   inline database::
   database (database_id id)
       : id_ (id), tracer_ (0), schema_version_seq_ (1)
@@ -65,31 +127,13 @@ namespace odb
     return connection_ptr (connection_ ());
   }
 
+#ifndef ODB_CXX11
   inline void database::
-  query_factory (const char* name, query_factory_type f)
+  query_factory (const char* name, query_factory_ptr f)
   {
-    if (f)
-#ifdef ODB_CXX11
-      query_factory_map_[name] = std::move (f);
-#else
-      query_factory_map_[name] = f;
+    query_factory (name, query_factory_wrapper (f));
+  }
 #endif
-    else
-      query_factory_map_.erase (name);
-  }
-
-  inline database::query_factory_type database::
-  lookup_query_factory (const char* name) const
-  {
-    query_factory_map::const_iterator i (query_factory_map_.find (name));
-
-    if (i == query_factory_map_.end ())
-      i = query_factory_map_.find (""); // Wildcard factory.
-
-    return i != query_factory_map_.end ()
-      ? i->second
-      : database::query_factory_type ();
-  }
 
   inline void database::
   tracer (tracer_type& t)
@@ -114,6 +158,13 @@ namespace odb
   persist (T& obj)
   {
     return persist_<T, id_common> (obj);
+  }
+
+  template <typename T>
+  inline typename object_traits<T>::id_type database::
+  persist (const T& obj)
+  {
+    return persist_<const T, id_common> (obj);
   }
 
   template <typename T>
@@ -182,6 +233,13 @@ namespace odb
   persist (const typename object_traits<T>::pointer_type& pobj)
   {
     return persist_<T, id_common> (pobj);
+  }
+
+  template <typename I>
+  inline void database::
+  persist (I b, I e, bool cont)
+  {
+    persist_<I, id_common> (b, e, cont);
   }
 
   template <typename T>
@@ -345,6 +403,13 @@ namespace odb
     update_<T, id_common> (pobj);
   }
 
+  template <typename I>
+  inline void database::
+  update (I b, I e, bool cont)
+  {
+    update_<I, id_common> (b, e, cont);
+  }
+
   template <typename T>
   inline void database::
   update (const T& obj, const section& s)
@@ -434,6 +499,20 @@ namespace odb
     erase_<T, id_common> (pobj);
   }
 
+  template <typename T, typename I>
+  inline void database::
+  erase (I idb, I ide, bool cont)
+  {
+    erase_id_<I, T, id_common> (idb, ide, cont);
+  }
+
+  template <typename I>
+  inline void database::
+  erase (I ob, I oe, bool cont)
+  {
+    erase_object_<I, id_common> (ob, oe, cont);
+  }
+
   template <typename T>
   inline unsigned long long database::
   erase_query ()
@@ -489,6 +568,90 @@ namespace odb
   query (const std::string& q, bool cache)
   {
     return query<T> (odb::query<T> (q), cache);
+  }
+
+  template <typename T>
+  inline typename object_traits<T>::pointer_type database::
+  query_one ()
+  {
+    return query_one<T> (odb::query<T> ());
+  }
+
+  template <typename T>
+  inline bool database::
+  query_one (T& o)
+  {
+    return query_one<T> (odb::query<T> (), o);
+  }
+
+  template <typename T>
+  inline T database::
+  query_value ()
+  {
+    return query_value<T> (odb::query<T> ());
+  }
+
+  template <typename T>
+  inline typename object_traits<T>::pointer_type database::
+  query_one (const char* q)
+  {
+    return query_one<T> (odb::query<T> (q));
+  }
+
+  template <typename T>
+  inline bool database::
+  query_one (const char* q, T& o)
+  {
+    return query_one<T> (odb::query<T> (q), o);
+  }
+
+  template <typename T>
+  inline T database::
+  query_value (const char* q)
+  {
+    return query_value<T> (odb::query<T> (q));
+  }
+
+  template <typename T>
+  inline typename object_traits<T>::pointer_type database::
+  query_one (const std::string& q)
+  {
+    return query_one<T> (odb::query<T> (q));
+  }
+
+  template <typename T>
+  inline bool database::
+  query_one (const std::string& q, T& o)
+  {
+    return query_one<T> (odb::query<T> (q), o);
+  }
+
+  template <typename T>
+  inline T database::
+  query_value (const std::string& q)
+  {
+    return query_value<T> (odb::query<T> (q));
+  }
+
+  template <typename T>
+  inline bool database::
+  query_one (const odb::query<T>& q, T& o)
+  {
+    return query_one_<T, id_common> (q, o);
+  }
+
+  template <typename T>
+  inline typename object_traits<T>::pointer_type database::
+  query_one (const odb::query<T>& q)
+  {
+    return query_one_<T, id_common> (q);
+  }
+
+  template <typename T>
+  inline T database::
+  query_value (const odb::query<T>& q)
+  {
+    return query_value_<T, id_common> (q);
   }
 
   template <typename T>
@@ -557,6 +720,26 @@ namespace odb
 
   // Implementations (i.e., the *_() functions).
   //
+  template <typename I, database_id DB>
+  inline void database::
+  persist_ (I b, I e, bool cont)
+  {
+    // Sun CC with non-standard STL does not have iterator_traits.
+    //
+#ifndef _RWSTD_NO_CLASS_PARTIAL_SPEC
+    typedef typename std::iterator_traits<I>::value_type value_type;
+#else
+    // Assume iterator is just a pointer.
+    //
+    typedef typename object_pointer_traits<I>::object_type value_type;
+#endif
+
+    typedef object_pointer_traits<value_type> opt;
+
+    persist_<I, typename opt::object_type, id_common> (
+      b, e, cont, typename opt::result_type ());
+  }
+
   template <typename T, database_id DB>
   inline typename object_traits<T>::pointer_type database::
   find_ (const typename object_traits<T>::id_type& id)
@@ -637,6 +820,45 @@ namespace odb
     typedef typename object_traits<T>::pointer_type pointer_type;
 
     erase_<T, DB> (pointer_traits<pointer_type>::get_ref (pobj));
+  }
+
+  template <typename T, database_id DB, typename Q>
+  inline typename object_traits<T>::pointer_type database::
+  query_one_ (const Q& q)
+  {
+    result<T> r (query_<T, DB>::call (*this, q));
+
+    // We still have to cache the result since loading the object
+    // may result in loading of it's related objects and that would
+    // invalidate the result even for just getting the 'end' status.
+    //
+    r.cache ();
+
+    return r.one ();
+  }
+
+  template <typename T, database_id DB, typename Q>
+  inline bool database::
+  query_one_ (const Q& q, T& o)
+  {
+    result<T> r (query_<T, DB>::call (*this, q));
+    r.cache (); // See above.
+    return r.one (o);
+  }
+
+  template <typename T, database_id DB, typename Q>
+  inline T database::
+  query_value_ (const Q& q)
+  {
+    result<T> r (query_<T, DB>::call (*this, q));
+    r.cache (); // See above.
+
+    // Compiler error pointing here? The object must be default-constructible
+    // in order to use the return-by-value API.
+    //
+    T o;
+    r.value (o);
+    return o;
   }
 
   // execute()

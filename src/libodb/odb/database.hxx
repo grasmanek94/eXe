@@ -1,5 +1,5 @@
 // file      : odb/database.hxx
-// copyright : Copyright (c) 2009-2013 Code Synthesis Tools CC
+// copyright : Copyright (c) 2009-2015 Code Synthesis Tools CC
 // license   : GNU GPL v2; see accompanying LICENSE file
 
 #ifndef ODB_DATABASE_HXX
@@ -15,7 +15,9 @@
 #include <cstddef> // std::size_t
 
 #ifdef ODB_CXX11
-#  include <functional> // std::function
+#  include <utility>     // std::move
+#  include <functional>  // std::function
+#  include <type_traits> // std::enable_if, std::is_convertible
 #endif
 
 #include <odb/traits.hxx>
@@ -30,6 +32,8 @@
 #include <odb/details/export.hxx>
 #include <odb/details/mutex.hxx>
 #include <odb/details/c-string.hxx>
+#include <odb/details/function-wrapper.hxx>
+#include <odb/details/meta/answer.hxx>
 
 namespace odb
 {
@@ -44,12 +48,15 @@ namespace odb
     // Object persistence API.
     //
   public:
-
     // Make the object persistent.
     //
     template <typename T>
     typename object_traits<T>::id_type
     persist (T& object);
+
+    template <typename T>
+    typename object_traits<T>::id_type
+    persist (const T& object);
 
     template <typename T>
     typename object_traits<T>::id_type
@@ -74,6 +81,13 @@ namespace odb
     template <typename T>
     typename object_traits<T>::id_type
     persist (const typename object_traits<T>::pointer_type& obj_ptr);
+
+    // Bulk persist. Can be a range of references or pointers (including
+    // smart pointers) to objects.
+    //
+    template <typename I>
+    void
+    persist (I begin, I end, bool continue_failed = true);
 
     // Load an object. Throw object_not_persistent if not found.
     //
@@ -161,6 +175,13 @@ namespace odb
     void
     update (const typename object_traits<T>::pointer_type& obj_ptr);
 
+    // Bulk update. Can be a range of references or pointers (including
+    // smart pointers) to objects.
+    //
+    template <typename I>
+    void
+    update (I begin, I end, bool continue_failed = true);
+
     // Update a section of an object. Throws section_not_loaded exception
     // if section is not loaded. Note also that this function does not
     // clear the changed flag if it is set.
@@ -204,6 +225,19 @@ namespace odb
     void
     erase (const typename object_traits<T>::pointer_type& obj_ptr);
 
+    // Bulk erase.
+    //
+    template <typename T, typename I>
+    void
+    erase (I id_begin, I id_end, bool continue_failed = true);
+
+    // Can be a range of references or pointers (including smart pointers)
+    // to objects.
+    //
+    template <typename I>
+    void
+    erase (I obj_begin, I obj_end, bool continue_failed = true);
+
     // Erase multiple objects matching a query predicate.
     //
     template <typename T>
@@ -239,6 +273,56 @@ namespace odb
     template <typename T>
     result<T>
     query (const odb::query<T>&, bool cache = true);
+
+    // Query one API.
+    //
+    template <typename T>
+    typename object_traits<T>::pointer_type
+    query_one ();
+
+    template <typename T>
+    bool
+    query_one (T& object);
+
+    template <typename T>
+    T
+    query_value ();
+
+    template <typename T>
+    typename object_traits<T>::pointer_type
+    query_one (const char*);
+
+    template <typename T>
+    bool
+    query_one (const char*, T& object);
+
+    template <typename T>
+    T
+    query_value (const char*);
+
+    template <typename T>
+    typename object_traits<T>::pointer_type
+    query_one (const std::string&);
+
+    template <typename T>
+    bool
+    query_one (const std::string&, T& object);
+
+    template <typename T>
+    T
+    query_value (const std::string&);
+
+    template <typename T>
+    typename object_traits<T>::pointer_type
+    query_one (const odb::query<T>&);
+
+    template <typename T>
+    bool
+    query_one (const odb::query<T>&, T& object);
+
+    template <typename T>
+    T
+    query_value (const odb::query<T>&);
 
     // Query preparation.
     //
@@ -281,19 +365,31 @@ namespace odb
   public:
     typedef odb::connection connection_type;
 
-#ifdef ODB_CXX11
-    typedef
-    std::function<void (const char*, connection_type&)>
-    query_factory_type;
+    typedef void query_factory_type (const char* name, connection_type&);
+    typedef query_factory_type* query_factory_ptr;
+    typedef details::function_wrapper<
+      query_factory_type> query_factory_wrapper;
+
+#ifndef ODB_CXX11
+    void
+    query_factory (const char* name, query_factory_ptr);
 #else
-    typedef void (*query_factory_type) (const char*, connection_type&);
+    template <typename F>
+    typename std::enable_if<
+      std::is_convertible<
+      F, std::function<query_factory_type>>::value, void>::type
+    query_factory (const char* name, F f)
+    {
+      query_factory (name, query_factory_wrapper (std::move (f)));
+    }
 #endif
 
-    void
-    query_factory (const char* name, query_factory_type);
+    bool
+    call_query_factory (const char* name, connection_type&) const;
 
-    query_factory_type
-    lookup_query_factory (const char* name) const;
+  private:
+    void
+    query_factory (const char* name, query_factory_wrapper);
 
     // Native database statement execution.
     //
@@ -425,6 +521,18 @@ namespace odb
     typename object_traits<T>::id_type
     persist_ (const typename object_traits<T>::pointer_type&);
 
+    template <typename I, database_id DB>
+    void
+    persist_ (I, I, bool);
+
+    template <typename I, typename T, database_id DB>
+    void
+    persist_ (I, I, bool, details::meta::no ptr);
+
+    template <typename I, typename T, database_id DB>
+    void
+    persist_ (I, I, bool, details::meta::yes ptr);
+
     template <typename T, database_id DB>
     typename object_traits<T>::pointer_type
     load_ (const typename object_traits<T>::id_type&);
@@ -457,6 +565,10 @@ namespace odb
     void
     update_ (const typename object_traits<T>::pointer_type&);
 
+    template <typename I, database_id DB>
+    void
+    update_ (I, I, bool);
+
     template <typename T, database_id DB>
     void
     update_ (const T&, const section&);
@@ -473,6 +585,26 @@ namespace odb
     void
     erase_ (const typename object_traits<T>::pointer_type&);
 
+    template <typename I, typename T, database_id DB>
+    void
+    erase_id_ (I, I, bool);
+
+    template <typename I, database_id DB>
+    void
+    erase_object_ (I, I, bool);
+
+    template <typename T, database_id DB, typename Q>
+    typename object_traits<T>::pointer_type
+    query_one_ (const Q&);
+
+    template <typename T, database_id DB, typename Q>
+    bool
+    query_one_ (const Q&, T&);
+
+    template <typename T, database_id DB, typename Q>
+    T
+    query_value_ (const Q&);
+
     template <typename T,
               database_id DB,
               class_kind kind = class_traits<T>::kind>
@@ -480,7 +612,7 @@ namespace odb
 
   protected:
     typedef
-    std::map<const char*, query_factory_type, details::c_string_comparator>
+    std::map<const char*, query_factory_wrapper, details::c_string_comparator>
     query_factory_map;
 
     typedef std::map<std::string, schema_version_info> schema_version_map;

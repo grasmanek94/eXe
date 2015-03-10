@@ -1,5 +1,5 @@
 // file      : odb/vector-impl.ixx
-// copyright : Copyright (c) 2009-2013 Code Synthesis Tools CC
+// copyright : Copyright (c) 2009-2015 Code Synthesis Tools CC
 // license   : GNU GPL v2; see accompanying LICENSE file
 
 #ifdef ODB_CXX11
@@ -100,6 +100,16 @@ namespace odb
   }
 
   inline void vector_impl::
+  set (std::size_t i, element_state_type s)
+  {
+    std::size_t r (i % 4);
+    i /= 4;
+    unsigned char v (static_cast<unsigned char> (s));
+    v <<= shift_[r];
+    data_[i] = (data_[i] & ~mask_[r]) | v;
+  }
+
+  inline void vector_impl::
   modify (std::size_t i, std::size_t n)
   {
     for (; n != 0; --n, ++i)
@@ -125,41 +135,17 @@ namespace odb
       push_back (n - tail_);
   }
 
-  inline void vector_impl::
-  set (std::size_t i, element_state_type s)
-  {
-    std::size_t r (i % 4);
-    i /= 4;
-    unsigned char v (static_cast<unsigned char> (s));
-    v <<= shift_[r];
-    data_[i] = (data_[i] & ~mask_[r]) | v;
-  }
-
   // vector_base
   //
-#ifdef ODB_CXX11
   inline vector_base::
-  vector_base (vector_base&& x)
-      : impl_ (std::move (x.impl_)), tran_ (0)
+  ~vector_base ()
   {
-    if (x.tran_ != 0)
-    {
-      x.tran_->callback_unregister (&x);
-      _arm (*x.tran_);
-    }
+    if (tran_ != 0)
+      tran_->callback_unregister (this);
   }
-#endif
 
-  inline void vector_base::
-  _arm (transaction& t) const
-  {
-    tran_ = &t;
-    t.callback_register (&rollback,
-                         const_cast<vector_base*> (this),
-                         transaction::event_rollback,
-                         0,
-                         &tran_);
-  }
+  inline vector_base::
+  vector_base (): tran_ (0) {}
 
   inline vector_base::
   vector_base (const vector_base& x)
@@ -178,5 +164,41 @@ namespace odb
 
     if (tran_ != 0 || x.tran_ != 0)
       swap_tran (x);
+  }
+
+#ifdef ODB_CXX11
+  inline vector_base::
+  vector_base (vector_base&& x)
+      : impl_ (std::move (x.impl_)), tran_ (0)
+  {
+    if (x.tran_ != 0)
+    {
+      x.tran_->callback_unregister (&x);
+      _arm (*x.tran_);
+    }
+  }
+#endif
+
+  inline void vector_base::
+  _stop () const
+  {
+    impl_.stop ();
+  }
+
+  inline bool vector_base::
+  _tracking () const
+  {
+    return impl_.tracking ();
+  }
+
+  inline void vector_base::
+  _arm (transaction& t) const
+  {
+    tran_ = &t;
+    t.callback_register (&rollback,
+                         const_cast<vector_base*> (this),
+                         transaction::event_rollback,
+                         0,
+                         &tran_);
   }
 }

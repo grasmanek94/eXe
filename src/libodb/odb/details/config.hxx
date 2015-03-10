@@ -1,5 +1,5 @@
 // file      : odb/details/config.hxx
-// copyright : Copyright (c) 2005-2013 Code Synthesis Tools CC
+// copyright : Copyright (c) 2005-2015 Code Synthesis Tools CC
 // license   : GNU GPL v2; see accompanying LICENSE file
 
 #ifndef ODB_DETAILS_CONFIG_HXX
@@ -14,8 +14,8 @@
 #  define LIBODB_STATIC_LIB
 #  if defined(__GXX_EXPERIMENTAL_CXX0X__) || __cplusplus >= 201103L
 #    define ODB_CXX11
-#    if __GNUC__ >= 4 && __GNUC_MINOR__ >= 6
-#      define ODB_CXX_NULLPTR
+#    if (__GNUC__ == 4 && __GNUC_MINOR__ >= 6) || __GNUC__ > 4
+#      define ODB_CXX11_NULLPTR
 #    endif
 #    define ODB_CXX11_DELETED_FUNCTION
 #    define ODB_CXX11_EXPLICIT_CONVERSION_OPERATOR
@@ -28,11 +28,11 @@
 #  if defined(__GXX_EXPERIMENTAL_CXX0X__) || __cplusplus >= 201103L
 #    define ODB_CXX11
 #    ifdef __GNUC__
-#      if __GNUC__ >= 4 && __GNUC_MINOR__ >= 6
-#        define ODB_CXX_NULLPTR
+#      if (__GNUC__ == 4 && __GNUC_MINOR__ >= 6) || __GNUC__ > 4
+#        define ODB_CXX11_NULLPTR
 #      endif
 #    else
-#      define ODB_CXX_NULLPTR
+#      define ODB_CXX11_NULLPTR
 #    endif
 #    define ODB_CXX11_DELETED_FUNCTION
 #    define ODB_CXX11_EXPLICIT_CONVERSION_OPERATOR

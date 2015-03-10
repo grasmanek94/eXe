@@ -1,5 +1,5 @@
 // file      : odb/sqlite/version.hxx
-// copyright : Copyright (c) 2005-2013 Code Synthesis Tools CC
+// copyright : Copyright (c) 2005-2015 Code Synthesis Tools CC
 // license   : GNU GPL v2; see accompanying LICENSE file
 
 #ifndef ODB_SQLITE_VERSION_HXX
@@ -28,15 +28,15 @@
 
 // Check that we have compatible ODB version.
 //
-#if ODB_VERSION != 20300
+#if ODB_VERSION != 20400
 #  error incompatible odb interface version detected
 #endif
 
 // libodb-sqlite version: odb interface version plus the bugfix
 // version.
 //
-#define LIBODB_SQLITE_VERSION     2030000
-#define LIBODB_SQLITE_VERSION_STR "2.3.0"
+#define LIBODB_SQLITE_VERSION     2040000
+#define LIBODB_SQLITE_VERSION_STR "2.4.0"
 
 #include <odb/post.hxx>
 

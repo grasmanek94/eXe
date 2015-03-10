@@ -1,5 +1,5 @@
 // file      : odb/details/shared-ptr/base.ixx
-// copyright : Copyright (c) 2009-2013 Code Synthesis Tools CC
+// copyright : Copyright (c) 2009-2015 Code Synthesis Tools CC
 // license   : GNU GPL v2; see accompanying LICENSE file
 
 namespace odb
@@ -61,6 +61,12 @@ namespace odb
     _ref_count () const
     {
       return counter_;
+    }
+
+    inline void* shared_base::
+    operator new (std::size_t n) throw (std::bad_alloc)
+    {
+      return ::operator new (n);
     }
 
     inline void* shared_base::

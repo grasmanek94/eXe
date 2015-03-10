@@ -1,5 +1,5 @@
 // file      : odb/forward.hxx
-// copyright : Copyright (c) 2009-2013 Code Synthesis Tools CC
+// copyright : Copyright (c) 2009-2015 Code Synthesis Tools CC
 // license   : GNU GPL v2; see accompanying LICENSE file
 
 #ifndef ODB_FORWARD_HXX
@@ -59,6 +59,7 @@ namespace odb
   //
   class tracer; // Not in core.
   extern LIBODB_EXPORT tracer& stderr_tracer;
+  extern LIBODB_EXPORT tracer& stderr_full_tracer;
 
   namespace common
   {
@@ -151,6 +152,10 @@ namespace odb
   //
   class result_impl;
   class prepared_query_impl;
+
+  //
+  //
+  struct multiple_exceptions;
 
   // Polymorphism support.
   //

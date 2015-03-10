@@ -1,5 +1,5 @@
 // file      : odb/vector-impl.hxx
-// copyright : Copyright (c) 2009-2013 Code Synthesis Tools CC
+// copyright : Copyright (c) 2009-2015 Code Synthesis Tools CC
 // license   : GNU GPL v2; see accompanying LICENSE file
 
 #ifndef ODB_VECTOR_IMPL_HXX
@@ -174,10 +174,10 @@ namespace odb
   {
   public:
     void
-    _stop () const {impl_.stop ();}
+    _stop () const;
 
     bool
-    _tracking () const {return impl_.tracking ();}
+    _tracking () const;
 
     void
     _arm (transaction& t) const;
@@ -191,8 +191,8 @@ namespace odb
     vector_base& operator= (const vector_base&);
 
   protected:
-    vector_base (): tran_ (0) {}
-    ~vector_base () {if (tran_ != 0) tran_->callback_unregister (this);}
+    ~vector_base ();
+    vector_base ();
     vector_base (const vector_base&);
 
 #ifdef ODB_CXX11

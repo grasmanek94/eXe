@@ -1,5 +1,5 @@
 // file      : odb/result.hxx
-// copyright : Copyright (c) 2009-2013 Code Synthesis Tools CC
+// copyright : Copyright (c) 2009-2015 Code Synthesis Tools CC
 // license   : GNU GPL v2; see accompanying LICENSE file
 
 #ifndef ODB_RESULT_HXX
@@ -209,6 +209,23 @@ namespace odb
       return impl_ ? impl_->size () : 0;
     }
 
+    // query_one() and query_value() implementation details.
+    //
+  public:
+    typename object_traits<T>::pointer_type
+    one ();
+
+    bool
+    one (T&);
+
+    // We cannot return by value here since result can be instantiated
+    // for an abstract type (polymorphic abstract base) and it seems
+    // the signature must be valid to the point being able to call the
+    // necessary constructors.
+    //
+    void
+    value (T&);
+
   private:
     friend class result<const T>;
 
@@ -221,6 +238,8 @@ namespace odb
     using odb::result_iterator;
   }
 }
+
+#include <odb/result.txx>
 
 #include <odb/post.hxx>
 

@@ -1,5 +1,5 @@
 // file      : odb/sqlite/database.hxx
-// copyright : Copyright (c) 2009-2013 Code Synthesis Tools CC
+// copyright : Copyright (c) 2009-2015 Code Synthesis Tools CC
 // license   : GNU GPL v2; see accompanying LICENSE file
 
 #ifndef ODB_SQLITE_DATABASE_HXX
@@ -121,6 +121,10 @@ namespace odb
       template <typename T>
       typename object_traits<T>::id_type
       persist (T& object);
+
+      template <typename T>
+      typename object_traits<T>::id_type
+      persist (const T& object);
 
       template <typename T>
       typename object_traits<T>::id_type
@@ -318,6 +322,68 @@ namespace odb
       template <typename T>
       result<T>
       query (const odb::query_base&);
+
+      // Query one API.
+      //
+      template <typename T>
+      typename object_traits<T>::pointer_type
+      query_one ();
+
+      template <typename T>
+      bool
+      query_one (T& object);
+
+      template <typename T>
+      T
+      query_value ();
+
+      template <typename T>
+      typename object_traits<T>::pointer_type
+      query_one (const char*);
+
+      template <typename T>
+      bool
+      query_one (const char*, T& object);
+
+      template <typename T>
+      T
+      query_value (const char*);
+
+      template <typename T>
+      typename object_traits<T>::pointer_type
+      query_one (const std::string&);
+
+      template <typename T>
+      bool
+      query_one (const std::string&, T& object);
+
+      template <typename T>
+      T
+      query_value (const std::string&);
+
+      template <typename T>
+      typename object_traits<T>::pointer_type
+      query_one (const sqlite::query_base&);
+
+      template <typename T>
+      bool
+      query_one (const sqlite::query_base&, T& object);
+
+      template <typename T>
+      T
+      query_value (const sqlite::query_base&);
+
+      template <typename T>
+      typename object_traits<T>::pointer_type
+      query_one (const odb::query_base&);
+
+      template <typename T>
+      bool
+      query_one (const odb::query_base&, T& object);
+
+      template <typename T>
+      T
+      query_value (const odb::query_base&);
 
       // Query preparation.
       //

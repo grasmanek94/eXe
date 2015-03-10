@@ -1,5 +1,5 @@
 // file      : odb/sqlite/container-statements.hxx
-// copyright : Copyright (c) 2005-2013 Code Synthesis Tools CC
+// copyright : Copyright (c) 2005-2015 Code Synthesis Tools CC
 // license   : GNU GPL v2; see accompanying LICENSE file
 
 #ifndef ODB_SQLITE_CONTAINER_STATEMENTS_HXX
@@ -126,7 +126,8 @@ namespace odb
               conn_,
               insert_text_,
               versioned_, // Process if versioned.
-              insert_image_binding_));
+              insert_image_binding_,
+              0));
 
         return *insert_;
       }

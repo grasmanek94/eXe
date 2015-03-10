@@ -1,5 +1,5 @@
 // file      : odb/traits.hxx
-// copyright : Copyright (c) 2009-2013 Code Synthesis Tools CC
+// copyright : Copyright (c) 2009-2015 Code Synthesis Tools CC
 // license   : GNU GPL v2; see accompanying LICENSE file
 
 #ifndef ODB_TRAITS_HXX
@@ -12,6 +12,27 @@
 
 namespace odb
 {
+  // Fallback dummy for non-persistent classes. It is necessary to allow
+  // the C++ compiler to instantiate persist(), etc., signatures in class
+  // database when T is a pointer (raw, smart). The overloads that use
+  // these dummy would never actually be selected by the compiler.
+  //
+  template <typename T>
+  class access::object_traits
+  {
+    // If a C++ compiler issues an error pointing to this class and saying
+    // that it is missing some declaration, then you are most likely trying
+    // to perform a database operation on a C++ type that is not a persistent
+    // object. Or you forgot to include the corresponding -odb.hxx file.
+    //
+  public:
+    struct id_type {};
+    typedef T object_type;
+    typedef T* pointer_type;
+
+    static const bool polymorphic = false;
+  };
+
   template <typename T, typename P>
   class access::object_factory
   {
@@ -138,47 +159,6 @@ namespace odb
     typedef const_pointer_type pointer_type;
 
     static const bool polymorphic = access::object_traits<T>::polymorphic;
-  };
-
-  // Specializations for pointer types to allow the C++ compiler to
-  // instantiate persist(), etc., signatures in class database. The
-  // overloads that use these specializations would never actually
-  // be selected by the compiler.
-  //
-  template <typename T>
-  struct object_traits<T*>
-  {
-    struct id_type {};
-  };
-
-  template <typename T>
-  struct object_traits<T* const>
-  {
-    struct id_type {};
-  };
-
-  template <typename T, template <typename> class P>
-  struct object_traits<P<T> >
-  {
-    struct id_type {};
-  };
-
-  template <typename T, typename A1, template <typename, typename> class P>
-  struct object_traits<P<T, A1> >
-  {
-    struct id_type {};
-  };
-
-  template <typename T, template <typename> class P>
-  struct object_traits<const P<T> >
-  {
-    struct id_type {};
-  };
-
-  template <typename T, typename A1, template <typename, typename> class P>
-  struct object_traits<const P<T, A1> >
-  {
-    struct id_type {};
   };
 
   // Specialization for section to allow instantiation of all the load()

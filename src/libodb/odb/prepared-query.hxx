@@ -1,5 +1,5 @@
 // file      : odb/prepared-query.hxx
-// copyright : Copyright (c) 2009-2013 Code Synthesis Tools CC
+// copyright : Copyright (c) 2009-2015 Code Synthesis Tools CC
 // license   : GNU GPL v2; see accompanying LICENSE file
 
 #ifndef ODB_PREPARED_QUERY_HXX
@@ -84,6 +84,29 @@ namespace odb
         r.cache ();
 
       return r;
+    }
+
+    typename object_traits<T>::pointer_type
+    execute_one ()
+    {
+      return execute (false).one ();
+    }
+
+    bool
+    execute_one (T& object)
+    {
+      return execute (false).one (object);
+    }
+
+    T
+    execute_value ()
+    {
+      // Compiler error pointing here? The object must be default-
+      // constructible in order to use the return-by-value API.
+      //
+      T o;
+      execute (false).value (o);
+      return o;
     }
 
     const char*

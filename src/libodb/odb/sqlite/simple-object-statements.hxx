@@ -1,5 +1,5 @@
 // file      : odb/sqlite/simple-object-statements.hxx
-// copyright : Copyright (c) 2005-2013 Code Synthesis Tools CC
+// copyright : Copyright (c) 2005-2015 Code Synthesis Tools CC
 // license   : GNU GPL v2; see accompanying LICENSE file
 
 #ifndef ODB_SQLITE_SIMPLE_OBJECT_STATEMENTS_HXX
@@ -39,49 +39,56 @@ namespace odb
     // deleter function which will be initialized during allocation
     // (at that point we know that the cache class is defined).
     //
-    template <typename T, typename I>
+    template <typename T, typename I, typename ID>
     struct extra_statement_cache_ptr
     {
       typedef I image_type;
+      typedef ID id_image_type;
       typedef sqlite::connection connection_type;
 
       extra_statement_cache_ptr (): p_ (0) {}
       ~extra_statement_cache_ptr ()
       {
         if (p_ != 0)
-          (this->*deleter_) (0, 0, 0, 0);
+          (this->*deleter_) (0, 0, 0, 0, 0);
       }
 
       T&
-      get (connection_type& c, image_type& im, binding& id, binding* idv)
+      get (connection_type& c,
+           image_type& im, id_image_type& idim,
+           binding& id, binding* idv)
       {
         if (p_ == 0)
-          allocate (&c, &im, &id, (idv != 0 ? idv : &id));
+          allocate (&c, &im, &idim, &id, (idv != 0 ? idv : &id));
 
         return *p_;
       }
 
     private:
       void
-      allocate (connection_type*, image_type*, binding*, binding*);
+      allocate (connection_type*,
+                image_type*, id_image_type*,
+                binding*, binding*);
 
     private:
       T* p_;
       void (extra_statement_cache_ptr::*deleter_) (
-        connection_type*, image_type*, binding*, binding*);
+        connection_type*, image_type*, id_image_type*, binding*, binding*);
     };
 
-    template <typename T, typename I>
-    void extra_statement_cache_ptr<T, I>::
-    allocate (connection_type* c, image_type* im, binding* id, binding* idv)
+    template <typename T, typename I, typename ID>
+    void extra_statement_cache_ptr<T, I, ID>::
+    allocate (connection_type* c,
+              image_type* im, id_image_type* idim,
+              binding* id, binding* idv)
     {
       // To reduce object code size, this function acts as both allocator
       // and deleter.
       //
       if (p_ == 0)
       {
-        p_ = new T (*c, *im, *id, *idv);
-        deleter_ = &extra_statement_cache_ptr<T, I>::allocate;
+        p_ = new T (*c, *im, *idim, *id, *idv);
+        deleter_ = &extra_statement_cache_ptr<T, I, ID>::allocate;
       }
       else
         delete p_;
@@ -354,7 +361,8 @@ namespace odb
               conn_,
               object_traits::persist_statement,
               object_traits::versioned, // Process if versioned.
-              insert_image_binding_));
+              insert_image_binding_,
+              (object_traits::auto_id ? &id_image_binding_ : 0)));
         }
 
         return *persist_;
@@ -430,7 +438,9 @@ namespace odb
       extra_statement_cache ()
       {
         return extra_statement_cache_.get (
-          conn_, image_, id_image_binding_, od_.id_image_binding ());
+          conn_,
+          image_, id_image_,
+          id_image_binding_, od_.id_image_binding ());
       }
 
     public:
@@ -476,8 +486,9 @@ namespace odb
       template <typename T1>
       friend class polymorphic_derived_object_statements;
 
-      extra_statement_cache_ptr<extra_statement_cache_type, image_type>
-      extra_statement_cache_;
+      extra_statement_cache_ptr<extra_statement_cache_type,
+                                image_type,
+                                id_image_type> extra_statement_cache_;
 
       image_type image_;
 

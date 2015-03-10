@@ -1,5 +1,5 @@
 // file      : odb/version.hxx
-// copyright : Copyright (c) 2005-2013 Code Synthesis Tools CC
+// copyright : Copyright (c) 2005-2015 Code Synthesis Tools CC
 // license   : GNU GPL v2; see accompanying LICENSE file
 
 #ifndef ODB_VERSION_HXX
@@ -26,13 +26,13 @@
 
 // ODB interface version: minor, major, and alpha/beta versions.
 //
-#define ODB_VERSION     20300
-#define ODB_VERSION_STR "2.3"
+#define ODB_VERSION     20400
+#define ODB_VERSION_STR "2.4"
 
 // libodb version: interface version plus the bugfix version.
 //
-#define LIBODB_VERSION     2030000
-#define LIBODB_VERSION_STR "2.3.0"
+#define LIBODB_VERSION     2040000
+#define LIBODB_VERSION_STR "2.4.0"
 
 #include <odb/post.hxx>
 

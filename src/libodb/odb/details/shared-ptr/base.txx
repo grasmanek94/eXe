@@ -1,5 +1,5 @@
 // file      : odb/details/shared-ptr/base.txx
-// copyright : Copyright (c) 2009-2013 Code Synthesis Tools CC
+// copyright : Copyright (c) 2009-2015 Code Synthesis Tools CC
 // license   : GNU GPL v2; see accompanying LICENSE file
 
 #include <odb/details/meta/answer.hxx>
@@ -13,38 +13,32 @@ namespace odb
     {
       // Support for locating the counter in the memory block.
       //
+      struct LIBODB_EXPORT locator_common
+      {
+        static std::size_t*
+        counter (void*);
+      };
+
       template <typename X, bool poly = meta::polymorphic_p<X>::result>
       struct locator;
 
       template <typename X>
-      struct locator<X, false>
+      struct locator<X, false>: locator_common
       {
         static std::size_t*
         counter (X* x)
         {
-          std::size_t* p (reinterpret_cast<std::size_t*> (x));
-
-          if (*(--p) != 0xDEADBEEF)
-            throw not_shared ();
-
-          return --p;
+          return locator_common::counter (x);
         }
       };
 
       template <typename X>
-      struct locator<X, true>
+      struct locator<X, true>: locator_common
       {
         static std::size_t*
         counter (X* x)
         {
-          std::size_t* p (
-            static_cast<std::size_t*> (
-              dynamic_cast<void*> (x)));
-
-          if (*(--p) != 0xDEADBEEF)
-            throw not_shared ();
-
-          return --p;
+          return locator_common::counter (dynamic_cast<void*> (x));
         }
       };
 

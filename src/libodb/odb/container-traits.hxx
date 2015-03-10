@@ -1,5 +1,5 @@
 // file      : odb/container-traits.hxx
-// copyright : Copyright (c) 2009-2013 Code Synthesis Tools CC
+// copyright : Copyright (c) 2009-2015 Code Synthesis Tools CC
 // license   : GNU GPL v2; see accompanying LICENSE file
 
 #ifndef ODB_CONTAINER_TRAITS_HXX
@@ -208,6 +208,7 @@ namespace odb
 #include <odb/std-set-traits.hxx>
 #include <odb/std-list-traits.hxx>
 #include <odb/std-vector-traits.hxx>
+#include <odb/std-deque-traits.hxx>
 
 #ifdef ODB_CXX11
 #  include <odb/std-array-traits.hxx>

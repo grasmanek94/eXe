@@ -1,5 +1,5 @@
 // file      : odb/details/shared-ptr.hxx
-// copyright : Copyright (c) 2009-2013 Code Synthesis Tools CC
+// copyright : Copyright (c) 2009-2015 Code Synthesis Tools CC
 // license   : GNU GPL v2; see accompanying LICENSE file
 
 #ifndef ODB_DETAILS_SHARED_PTR_HXX
@@ -9,6 +9,7 @@
 
 #include <odb/details/shared-ptr-fwd.hxx>
 #include <odb/details/shared-ptr/base.hxx>
+#include <odb/details/shared-ptr/exception.hxx>
 
 namespace odb
 {
@@ -100,7 +101,7 @@ namespace odb
       // Conversion to bool.
       //
       typedef void (shared_ptr::*boolean_convertible)();
-      void true_value () {};
+      void true_value () {}
 
       operator boolean_convertible () const
       {

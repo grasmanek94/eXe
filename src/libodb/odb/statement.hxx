@@ -1,5 +1,5 @@
 // file      : odb/statement.hxx
-// copyright : Copyright (c) 2005-2013 Code Synthesis Tools CC
+// copyright : Copyright (c) 2005-2015 Code Synthesis Tools CC
 // license   : GNU GPL v2; see accompanying LICENSE file
 
 #ifndef ODB_STATEMENT_HXX
@@ -85,7 +85,7 @@ namespace odb
     //  [schema.]table.a,\n
     //  alias.b\n
     //  FROM [schema.]table[\n]
-    // [LEFT JOIN [schema.]table [AS alias] ON ...[\n]]*
+    // [{A-Z }* JOIN [schema.]table [AS alias][ ON ...][\n]]*
     // [WHERE ...]
     //
     static void

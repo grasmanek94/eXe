@@ -1,5 +1,5 @@
 // file      : odb/database.txx
-// copyright : Copyright (c) 2009-2013 Code Synthesis Tools CC
+// copyright : Copyright (c) 2009-2015 Code Synthesis Tools CC
 // license   : GNU GPL v2; see accompanying LICENSE file
 
 #include <odb/section.hxx>
@@ -71,6 +71,163 @@ namespace odb
     return object_traits::id (obj);
   }
 
+  template <typename T, bool = object_traits<T>::auto_id> struct persist_type;
+  template <typename T> struct persist_type<T, true> {typedef T type;};
+  template <typename T> struct persist_type<T, false> {typedef const T type;};
+
+  template <typename I, typename T, database_id DB>
+  void database::
+  persist_ (I b, I e, bool cont, details::meta::no /*ptr*/)
+  {
+    // T can be const T while object_type will always be T.
+    //
+    typedef typename object_traits<T>::object_type object_type;
+    typedef object_traits_impl<object_type, DB> object_traits;
+
+    multiple_exceptions mex (typeid (object_already_persistent));
+    try
+    {
+      while (b != e && (cont || mex.empty ()))
+      {
+        std::size_t n (0);
+        T* a[object_traits::batch]; // T instead of persist_type for cache.
+
+        for (; b != e && n < object_traits::batch; ++n)
+        {
+          // Compiler error pointing here? Perhaps the passed range is
+          // of const objects?
+          //
+          typename persist_type<object_type>::type* p (&(*b++));
+
+          a[n] = const_cast<T*> (p);
+        }
+
+        // Compiler error pointing here? Perhaps the object or the
+        // database does not support bulk operations?
+        //
+        object_traits::persist (
+          *this,
+          const_cast<typename persist_type<object_type>::type**> (a),
+          n,
+          mex);
+
+        if (mex.fatal ())
+          break;
+
+        for (std::size_t i (0); i < n; ++i)
+        {
+          if (mex[i] != 0) // Don't cache objects that have failed.
+            continue;
+
+          mex.current (i); // Set position in case the below code throws.
+
+          typename object_traits::reference_cache_traits::position_type p (
+            object_traits::reference_cache_traits::insert (
+              *this, reference_cache_type<T>::convert (*a[i])));
+
+          object_traits::reference_cache_traits::persist (p);
+        }
+
+        mex.delta (n);
+      }
+    }
+    catch (const odb::exception& ex)
+    {
+      mex.insert (ex, true);
+    }
+
+    if (!mex.empty ())
+    {
+      mex.prepare ();
+      throw mex;
+    }
+  }
+
+  template <typename P>
+  struct pointer_copy
+  {
+    const P* ref;
+    P copy;
+
+    void assign (const P& p) {ref = &p;}
+    template <typename P1> void assign (const P1& p1)
+    {
+      // The passed pointer should be the same or implicit-convertible
+      // to the object pointer. This way we make sure the object pointer
+      // does not assume ownership of the passed object.
+      //
+      const P& p (p1);
+
+      copy = p;
+      ref = &copy;
+    }
+  };
+
+  template <typename I, typename T, database_id DB>
+  void database::
+  persist_ (I b, I e, bool cont, details::meta::yes /*ptr*/)
+  {
+    // T can be const T while object_type will always be T.
+    //
+    typedef typename object_traits<T>::object_type object_type;
+    typedef typename object_traits<T>::pointer_type pointer_type;
+
+    typedef object_traits_impl<object_type, DB> object_traits;
+
+    multiple_exceptions mex (typeid (object_already_persistent));
+    try
+    {
+      while (b != e && (cont || mex.empty ()))
+      {
+        std::size_t n (0);
+        typename persist_type<object_type>::type* a[object_traits::batch];
+        pointer_copy<pointer_type> p[object_traits::batch];
+
+        for (; b != e && n < object_traits::batch; ++n)
+        {
+          p[n].assign (*b++);
+          a[n] = &pointer_traits<pointer_type>::get_ref (*p[n].ref);
+        }
+
+        // Compiler error pointing here? Perhaps the object or the
+        // database does not support bulk operations?
+        //
+        object_traits::persist (*this, a, n, mex);
+
+        if (mex.fatal ())
+          break;
+
+        for (std::size_t i (0); i < n; ++i)
+        {
+          if (mex[i] != 0) // Don't cache objects that have failed.
+            continue;
+
+          mex.current (i); // Set position in case the below code throws.
+
+          // Get the canonical object pointer and insert it into object cache.
+          //
+          typename object_traits::pointer_cache_traits::position_type pos (
+            object_traits::pointer_cache_traits::insert (
+              *this, pointer_cache_type<pointer_type>::convert (*p[i].ref)));
+
+          object_traits::pointer_cache_traits::persist (pos);
+        }
+
+        mex.delta (n);
+      }
+    }
+    catch (const odb::exception& ex)
+    {
+      mex.insert (ex, true);
+    }
+
+    if (!mex.empty ())
+    {
+      mex.prepare ();
+      throw mex;
+    }
+  }
+
   template <typename T, database_id DB>
   typename object_traits<T>::pointer_type database::
   load_ (const typename object_traits<T>::id_type& id)
@@ -120,6 +277,68 @@ namespace odb
       throw object_not_persistent ();
   }
 
+  template <typename I, database_id DB>
+  void database::
+  update_ (I b, I e, bool cont)
+  {
+    // Sun CC with non-standard STL does not have iterator_traits.
+    //
+#ifndef _RWSTD_NO_CLASS_PARTIAL_SPEC
+    typedef typename std::iterator_traits<I>::value_type value_type;
+#else
+    // Assume iterator is just a pointer.
+    //
+    typedef typename object_pointer_traits<I>::object_type value_type;
+#endif
+
+    // object_pointer_traits<T>::object_type can be const.
+    //
+    typedef object_pointer_traits<value_type> opt;
+
+    typedef
+    typename object_traits<typename opt::object_type>::object_type
+    object_type;
+
+    typedef object_traits_impl<object_type, DB> object_traits;
+
+    multiple_exceptions mex (
+      object_traits::managed_optimistic_column_count == 0
+      ? typeid (object_not_persistent)
+      : typeid (object_changed));
+
+    try
+    {
+      while (b != e && (cont || mex.empty ()))
+      {
+        std::size_t n (0);
+        const object_type* a[object_traits::batch];
+
+        for (; b != e && n < object_traits::batch; ++n)
+          a[n] = &opt::get_ref (*b++);
+
+        // Compiler error pointing here? Perhaps the object or the
+        // database does not support bulk operations?
+        //
+        object_traits::update (*this, a, n, mex);
+
+        if (mex.fatal ())
+          break;
+
+        mex.delta (n);
+      }
+    }
+    catch (const odb::exception& ex)
+    {
+      mex.insert (ex, true);
+    }
+
+    if (!mex.empty ())
+    {
+      mex.prepare ();
+      throw mex;
+    }
+  }
+
   template <typename T, database_id DB>
   void database::
   update_ (const T& obj, const section& s)
@@ -138,6 +357,115 @@ namespace odb
     }
     else
       throw section_not_in_object ();
+  }
+
+  template <typename I, typename T, database_id DB>
+  void database::
+  erase_id_ (I b, I e, bool cont)
+  {
+    // T is explicitly specified by the caller, so assume it is object type.
+    //
+    typedef T object_type;
+    typedef object_traits_impl<object_type, DB> object_traits;
+    typedef typename object_traits::id_type id_type;
+
+    multiple_exceptions mex (typeid (object_not_persistent));
+    try
+    {
+      while (b != e && (cont || mex.empty ()))
+      {
+        std::size_t n (0);
+        const id_type* a[object_traits::batch];
+
+        for (; b != e && n < object_traits::batch; ++n)
+          // Compiler error pointing here? Perhaps the object id type
+          // and the range element type don't match?
+          //
+          a[n] = &(*b++);
+
+        // Compiler error pointing here? Perhaps the object or the
+        // database does not support bulk operations?
+        //
+        object_traits::erase (*this, a, n, mex);
+
+        if (mex.fatal ())
+          break;
+
+        mex.delta (n);
+      }
+    }
+    catch (const odb::exception& ex)
+    {
+      mex.insert (ex, true);
+    }
+
+    if (!mex.empty ())
+    {
+      mex.prepare ();
+      throw mex;
+    }
+  }
+
+  template <typename I, database_id DB>
+  void database::
+  erase_object_ (I b, I e, bool cont)
+  {
+    // Sun CC with non-standard STL does not have iterator_traits.
+    //
+#ifndef _RWSTD_NO_CLASS_PARTIAL_SPEC
+    typedef typename std::iterator_traits<I>::value_type value_type;
+#else
+    // Assume iterator is just a pointer.
+    //
+    typedef typename object_pointer_traits<I>::object_type value_type;
+#endif
+
+    // object_pointer_traits<T>::object_type can be const.
+    //
+    typedef object_pointer_traits<value_type> opt;
+
+    typedef
+    typename object_traits<typename opt::object_type>::object_type
+    object_type;
+
+    typedef object_traits_impl<object_type, DB> object_traits;
+
+    multiple_exceptions mex (
+      object_traits::managed_optimistic_column_count == 0
+      ? typeid (object_not_persistent)
+      : typeid (object_changed));
+
+    try
+    {
+      while (b != e && (cont || mex.empty ()))
+      {
+        std::size_t n (0);
+        const object_type* a[object_traits::batch];
+
+        for (; b != e && n < object_traits::batch; ++n)
+          a[n] = &opt::get_ref (*b++);
+
+        // Compiler error pointing here? Perhaps the object or the
+        // database does not support bulk operations?
+        //
+        object_traits::erase (*this, a, n, mex);
+
+        if (mex.fatal ())
+          break;
+
+        mex.delta (n);
+      }
+    }
+    catch (const odb::exception& ex)
+    {
+      mex.insert (ex, true);
+    }
+
+    if (!mex.empty ())
+    {
+      mex.prepare ();
+      throw mex;
+    }
   }
 
   template <typename T, database_id DB>

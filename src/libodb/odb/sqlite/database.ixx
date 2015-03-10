@@ -1,5 +1,5 @@
 // file      : odb/sqlite/database.ixx
-// copyright : Copyright (c) 2009-2013 Code Synthesis Tools CC
+// copyright : Copyright (c) 2009-2015 Code Synthesis Tools CC
 // license   : GNU GPL v2; see accompanying LICENSE file
 
 #include <odb/sqlite/transaction.hxx>
@@ -23,6 +23,13 @@ namespace odb
     persist (T& obj)
     {
       return persist_<T, id_sqlite> (obj);
+    }
+
+    template <typename T>
+    inline typename object_traits<T>::id_type database::
+    persist (const T& obj)
+    {
+      return persist_<const T, id_sqlite> (obj);
     }
 
     template <typename T>
@@ -426,6 +433,126 @@ namespace odb
       // Translate to native query.
       //
       return query<T> (sqlite::query_base (q));
+    }
+
+    template <typename T>
+    inline typename object_traits<T>::pointer_type database::
+    query_one ()
+    {
+      return query_one<T> (sqlite::query_base ());
+    }
+
+    template <typename T>
+    inline bool database::
+    query_one (T& o)
+    {
+      return query_one<T> (sqlite::query_base (), o);
+    }
+
+    template <typename T>
+    inline T database::
+    query_value ()
+    {
+      return query_value<T> (sqlite::query_base ());
+    }
+
+    template <typename T>
+    inline typename object_traits<T>::pointer_type database::
+    query_one (const char* q)
+    {
+      return query_one<T> (sqlite::query_base (q));
+    }
+
+    template <typename T>
+    inline bool database::
+    query_one (const char* q, T& o)
+    {
+      return query_one<T> (sqlite::query_base (q), o);
+    }
+
+    template <typename T>
+    inline T database::
+    query_value (const char* q)
+    {
+      return query_value<T> (sqlite::query_base (q));
+    }
+
+    template <typename T>
+    inline typename object_traits<T>::pointer_type database::
+    query_one (const std::string& q)
+    {
+      return query_one<T> (sqlite::query_base (q));
+    }
+
+    template <typename T>
+    inline bool database::
+    query_one (const std::string& q, T& o)
+    {
+      return query_one<T> (sqlite::query_base (q), o);
+    }
+
+    template <typename T>
+    inline T database::
+    query_value (const std::string& q)
+    {
+      return query_value<T> (sqlite::query_base (q));
+    }
+
+    template <typename T>
+    inline typename object_traits<T>::pointer_type database::
+    query_one (const sqlite::query_base& q)
+    {
+      // T is always object_type. We also don't need to check for transaction
+      // here; object_traits::query () does this.
+      //
+      return query_one_<T, id_sqlite> (q);
+    }
+
+    template <typename T>
+    inline bool database::
+    query_one (const sqlite::query_base& q, T& o)
+    {
+      // T is always object_type. We also don't need to check for transaction
+      // here; object_traits::query () does this.
+      //
+      return query_one_<T, id_sqlite> (q, o);
+    }
+
+    template <typename T>
+    inline T database::
+    query_value (const sqlite::query_base& q)
+    {
+      // T is always object_type. We also don't need to check for transaction
+      // here; object_traits::query () does this.
+      //
+      return query_value_<T, id_sqlite> (q);
+    }
+
+    template <typename T>
+    inline typename object_traits<T>::pointer_type database::
+    query_one (const odb::query_base& q)
+    {
+      // Translate to native query.
+      //
+      return query_one<T> (sqlite::query_base (q));
+    }
+
+    template <typename T>
+    inline bool database::
+    query_one (const odb::query_base& q, T& o)
+    {
+      // Translate to native query.
+      //
+      return query_one<T> (sqlite::query_base (q), o);
+    }
+
+    template <typename T>
+    inline T database::
+    query_value (const odb::query_base& q)
+    {
+      // Translate to native query.
+      //
+      return query_value<T> (sqlite::query_base (q));
     }
 
     template <typename T>
