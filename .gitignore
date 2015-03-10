@@ -213,3 +213,5 @@ ipwhitelist.inline
 # boost errors fix
 !/boost_extract/boost/preprocessor/debug/
 
+# branches
+[Bb]ranches/
