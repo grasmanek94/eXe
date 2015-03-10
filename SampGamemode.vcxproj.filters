@@ -295,12 +295,6 @@
     <ClCompile Include="lib\sqlite\sqlite3.c">
       <Filter>libodb\SQLITE3</Filter>
     </ClCompile>
-    <ClCompile Include="src\libodb\odb\details\shared-ptr\base.cxx">
-      <Filter>libodb\ODB-MAIN</Filter>
-    </ClCompile>
-    <ClCompile Include="src\libodb\odb\sqlite\odbsqlite.cxx">
-      <Filter>libodb\ODB-SQLITE</Filter>
-    </ClCompile>
     <ClCompile Include="src\sampgdk\amxplugin.cpp">
       <Filter>SAMP\SDK</Filter>
     </ClCompile>
@@ -426,6 +420,12 @@
     </ClCompile>
     <ClCompile Include="src\gamemode\MafiaBase.cxx">
       <Filter>gamemode\Player\Mafia</Filter>
+    </ClCompile>
+    <ClCompile Include="src\libodb\odbmain.cxx">
+      <Filter>libodb\ODB-MAIN</Filter>
+    </ClCompile>
+    <ClCompile Include="src\libodb\odbsqlitemain.cxx">
+      <Filter>libodb\ODB-SQLITE</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

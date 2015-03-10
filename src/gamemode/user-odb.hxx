@@ -7,7 +7,7 @@
 
 #include <odb/version.hxx>
 
-#if (ODB_VERSION != 20300UL)
+#if (ODB_VERSION != 20400UL)
 #error ODB runtime version mismatch
 #endif
 
@@ -17,6 +17,7 @@
 
 #include <memory>
 #include <cstddef>
+#include <utility>
 
 #include <odb/core.hxx>
 #include <odb/traits.hxx>
@@ -2686,6 +2687,9 @@ namespace odb
     using object_traits<object_type>::id;
 
     static id_type
+    id (const id_image_type&);
+
+    static id_type
     id (const image_type&);
 
     static bool
@@ -3277,6 +3281,9 @@ namespace odb
     struct extra_statement_cache_type;
 
     using object_traits<object_type>::id;
+
+    static id_type
+    id (const id_image_type&);
 
     static id_type
     id (const image_type&);

@@ -32,6 +32,7 @@ namespace odb
     extra_statement_cache_type (
       sqlite::connection&,
       image_type&,
+      id_image_type&,
       sqlite::binding&,
       sqlite::binding&)
     {
@@ -2847,6 +2848,7 @@ namespace odb
     extra_statement_cache_type (
       sqlite::connection&,
       image_type&,
+      id_image_type&,
       sqlite::binding&,
       sqlite::binding&)
     {
@@ -3667,6 +3669,7 @@ namespace odb
     extra_statement_cache_type (
       sqlite::connection&,
       image_type&,
+      id_image_type&,
       sqlite::binding&,
       sqlite::binding&)
     {
@@ -5208,11 +5211,32 @@ namespace odb
     extra_statement_cache_type (
       sqlite::connection&,
       image_type&,
+      id_image_type&,
       sqlite::binding&,
       sqlite::binding&)
     {
     }
   };
+
+  access::object_traits_impl< ::house, id_sqlite >::id_type
+  access::object_traits_impl< ::house, id_sqlite >::
+  id (const id_image_type& i)
+  {
+    sqlite::database* db (0);
+    ODB_POTENTIALLY_UNUSED (db);
+
+    id_type id;
+    {
+      sqlite::value_traits<
+          long unsigned int,
+          sqlite::id_integer >::set_value (
+        id,
+        i.id_value,
+        i.id_null);
+    }
+
+    return id;
+  }
 
   access::object_traits_impl< ::house, id_sqlite >::id_type
   access::object_traits_impl< ::house, id_sqlite >::
@@ -6104,11 +6128,22 @@ namespace odb
       imb.version++;
     }
 
+    {
+      id_image_type& i (sts.id_image ());
+      binding& b (sts.id_image_binding ());
+      if (i.version != sts.id_image_version () || b.version == 0)
+      {
+        bind (b.bind, i);
+        sts.id_image_version (i.version);
+        b.version++;
+      }
+    }
+
     insert_statement& st (sts.persist_statement ());
     if (!st.execute ())
       throw object_already_persistent ();
 
-    obj.id_ = static_cast< id_type > (st.id ());
+    obj.id_ = id (sts.id_image ());
 
     callback (db,
               static_cast<const object_type&> (obj),
@@ -6458,11 +6493,32 @@ namespace odb
     extra_statement_cache_type (
       sqlite::connection&,
       image_type&,
+      id_image_type&,
       sqlite::binding&,
       sqlite::binding&)
     {
     }
   };
+
+  access::object_traits_impl< ::sentrygun, id_sqlite >::id_type
+  access::object_traits_impl< ::sentrygun, id_sqlite >::
+  id (const id_image_type& i)
+  {
+    sqlite::database* db (0);
+    ODB_POTENTIALLY_UNUSED (db);
+
+    id_type id;
+    {
+      sqlite::value_traits<
+          long unsigned int,
+          sqlite::id_integer >::set_value (
+        id,
+        i.id_value,
+        i.id_null);
+    }
+
+    return id;
+  }
 
   access::object_traits_impl< ::sentrygun, id_sqlite >::id_type
   access::object_traits_impl< ::sentrygun, id_sqlite >::
@@ -7579,11 +7635,22 @@ namespace odb
       imb.version++;
     }
 
+    {
+      id_image_type& i (sts.id_image ());
+      binding& b (sts.id_image_binding ());
+      if (i.version != sts.id_image_version () || b.version == 0)
+      {
+        bind (b.bind, i);
+        sts.id_image_version (i.version);
+        b.version++;
+      }
+    }
+
     insert_statement& st (sts.persist_statement ());
     if (!st.execute ())
       throw object_already_persistent ();
 
-    obj.id_ = static_cast< id_type > (st.id ());
+    obj.id_ = id (sts.id_image ());
 
     callback (db,
               static_cast<const object_type&> (obj),
