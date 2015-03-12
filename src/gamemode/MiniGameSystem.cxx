@@ -507,8 +507,10 @@ namespace Zabawy
 		auto found = ZabawyTimers.find(timerid);
 		if (found != ZabawyTimers.end())
 		{
-			ZabawyTimers.erase(found);
-			sampgdk_KillTimerEx(timerid, this);
+			if (sampgdk_KillTimerEx(timerid, this))
+			{
+				ZabawyTimers.erase(found);
+			}	
 		}
 		return false;
 	}
