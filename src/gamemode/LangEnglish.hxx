@@ -646,7 +646,7 @@ VIP extras:\n\
 {41BECC}/ramp{FFFFFF} - enable/set vehicle ramps\n\
 {41BECC}/cd{FFFFFF} - start a countdown\n\
 {41BECC}/tpto{FFFFFF} - teleport to another player\n\
-{41BECC}/odlicz{FFFFFF} - teleport another player to you\n\
+{41BECC}/tphere{FFFFFF} - teleport another player to you\n\
 {41BECC}/kill{FFFFFF} - suicide\n\
 {41BECC}/respawn{FFFFFF} - respawn\n\
 {41BECC}/bank{FFFFFF} - transfer money to/from your bank account\n\

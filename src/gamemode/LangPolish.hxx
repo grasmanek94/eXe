@@ -679,7 +679,7 @@ Dodatki VIP-a:\n\
 {41BECC}/ramp{FFFFFF} - ustawiasz jakią rampę chcesz na KEY_ACTION dla pojazdów\n\
 {41BECC}/odlicz{FFFFFF} - rozpoczynasz odliczanie\n\
 {41BECC}/tpto{FFFFFF} - teleportujesz się do gracza\n\
-{41BECC}/odlicz{FFFFFF} - teleportujesz gracza do siebie\n\
+{41BECC}/tphere{FFFFFF} - teleportujesz gracza do siebie\n\
 {41BECC}/kill{FFFFFF} - zabijasz się\n\
 {41BECC}/respawn{FFFFFF} - odnawiasz spawn\n\
 {41BECC}/przelew{FFFFFF} - wpłacasz(& wypłacasz) bezpośrednio na konto bankowe\n\
