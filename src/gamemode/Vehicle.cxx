@@ -75,6 +75,21 @@ void CreatePlayerVehicleSafe(int playerid, int modelid, float ax, float ay, floa
 	fixPutPlayerInVehicle(playerid, Player[playerid].PlayerVehicle, 0);
 }
 
+bool IsDisallowedVehicle(int modelid)
+{
+	static const std::unordered_set<int> disallowedVehicles({ 
+		VEH_TYPE_PREDATOR, 
+		VEH_TYPE_HUNTER, 
+		VEH_TYPE_RHINO, 
+		VEH_TYPE_RCBARON, 
+		VEH_TYPE_SEASPAR, 
+		VEH_TYPE_HYDRA,
+		VEH_TYPE_RUSTLER 
+	});
+
+	return (disallowedVehicles.find(modelid) != disallowedVehicles.end());
+}
+
 ZERO_COMMAND(v, PERMISSION_NONE, RESTRICTION_NOT_IN_A_GAME | RESTRICTION_NOT_AFTER_FIGHT | RESTRICTION_ONLY_ON_FOOT, cmd_alias({ "/car", "/pojazd", "/p", "/vehicle", "/veh" }))
 {
 	if (params.empty())
@@ -149,7 +164,7 @@ ZERO_COMMAND(v, PERMISSION_NONE, RESTRICTION_NOT_IN_A_GAME | RESTRICTION_NOT_AFT
 		return true;
 	}
 
-	if (IsVehicleTrain(ModelID) || IsVehicleTrainTrailer(ModelID))
+	if (IsVehicleTrain(ModelID) || IsVehicleTrainTrailer(ModelID) || IsDisallowedVehicle(ModelID))
 	{
 		fixSendClientMessage(playerid, Color::COLOR_ERROR, L_v_cannot_spawn_error);
 		return true;
