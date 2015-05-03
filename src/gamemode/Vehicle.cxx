@@ -128,7 +128,7 @@ ZERO_COMMAND(v, PERMISSION_NONE, RESTRICTION_NOT_IN_A_GAME | RESTRICTION_NOT_AFT
 
 	if (ModelID >= 0 && ModelID < 10)
 	{
-		if (Player[playerid].PrywatnePojazdy[ModelID].ModelID)
+		if (Player[playerid].PrywatnePojazdy[ModelID].ModelID && !IsDisallowedVehicle(Player[playerid].PrywatnePojazdy[ModelID].ModelID))
 		{
 			GivePlayerAchievement(playerid, EAM_PrivCarSpawned, 1);
 			GivePlayerAchievement(playerid, EAM_CarSpawner, 1);
@@ -143,7 +143,7 @@ ZERO_COMMAND(v, PERMISSION_NONE, RESTRICTION_NOT_IN_A_GAME | RESTRICTION_NOT_AFT
 	{
 		if (Player[playerid].Mafia != nullptr)
 		{
-			if (!Player[playerid].Mafia->CheckAllowedWithMessage(playerid, MAFIA_ACTION_SPAWNCAR) || !Player[playerid].Mafia->PrivateVehicle[ModelID - 10].ModelID)
+			if (!Player[playerid].Mafia->CheckAllowedWithMessage(playerid, MAFIA_ACTION_SPAWNCAR) || !Player[playerid].Mafia->PrivateVehicle[ModelID - 10].ModelID || IsDisallowedVehicle(Player[playerid].Mafia->PrivateVehicle[ModelID - 10].ModelID))
 			{
 				fixSendClientMessage(playerid, Color::COLOR_ERROR, L_v_slot_error);
 				return true;

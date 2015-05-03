@@ -953,8 +953,6 @@ public:
 		CheckSet(CHECK_FASTCONNECT);
 		CheckSet(CHECK_REMOTECONTROL);
 		CheckSet(CHECK_CARJACKHACK);
-		CheckSet(CHECK_VEHICLE_HEAL);
-		CheckSet(CHECK_VEHICLE_GODMODE);
 		CheckSet(CHECK_OBJECTEDIT_CRASH);
 
 		//OFF:
@@ -965,6 +963,8 @@ public:
 		CheckSet(CHECK_SPECTATE, INVALID_PLAYER_ID, false);
 		CheckSet(CHECK_MASSCARTELEPORT, INVALID_PLAYER_ID, false);
 		CheckSet(CHECK_FLYHACK, INVALID_PLAYER_ID, false);
+		CheckSet(CHECK_VEHICLE_HEAL, INVALID_PLAYER_ID, false);
+		CheckSet(CHECK_VEHICLE_GODMODE, INVALID_PLAYER_ID, false);
 
 		auto AddSafeHealArea = [&](float x, float y, float z)
 		{ 
