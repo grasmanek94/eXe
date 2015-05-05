@@ -307,6 +307,8 @@ public:
 #else
 			SendRconCommand("hostname [DBG][PL|NL|ENG] •Gamer_Z• eXtreme Party DM 24/7");
 #endif
+			SendRconCommand(("weburl " + StaticVersionDeterminator.GetWebUrl()).c_str());
+
 			SendRconCommand("sleep 1");
 			SendRconCommand("lanmode 0");
 			SendRconCommand("rcon 0");
@@ -354,16 +356,14 @@ public:
 					additional.assign(Functions::string_format(" [TFSCS:%d]", 
 						TFS_TO_GIT_REVISION + TFS_BUILD_VERSION
 					));//tak bedziemy wiedziec jaka wersje debugować czasami
-					SendRconCommand(("weburl " + StaticVersionDeterminator.GetWebUrl() + "/?" + std::to_string(TFS_TO_GIT_REVISION + TFS_BUILD_VERSION) + "|" + StaticVersionDeterminator.GetModeVersion()).c_str());
 
 					sampgdk::logprintf(("        * Version: <TFS[" + std::to_string(TFS_TO_GIT_REVISION + TFS_BUILD_VERSION) + "]> <COMPILE DATE[" + StaticVersionDeterminator.GetModeVersion() + "]>").c_str());
 				#else
 					sampgdk::logprintf(("        * Version: " + StaticVersionDeterminator.GetModeVersion()).c_str());
-					SendRconCommand(("weburl " + StaticVersionDeterminator.GetWebUrl()).c_str());
 				#endif
 			#else
 				sampgdk::logprintf(("        * Version: " + StaticVersionDeterminator.GetModeVersion()).c_str());
-				SendRconCommand(("weburl " + StaticVersionDeterminator.GetWebUrl()).c_str());
+				
 			#endif
 
 			sampgdk::logprintf(" ");
