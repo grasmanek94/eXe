@@ -954,6 +954,7 @@ public:
 		CheckSet(CHECK_REMOTECONTROL);
 		CheckSet(CHECK_CARJACKHACK);
 		CheckSet(CHECK_OBJECTEDIT_CRASH);
+		CheckSet(CHECK_VEHICLE_HEAL);
 
 		//OFF:
 		CheckSet(CHECK_SPEED, INVALID_PLAYER_ID, false);
@@ -963,7 +964,6 @@ public:
 		CheckSet(CHECK_SPECTATE, INVALID_PLAYER_ID, false);
 		CheckSet(CHECK_MASSCARTELEPORT, INVALID_PLAYER_ID, false);
 		CheckSet(CHECK_FLYHACK, INVALID_PLAYER_ID, false);
-		CheckSet(CHECK_VEHICLE_HEAL, INVALID_PLAYER_ID, false);
 		CheckSet(CHECK_VEHICLE_GODMODE, INVALID_PLAYER_ID, false);
 
 		auto AddSafeHealArea = [&](float x, float y, float z)
@@ -1693,7 +1693,8 @@ public:
 									GetVehicleHealth(vid, &Vheal);
 									if (VehicleHealth[vid] < Vheal)
 									{
-										SetVehicleHealth(vid, VehicleHealth[vid]);
+										//SetVehicleHealth(vid, VehicleHealth[vid]);
+										VehicleHealth[vid] = Vheal;
 										Report(playerid, CHECK_VEHICLE_HEAL, vid);
 									}
 									else
