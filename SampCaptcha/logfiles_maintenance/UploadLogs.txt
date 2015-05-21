@@ -1,0 +1,8 @@
+open example.com
+exampleuser@logs.example.com
+exampleuserpassword
+PASV
+hash
+binary
+lcd S:\logs
+mput *.*

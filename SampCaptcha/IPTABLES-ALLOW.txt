@@ -1,0 +1,213 @@
+----
+SA-MP Main Server; SA-MP Filter Server; RDP; TeamSpeak3
+----
+Get ports:
+	 netstat -tulpn
+----
+iptables setup:
+
+	ipset destroy whitelist
+	ipset create whitelist hash:ip hashsize 32768
+	echo $SSH_CLIENT | awk '{ print $1}'
+	ipset add whitelist <ip>
+
+	ipset destroy rdplist
+	ipset create rdplist hash:ip hashsize 32768
+	ipset add rdplist <ip>
+
+	iptables -t nat -A PREROUTING -i vmbr0 -p udp --dport 7777 -m set --match-set whitelist src -j DNAT --to 192.168.0.1:7777
+	iptables -t nat -A PREROUTING -i vmbr0 -p udp --dport 7777 -m set ! --match-set whitelist src -j DNAT --to 192.168.0.2:7777
+	iptables -t nat -A PREROUTING -i vmbr0 -p udp --dport 9987 -j DNAT --to 192.168.0.1:9987
+
+	iptables -t nat -A PREROUTING -i vmbr0 -p tcp --dport 3389 -m set --match-set rdplist src -j DNAT --to 192.168.0.1:3389
+
+	iptables -I INPUT -i vmbr0 -p udp --dport 53 -m set ! --match-set rdplist src -j DROP
+	iptables -I INPUT -i vmbr0 -p udp --dport 111 -m set ! --match-set rdplist src -j DROP
+	iptables -I INPUT -i vmbr0 -p udp --dport 1001 -m set ! --match-set rdplist src -j DROP
+	iptables -I INPUT -i vmbr0 -p udp --dport 44641 -m set ! --match-set rdplist src -j DROP
+	iptables -I INPUT -i vmbr0 -p udp --dport 47030 -m set ! --match-set rdplist src -j DROP
+	iptables -I INPUT -i vmbr0 -p udp --dport 1019 -m set ! --match-set rdplist src -j DROP
+
+	iptables -I INPUT -i vmbr0 -p tcp --dport 8006 -m set ! --match-set rdplist src -j DROP
+	iptables -I INPUT -i vmbr0 -p tcp --dport 21 -m set ! --match-set rdplist src -j DROP
+	iptables -I INPUT -i vmbr0 -p tcp --dport 953 -m set ! --match-set rdplist src -j DROP
+	iptables -I INPUT -i vmbr0 -p tcp --dport 53 -m set ! --match-set rdplist src -j DROP
+	iptables -I INPUT -i vmbr0 -p tcp --dport 36017 -m set ! --match-set rdplist src -j DROP
+	iptables -I INPUT -i vmbr0 -p tcp --dport 111 -m set ! --match-set rdplist src -j DROP
+	iptables -I INPUT -i vmbr0 -p tcp --dport 3128 -m set ! --match-set rdplist src -j DROP
+	iptables -I INPUT -i vmbr0 -p tcp --dport 85 -m set ! --match-set rdplist src -j DROP
+	iptables -I INPUT -i vmbr0 -p tcp --dport 54816 -m set ! --match-set rdplist src -j DROP
+
+	iptables -I INPUT -i vmbr0 -p udp --dport 7778 -j ACCEPT
+#allowall
+
+	iptables -t nat -I PREROUTING -i vmbr0 -p udp --dport 7777 -j DNAT --to 192.168.0.1:7777
+	iptables -t nat -I PREROUTING -i vmbr0 -p udp --dport 7777 -m set --match-set blacklist src -j DNAT --to 192.168.0.2:7777
+
+	iptables -t nat -I PREROUTING -i vmbr0 -p udp --dport 2346 -j DNAT --to 192.168.0.1:2346
+	iptables -t nat -I PREROUTING -i vmbr0 -p tcp --dport 2346 -j DNAT --to 192.168.0.1:2346
+	iptables -t nat -I PREROUTING -i vmbr0 -p udp --dport 2347 -j DNAT --to 192.168.0.1:2347
+	iptables -t nat -I PREROUTING -i vmbr0 -p tcp --dport 2347 -j DNAT --to 192.168.0.1:2347
+	iptables -t nat -I PREROUTING -i vmbr0 -p udp --dport 2348 -j DNAT --to 192.168.0.1:2348
+	iptables -t nat -I PREROUTING -i vmbr0 -p tcp --dport 2348 -j DNAT --to 192.168.0.1:2348
+	iptables -t nat -I PREROUTING -i vmbr0 -p udp --dport 2349 -j DNAT --to 192.168.0.1:2349
+	iptables -t nat -I PREROUTING -i vmbr0 -p tcp --dport 2349 -j DNAT --to 192.168.0.1:2349
+
+	iptables -t nat -I PREROUTING -i vmbr0 -p udp --dport 30120 -j DNAT --to 192.168.0.1:30120
+----
+Windows VM, 2 interfaces: 
+	192.168.0.1[:7777] (Main); 
+	192.168.0.2[:7777] (Filter);
+----
+ProxMox:
+	vmbr0:public_ip
+	vmbr2:192.168.0.254;
+	SSH:22
+----
+
+*nat
+:PREROUTING ACCEPT [241:12056]
+:POSTROUTING ACCEPT [88:18489]
+:OUTPUT ACCEPT [40:16604]
+-A PREROUTING -i vmbr0 -p udp -m udp --dport 7777 -j DNAT --to-destination 192.168.0.1:7777
+-A PREROUTING -i vmbr0 -p udp -m udp --dport 9987 -j DNAT --to-destination 192.168.0.1:9987
+-A PREROUTING -i vmbr0 -p tcp -m tcp --dport 3389 -m set --match-set rdplist src -j DNAT --to-destination 192.168.0.1:3389
+-A POSTROUTING -s 192.168.0.0/24 -o vmbr0 -j MASQUERADE
+COMMIT
+
+*mangle
+:PREROUTING ACCEPT [1637302266:108206265265]
+:INPUT ACCEPT [2886674:235522884]
+:FORWARD ACCEPT [1631047082:107813185056]
+:OUTPUT ACCEPT [3217075:459376794]
+:POSTROUTING ACCEPT [1634264157:108272561850]
+COMMIT
+
+*filter
+:INPUT ACCEPT [320:23076]
+:FORWARD ACCEPT [3649:285034]
+:OUTPUT ACCEPT [196:33865]
+
+-A INPUT -i vmbr0 -p udp -m udp --dport 53 -m set ! --match-set rdplist src -j DROP
+-A INPUT -i vmbr0 -p udp -m udp --dport 111 -m set ! --match-set rdplist src -j DROP
+-A INPUT -i vmbr0 -p udp -m udp --dport 1001 -m set ! --match-set rdplist src -j DROP
+-A INPUT -i vmbr0 -p udp -m udp --dport 1019 -m set ! --match-set rdplist src -j DROP
+-A INPUT -i vmbr0 -p udp -m udp --dport 47030 -m set ! --match-set rdplist src -j DROP
+
+-A INPUT -i vmbr0 -p tcp -m tcp --dport 21 -m set ! --match-set rdplist src -j DROP
+-A INPUT -i vmbr0 -p tcp -m tcp --dport 8006 -m set ! --match-set rdplist src -j DROP
+
+-A INPUT -i vmbr0 -p tcp -m tcp --dport 53 -m set ! --match-set rdplist src -j DROP
+-A INPUT -i vmbr0 -p tcp -m tcp --dport 85 -m set ! --match-set rdplist src -j DROP
+-A INPUT -i vmbr0 -p tcp -m tcp --dport 111 -m set ! --match-set rdplist src -j DROP
+-A INPUT -i vmbr0 -p tcp -m tcp --dport 953 -m set ! --match-set rdplist src -j DROP
+-A INPUT -i vmbr0 -p tcp -m tcp --dport 3128 -m set ! --match-set rdplist src -j DROP
+-A INPUT -i vmbr0 -p tcp -m tcp --dport 54816 -m set ! --match-set rdplist src -j DROP
+COMMIT
+--------------------------
+iptables -t nat -A PREROUTING -i vmbr0 -p udp -m udp --dport 7777 -j DNAT --to-destination 192.168.0.1:7777
+iptables -t nat -A PREROUTING -i vmbr0 -p udp -m udp --dport 9987 -j DNAT --to-destination 192.168.0.1:9987
+iptables -t nat -A PREROUTING -i vmbr0 -p tcp -m tcp --dport 3389 -m set --match-set rdplist src -j DNAT --to-destination 192.168.0.1:3389
+iptables -A INPUT -i vmbr0 -p udp -m udp --dport 53 -m set ! --match-set rdplist src -j DROP
+iptables -A INPUT -i vmbr0 -p udp -m udp --dport 111 -m set ! --match-set rdplist src -j DROP
+iptables -A INPUT -i vmbr0 -p udp -m udp --dport 1001 -m set ! --match-set rdplist src -j DROP
+iptables -A INPUT -i vmbr0 -p udp -m udp --dport 1019 -m set ! --match-set rdplist src -j DROP
+iptables -A INPUT -i vmbr0 -p udp -m udp --dport 47030 -m set ! --match-set rdplist src -j DROP
+iptables -A INPUT -i vmbr0 -p tcp -m tcp --dport 21 -m set ! --match-set rdplist src -j DROP
+iptables -A INPUT -i vmbr0 -p tcp -m tcp --dport 8006 -m set ! --match-set rdplist src -j DROP
+iptables -A INPUT -i vmbr0 -p tcp -m tcp --dport 53 -m set ! --match-set rdplist src -j DROP
+iptables -A INPUT -i vmbr0 -p tcp -m tcp --dport 85 -m set ! --match-set rdplist src -j DROP
+iptables -A INPUT -i vmbr0 -p tcp -m tcp --dport 111 -m set ! --match-set rdplist src -j DROP
+iptables -A INPUT -i vmbr0 -p tcp -m tcp --dport 953 -m set ! --match-set rdplist src -j DROP
+iptables -A INPUT -i vmbr0 -p tcp -m tcp --dport 3128 -m set ! --match-set rdplist src -j DROP
+iptables -A INPUT -i vmbr0 -p tcp -m tcp --dport 54816 -m set ! --match-set rdplist src -j DROP
+--------------------------
+# Generated by iptables-save v1.4.14 on Fri Jan  9 21:11:32 2015
+*nat
+:PREROUTING ACCEPT [140733:7023215]
+:POSTROUTING ACCEPT [196496:14788041]
+:OUTPUT ACCEPT [20732:7919852]
+-A PREROUTING -i vmbr0 -p udp -m udp --dport 7777 -j DNAT --to-destination 192.168.0.1:7777
+-A PREROUTING -i vmbr0 -p udp -m udp --dport 9987 -j DNAT --to-destination 192.168.0.1:9987
+-A PREROUTING -i vmbr0 -p tcp -m tcp --dport 3389 -m set --match-set rdplist src -j DNAT --to-destination 192.168.0.1:3389
+-A POSTROUTING -s 192.168.0.0/24 -o vmbr0 -j MASQUERADE
+COMMIT
+# Completed on Fri Jan  9 21:11:32 2015
+# Generated by iptables-save v1.4.14 on Fri Jan  9 21:11:32 2015
+*mangle
+:PREROUTING ACCEPT [1657540079:109968514567]
+:INPUT ACCEPT [2932467:241604125]
+:FORWARD ACCEPT [1651119670:109563610127]
+:OUTPUT ACCEPT [3277093:474707084]
+:POSTROUTING ACCEPT [1654396763:110038317211]
+COMMIT
+# Completed on Fri Jan  9 21:11:32 2015
+# Generated by iptables-save v1.4.14 on Fri Jan  9 21:11:32 2015
+*filter
+:INPUT ACCEPT [45280:6036611]
+:FORWARD ACCEPT [20059054:1749427073]
+:OUTPUT ACCEPT [59565:15230964]
+-A INPUT -i vmbr0 -p udp -m udp --dport 53 -m set ! --match-set rdplist src -j DROP
+-A INPUT -i vmbr0 -p udp -m udp --dport 111 -m set ! --match-set rdplist src -j DROP
+-A INPUT -i vmbr0 -p udp -m udp --dport 1001 -m set ! --match-set rdplist src -j DROP
+-A INPUT -i vmbr0 -p udp -m udp --dport 1019 -m set ! --match-set rdplist src -j DROP
+-A INPUT -i vmbr0 -p udp -m udp --dport 47030 -m set ! --match-set rdplist src -j DROP
+-A INPUT -i vmbr0 -p tcp -m tcp --dport 21 -m set ! --match-set rdplist src -j DROP
+-A INPUT -i vmbr0 -p tcp -m tcp --dport 8006 -m set ! --match-set rdplist src -j DROP
+-A INPUT -i vmbr0 -p tcp -m tcp --dport 53 -m set ! --match-set rdplist src -j DROP
+-A INPUT -i vmbr0 -p tcp -m tcp --dport 85 -m set ! --match-set rdplist src -j DROP
+-A INPUT -i vmbr0 -p tcp -m tcp --dport 111 -m set ! --match-set rdplist src -j DROP
+-A INPUT -i vmbr0 -p tcp -m tcp --dport 953 -m set ! --match-set rdplist src -j DROP
+-A INPUT -i vmbr0 -p tcp -m tcp --dport 3128 -m set ! --match-set rdplist src -j DROP
+-A INPUT -i vmbr0 -p tcp -m tcp --dport 54816 -m set ! --match-set rdplist src -j DROP
+COMMIT
+# Completed on Fri Jan  9 21:11:32 2015
+root@ns358431:~# iptables -I PREROUTING -i vmbr0 -p all -m set --match-set blacklist src -j DROP
+iptables: No chain/target/match by that name.
+root@ns358431:~# iptables -I INPUT -i vmbr0 -j DROP -m set --match-set blacklist src
+root@ns358431:~# iptables-save > rules.v4
+root@ns358431:~# iptables-save
+# Generated by iptables-save v1.4.14 on Fri Jan  9 21:18:02 2015
+*nat
+:PREROUTING ACCEPT [141262:7046287]
+:POSTROUTING ACCEPT [197155:14831294]
+:OUTPUT ACCEPT [20779:7939222]
+-A PREROUTING -i vmbr0 -p udp -m udp --dport 7777 -j DNAT --to-destination 192.168.0.1:7777
+-A PREROUTING -i vmbr0 -p udp -m udp --dport 9987 -j DNAT --to-destination 192.168.0.1:9987
+-A PREROUTING -i vmbr0 -p tcp -m tcp --dport 3389 -m set --match-set rdplist src -j DNAT --to-destination 192.168.0.1:3389
+-A POSTROUTING -s 192.168.0.0/24 -o vmbr0 -j MASQUERADE
+COMMIT
+# Completed on Fri Jan  9 21:18:02 2015
+# Generated by iptables-save v1.4.14 on Fri Jan  9 21:18:02 2015
+*mangle
+:PREROUTING ACCEPT [1657657521:109978753515]
+:INPUT ACCEPT [2932783:241618303]
+:FORWARD ACCEPT [1651236513:109573821293]
+:OUTPUT ACCEPT [3277409:474741868]
+:POSTROUTING ACCEPT [1654513922:110048563161]
+COMMIT
+# Completed on Fri Jan  9 21:18:02 2015
+# Generated by iptables-save v1.4.14 on Fri Jan  9 21:18:02 2015
+*filter
+:INPUT ACCEPT [190:9298]
+:FORWARD ACCEPT [70191:6134124]
+:OUTPUT ACCEPT [178:19284]
+-A INPUT -i vmbr0 -m set --match-set blacklist src -j DROP
+-A INPUT -i vmbr0 -p udp -m udp --dport 53 -m set ! --match-set rdplist src -j DROP
+-A INPUT -i vmbr0 -p udp -m udp --dport 111 -m set ! --match-set rdplist src -j DROP
+-A INPUT -i vmbr0 -p udp -m udp --dport 1001 -m set ! --match-set rdplist src -j DROP
+-A INPUT -i vmbr0 -p udp -m udp --dport 1019 -m set ! --match-set rdplist src -j DROP
+-A INPUT -i vmbr0 -p udp -m udp --dport 47030 -m set ! --match-set rdplist src -j DROP
+-A INPUT -i vmbr0 -p tcp -m tcp --dport 21 -m set ! --match-set rdplist src -j DROP
+-A INPUT -i vmbr0 -p tcp -m tcp --dport 8006 -m set ! --match-set rdplist src -j DROP
+-A INPUT -i vmbr0 -p tcp -m tcp --dport 53 -m set ! --match-set rdplist src -j DROP
+-A INPUT -i vmbr0 -p tcp -m tcp --dport 85 -m set ! --match-set rdplist src -j DROP
+-A INPUT -i vmbr0 -p tcp -m tcp --dport 111 -m set ! --match-set rdplist src -j DROP
+-A INPUT -i vmbr0 -p tcp -m tcp --dport 953 -m set ! --match-set rdplist src -j DROP
+-A INPUT -i vmbr0 -p tcp -m tcp --dport 3128 -m set ! --match-set rdplist src -j DROP
+-A INPUT -i vmbr0 -p tcp -m tcp --dport 54816 -m set ! --match-set rdplist src -j DROP
+COMMIT
+# Completed on Fri Jan  9 21:18:02 2015
+
+
+iptables -I INPUT -i vmbr0 -j DROP -m set --match-set blacklist src

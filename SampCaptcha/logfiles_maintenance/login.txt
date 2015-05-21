@@ -1,0 +1,3 @@
+host example.com
+user exampleuser@logs.example.com
+pass exampleuserpassword
