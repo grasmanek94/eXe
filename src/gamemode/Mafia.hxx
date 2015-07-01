@@ -140,7 +140,7 @@ public:
 	bool LoadData(mafia* pointer);
 	void PutIntoMembers(std::string nickname, unsigned char level);
 	void RemoveFromMembers(std::string nickname);
-	void SendMessageToMafia(int color, std::string text);
+	void SendMessageToMafia(int color_, std::string text);
 	void PutIntoOnlineMembers(int playerid, unsigned char level);
 	void UpdateColor();
 	void UpdateColor(int playerid);

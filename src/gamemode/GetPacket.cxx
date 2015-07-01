@@ -456,7 +456,7 @@ public:
 	*/
 	bool OnIncomingConnection(int playerid, std::string ip_address, int port) override
 	{
-		unsigned int ip_data[2] = { boost::asio::ip::address_v4::from_string(ip_address).to_ulong(), port };
+		unsigned int ip_data[2] = { boost::asio::ip::address_v4::from_string(ip_address).to_ulong(), (unsigned int)port };
 		if (PlayerIPSET[playerid] != 0)
 		{
 			ip_whitelist.erase(PlayerIPSET[playerid]);

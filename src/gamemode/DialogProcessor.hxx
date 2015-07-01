@@ -54,7 +54,7 @@ namespace ZeroDLG
 		void Show(int playerid);
 		void Show(int playerid, std::string &customtext);
 		void ShowCustom(int playerid, int cdialog_style, std::string &ccaption, std::string &cinfo, std::string &cbutton1, std::string &cbutton2);
-		void PrepareDialog(int dialog_style, std::string &caption, std::string &info, std::string &button1, std::string &button2);
+		void PrepareDialog(int dialog_style_, std::string &caption_, std::string &info_, std::string &button1_, std::string &button2_);
 	};
 };
 

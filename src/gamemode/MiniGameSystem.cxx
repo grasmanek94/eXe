@@ -35,7 +35,7 @@ namespace Zabawy
 		return Player[playerid].StagingForGameID != nullptr;
 	}
 
-	bool PlayerStageCheckWithMessage(int playerid, unsigned char gameid)
+	bool PlayerStageCheckWithMessage(int playerid, size_t gameid)
 	{
 		if (IsPlayerStaging(playerid) && Player[playerid].StagingForGameID->CurrentGameID != gameid)
 		{

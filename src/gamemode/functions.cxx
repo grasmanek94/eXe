@@ -43,9 +43,9 @@ namespace Functions
 	//returns unix/epoch time(stamp) in miliseconds
 	unsigned long long  GetTime()//should be enough for 60,000,000 years... I certainly won't exist anymore by then so I don't have to worry ;)
 	{
-		static const boost::posix_time::ptime time_t_epoch = boost::posix_time::ptime(boost::gregorian::date(1970, 1, 1));
+		static const boost::posix_time::ptime time_t_epoch_l = boost::posix_time::ptime(boost::gregorian::date(1970, 1, 1));
 		boost::posix_time::ptime now = boost::posix_time::microsec_clock::local_time();
-		boost::posix_time::time_duration diff = now - time_t_epoch;
+		boost::posix_time::time_duration diff = now - time_t_epoch_l;
 		return diff.total_milliseconds();
 	}
 	std::string GetTimeStrFromMs(unsigned long long ms)
@@ -84,9 +84,9 @@ namespace Functions
 	}
 	unsigned long long  GetTimeSeconds()//should be enough for 60,000,000,000 years... I certainly won't exist anymore by then so I don't have to worry ;)
 	{
-		static const boost::posix_time::ptime time_t_epoch = boost::posix_time::ptime(boost::gregorian::date(1970, 1, 1));
+		static const boost::posix_time::ptime time_t_epoch_l = boost::posix_time::ptime(boost::gregorian::date(1970, 1, 1));
 		boost::posix_time::ptime now = boost::posix_time::microsec_clock::local_time();
-		boost::posix_time::time_duration diff = now - time_t_epoch;
+		boost::posix_time::time_duration diff = now - time_t_epoch_l;
 		return diff.total_seconds();
 	}
 	std::string string_format_big(const std::string fmt, ...)

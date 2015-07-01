@@ -86,6 +86,7 @@ typedef unsigned char MessageID;
 typedef unsigned int RakNetTime;
 typedef long long RakNetTimeNS;
 
+#pragma pack(1)
 __declspec(align(1)) struct RakNetStatisticsStruct
 {
 	///  Number of Messages in the send Buffer (high, medium, low priority)

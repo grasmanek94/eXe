@@ -82,7 +82,7 @@ private:
 		>> data;
 	unsigned long current_param;
 	unsigned char delimeter;
-	unsigned char current_param_get;
+	size_t current_param_get;
 	bool DoParse(char f, std::string& input, size_t& current_pos, unsigned char delim = ' ');
 	std::string format;
 public:

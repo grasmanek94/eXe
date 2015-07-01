@@ -57,13 +57,13 @@ void UpdateSpeedoTds(int timerid, void * param)
 			percentage = 100.0;
 		}
 
-		unsigned char star_count = 6 - (size_t)floor(vh / (1000.0f / 6.0f));
+		unsigned char star_count = 6 - (unsigned char)floor(vh / (1000.0f / 6.0f));
 		if (star_count > 5)
 		{
 			star_count = 5;
 		}
 
-		unsigned char star_count_speed = (size_t)floor(speed / (400.0f / 6.0f));
+		unsigned char star_count_speed = (unsigned char)floor(speed / (400.0f / 6.0f));
 		if (star_count_speed > 5)
 		{
 			star_count_speed = 5;

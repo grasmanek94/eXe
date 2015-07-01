@@ -1017,11 +1017,11 @@ void CMafia::RemoveFromMembers(std::string nickname)
 	Wlasciciel.erase(nickname);
 }
 
-void CMafia::SendMessageToMafia(int color, std::string text)
+void CMafia::SendMessageToMafia(int color_, std::string text)
 {
 	for (auto &i : OnlineMembers)
 	{
-		fixSendClientMessage(i, color, text);
+		fixSendClientMessage(i, color_, text);
 	}
 }
 

@@ -1538,11 +1538,11 @@ public:
 						{
 							if (playerstate == PLAYER_STATE_ONFOOT)
 							{
-								for (int i = 0; i < 13; ++i)
+								for (int j = 0; j < 13; ++j)
 								{
 									int weapon;
 									int ammo;
-									GetPlayerWeaponData(playerid, i, &weapon, &ammo);
+									GetPlayerWeaponData(playerid, j, &weapon, &ammo);
 									if (weapon > 0 && weapon != 40 && ammo > 0 && weapon < 48 && weapon != 46)
 									{
 										if (g_WeaponEnabled[weapon] == true)

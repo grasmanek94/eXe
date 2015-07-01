@@ -379,8 +379,8 @@ void SPlayer::SendChat(std::string text)
 					}
 					else
 					{
-						std::string sendmsg(("{000000}" + std::string(5 + PlayerName.size(), '_') + "{81AFE3}" + i));
-						Player[sp_PlayerID].Mafia->SendMessageToMafia(-1, sendmsg);
+						std::string str_sendmsg(("{000000}" + std::string(5 + PlayerName.size(), '_') + "{81AFE3}" + i));
+						Player[sp_PlayerID].Mafia->SendMessageToMafia(-1, str_sendmsg);
 					}
 				}
 			}
@@ -408,8 +408,8 @@ void SPlayer::SendChat(std::string text)
 					}
 					else
 					{
-						std::string sendmsg(("{000000}" + std::string(5 + PlayerName.size(), '_') + "{E8A854}" + i));
-						SendMessageToAdmins(-1, sendmsg);
+						std::string str_sendmsg(("{000000}" + std::string(5 + PlayerName.size(), '_') + "{E8A854}" + i));
+						SendMessageToAdmins(-1, str_sendmsg);
 					}
 				}
 			}
@@ -437,8 +437,8 @@ void SPlayer::SendChat(std::string text)
 					}
 					else
 					{
-						std::string sendmsg(("{000000}" + std::string(5 + PlayerName.size(), '_') + "{EAF20A}" + i));
-						SendMessageToVips(-1, sendmsg);
+						std::string str_sendmsg(("{000000}" + std::string(5 + PlayerName.size(), '_') + "{EAF20A}" + i));
+						SendMessageToVips(-1, str_sendmsg);
 					}
 				}
 			}
@@ -466,8 +466,8 @@ void SPlayer::SendChat(std::string text)
 					}
 					else
 					{
-						std::string sendmsg(("{000000}" + std::string(5 + PlayerName.size(), '_') + "{E03DBA}" + i));
-						SendMessageToSponsors(-1, sendmsg);
+						std::string str_sendmsg(("{000000}" + std::string(5 + PlayerName.size(), '_') + "{E03DBA}" + i));
+						SendMessageToSponsors(-1, str_sendmsg);
 					}
 				}
 			}
@@ -495,8 +495,8 @@ void SPlayer::SendChat(std::string text)
 					}
 					else
 					{
-						std::string sendmsg(("{000000}" + std::string(5 + PlayerName.size(), '_') + "{B1E334}" + i));
-						SendMessageToStaff(-1, sendmsg.c_str());
+						std::string str_sendmsg(("{000000}" + std::string(5 + PlayerName.size(), '_') + "{B1E334}" + i));
+						SendMessageToStaff(-1, str_sendmsg.c_str());
 					}
 				}
 			}
@@ -549,10 +549,10 @@ void SPlayer::SendChat(std::string text)
 					}
 					else
 					{
-						std::string sendmsg(("{000000}" + std::string(5 + PlayerName.size(), '_') + "{EC9EFF}" + i));
+						std::string str_sendmsg(("{000000}" + std::string(5 + PlayerName.size(), '_') + "{EC9EFF}" + i));
 						for (auto team_member : TeamPlayers[Team])
 						{
-							fixSendClientMessage(team_member, -1, sendmsg);
+							fixSendClientMessage(team_member, -1, str_sendmsg);
 						}
 					}
 				}

@@ -233,10 +233,10 @@ void HouseSaveTimer(int timerid, void* param)
 
 struct StaticHouseCreatorData
 {
-	float interior_posX;
-	float interior_posY;
-	float interior_posZ;
-	float interior_angle;
+	double interior_posX;
+	double interior_posY;
+	double interior_posZ;
+	double interior_angle;
 
 	int interiorid;
 };

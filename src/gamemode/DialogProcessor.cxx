@@ -148,12 +148,12 @@ namespace ZeroDLG
 		__internal_dialog_registrar->CurrentDialog[playerid] = this;
 		ShowPlayerDialog(playerid, 1, cdialog_style, ccaption.c_str(), cinfo.c_str(), cbutton1.c_str(), cbutton2.c_str());
 	}
-	void Dialog::PrepareDialog(int dialog_style, std::string &caption, std::string &info, std::string &button1, std::string &button2)
+	void Dialog::PrepareDialog(int dialog_style_, std::string &caption_, std::string &info_, std::string &button1_, std::string &button2_)
 	{
-		this->dialog_style = dialog_style;
-		this->caption.assign(caption);
-		this->info.assign(info);
-		this->button1.assign(button1);
-		this->button2.assign(button2);
+		this->dialog_style = dialog_style_;
+		this->caption.assign(caption_);
+		this->info.assign(info_);
+		this->button1.assign(button1_);
+		this->button2.assign(button2_);
 	}
 };

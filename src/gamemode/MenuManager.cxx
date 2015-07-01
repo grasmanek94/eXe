@@ -95,10 +95,10 @@ bool MenuManager::OnPlayerConnect(int playerid)
 	PlayerTextDrawTextSize(playerid, Player[playerid].QuickMenu->Menu_Display.PlayerTextDraw, 120.0, 90.0);
 	Player[playerid].QuickMenu->Menu_Display.SelectedItem = 0;
 	//GameTextForPlayer(playerid,"~n~~n~~n~Use the ~k~~CONVERSATION_YES~ key to open the action menu and select an item~n~Use ~k~~CONVERSATION_NO~/~k~~GROUP_CONTROL_BWD~ keys to choose between items",7500,4);
-	PlayerMenu::ActionData Data;
-	Player[playerid].QuickMenu->AddItem("1. HEAL", Data, &HealMe);
-	Player[playerid].QuickMenu->AddItem("2. ARMOUR", Data, &ArmorMe);
-	Player[playerid].QuickMenu->AddItem("3. EXIT", Data, &ExitMenu);
+	PlayerMenu::ActionData l_Data;
+	Player[playerid].QuickMenu->AddItem("1. HEAL", l_Data, &HealMe);
+	Player[playerid].QuickMenu->AddItem("2. ARMOUR", l_Data, &ArmorMe);
+	Player[playerid].QuickMenu->AddItem("3. EXIT", l_Data, &ExitMenu);
 	return true;
 }
 

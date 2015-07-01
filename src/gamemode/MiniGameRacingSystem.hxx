@@ -58,11 +58,11 @@ namespace RaceSystem
 
 	struct CheckPointPos
 	{
-		float x;
-		float y;
-		float z;
-		float a;
-		float r;
+		double x;
+		double y;
+		double z;
+		double a;
+		double r;
 	};
 
 	struct SPlayerRaceData

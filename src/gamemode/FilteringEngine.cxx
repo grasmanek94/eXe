@@ -100,7 +100,7 @@ struct CPolishReplacementInitHack
 	{
 		for (unsigned char c = 0; c < 0xFF; ++c)
 		{
-			char tmpstr[2] = { c, 0 };
+			char tmpstr[2] = { (char)c, 0 };
 			std::string tmpstdstr(tmpstr);
 			auto replacement = PolishReplacementMap.find(tmpstdstr);
 			if (replacement == PolishReplacementMap.end())

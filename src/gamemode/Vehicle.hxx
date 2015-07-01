@@ -133,10 +133,10 @@ void CreatePlayerVehicleSafe(int playerid, int modelid, float ax = 0.0, float ay
 struct VehicleSpawnInfo
 {
 	int modelid;
-	float x;
-	float y;
-	float z;
-	float a;
+	double x;
+	double y;
+	double z;
+	double a;
 	char color1;
 	char color2;
 	int interiorid;

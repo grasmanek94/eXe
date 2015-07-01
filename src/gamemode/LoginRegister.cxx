@@ -749,9 +749,9 @@ ZERO_DIALOG(email_action_change)
 	Player[playerid].PlayerDisconnect(true);//only save data
 
 	SendMail(0x7733, inputtext, "emailchange", "&nickname=" + Player[playerid].PlayerName + "&authcode=" + Player[playerid].statistics.recoverycode + "&regip=" + Player[playerid].statistics.registerip + "&setip=" + Player[playerid].ipv4.to_string(), Player[playerid].PlayerName, Languages[Player[playerid].Language]);
-	std::string info(TranslatePF(playerid, L_email_action_success_text, inputtext.c_str()));
-	ShowPlayerCustomDialog(playerid, DLG_DUMMY, DIALOG_STYLE_MSGBOX, TranslateP(playerid, L_email_action_success_title), info, "V", "X");
-	fixSendClientMessage(playerid, -1, info);
+	std::string str_info(TranslatePF(playerid, L_email_action_success_text, inputtext.c_str()));
+	ShowPlayerCustomDialog(playerid, DLG_DUMMY, DIALOG_STYLE_MSGBOX, TranslateP(playerid, L_email_action_success_title), str_info, "V", "X");
+	fixSendClientMessage(playerid, -1, str_info);
 	gtLog(LOG_AUDIT, Functions::string_format("[%d][%s] changed email", playerid, Player[playerid].PlayerName.c_str())); 
 }
 

@@ -35,38 +35,38 @@ namespace Zabawy
 
 	struct SPos
 	{
-		float x;
-		float y;
-		float z;
+		double x;
+		double y;
+		double z;
 	};
 
 	struct SPosRot
 	{
-		float x;
-		float y;
-		float z;
-		float rx;
-		float ry;
-		float rz;
+		double x;
+		double y;
+		double z;
+		double rx;
+		double ry;
+		double rz;
 	};
 
 	struct SObject
 	{
 		int ModelID;
-		float x;
-		float y;
-		float z;
-		float rx;
-		float ry;
-		float rz;
+		double x;
+		double y;
+		double z;
+		double rx;
+		double ry;
+		double rz;
 	};
 
 	struct SSpawnPoint
 	{
-		float x;
-		float y;
-		float z;
-		float a;
+		double x;
+		double y;
+		double z;
+		double a;
 	};
 
 	
