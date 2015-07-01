@@ -53,6 +53,11 @@ std::set<unsigned long long> ip_whitelist;
 std::set<unsigned long long> ip_whitelist_online;
 std::array<unsigned long long, MAX_PLAYERS> PlayerIPSET;
 
+const unsigned int iObjectSocketLayer = 0x004EDA71;
+const unsigned int iRealProcessNetworkPacket = 0x00456EF0;
+const unsigned int iSocketLayerSendTo = 0x004633A0;
+const unsigned int iProcessQueryPacket = 0x00492660;
+const unsigned int iCheckQueryFlood = 0x00492510;
 /*
 * 32 bit magic FNV-1a prime
 */
@@ -273,7 +278,7 @@ void __stdcall DetouredProcessNetworkPacket(const unsigned int binaryAddress, co
 			else//send a ping with the authentication code
 			{		
 				(*(int*)(ping + 1)) = _final_security_code(binaryAddress, port);
-				RealSocketLayerSendTo((void*)0x004EDA71, *(SOCKET*)((char*)pRakServer + 0xC20), (const char*)ping, 5, binaryAddress, port);
+				RealSocketLayerSendTo((void*)iObjectSocketLayer, *(SOCKET*)((char*)pRakServer + 0xC20), (const char*)ping, 5, binaryAddress, port);
 			}
 			return;
 		}
@@ -485,19 +490,13 @@ public:
 /////////////start antifull		
 		int(*pfn_GetRakServer)(void) = (int(*)(void))global_ppData[PLUGIN_DATA_RAKSERVER];
 		pRakServer = (RakServer*)pfn_GetRakServer();
-
-		int iRealProcessNetworkPacket = 0x00456EF0;
 		RealProcessNetworkPacket = reinterpret_cast<FPTR_ProcessNetworkPacket>(Detour((unsigned char*)iRealProcessNetworkPacket, (unsigned char*)DetouredProcessNetworkPacket, 7));
-
-		int iSocketLayerSendTo = 0x004633A0;
 		RealSocketLayerSendTo = reinterpret_cast<FPTR_SocketLayerSendTo>(iSocketLayerSendTo);
 /////////////end antifull
 
 //////////////ping flood protect//////////////////////
-		int iProcessQueryPacket = 0x00492660;
 		RealProcessQueryPacket = reinterpret_cast<FPTR_ProcessQueryPacket>(Detour((unsigned char*)iProcessQueryPacket, (unsigned char*)DetouredProcessQueryPacket, 7));
-		int CheckQueryFlood = 0x00492510;
-		FuncCheckQueryFlood = reinterpret_cast<FPTR_CheckQueryFlood>(CheckQueryFlood);
+		FuncCheckQueryFlood = reinterpret_cast<FPTR_CheckQueryFlood>(iCheckQueryFlood);
 //////////////////////////////////////////////////////
 
 		int RecvFunc = ((int*)(*(void**)pRakServer))[10];
@@ -634,7 +633,7 @@ public:
 Packet* __thiscall CHookRakServer::Receive(void* ppRakServer)
 {
 	Packet* p = RaknetOriginalReceive(pRakServer);
-	BYTE packetId = GetPacketID(p);
+	/*BYTE packetId = GetPacketID(p);
 	if (p)
 	{
 		bool deallocate = false;
@@ -693,7 +692,7 @@ Packet* __thiscall CHookRakServer::Receive(void* ppRakServer)
 			pRakServer->DeallocatePacket(p);
 			p = 0;
 		}
-	}
+	}*/
 	return p;
 }
 

@@ -215,3 +215,4 @@ ipwhitelist.inline
 
 # branches
 [Bb]ranches/
+bin/Svr/server_log.txt
