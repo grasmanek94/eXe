@@ -53,11 +53,19 @@ std::set<unsigned long long> ip_whitelist;
 std::set<unsigned long long> ip_whitelist_online;
 std::array<unsigned long long, MAX_PLAYERS> PlayerIPSET;
 
-const unsigned int iObjectSocketLayer = 0x004EDA71;
-const unsigned int iRealProcessNetworkPacket = 0x00456EF0;
-const unsigned int iSocketLayerSendTo = 0x004633A0;
-const unsigned int iProcessQueryPacket = 0x00492660;
-const unsigned int iCheckQueryFlood = 0x00492510;
+//for 037
+const unsigned int iObjectSocketLayer = 0x004F0BD1;
+const unsigned int iRealProcessNetworkPacket = 0x00456E60;
+const unsigned int iSocketLayerSendTo = 0x004952E0;
+const unsigned int iProcessQueryPacket = 0x00495430;
+const unsigned int iCheckQueryFlood = 0x004952E0;
+
+void DisableStupidCookieMessages()
+{
+	unsigned long dwProtect;
+	VirtualProtect((void*)0x00457405, 0x0C, PAGE_EXECUTE_READWRITE, &dwProtect);
+	memset((void*)0x00457405, 0x90, 0x0C);
+}
 /*
 * 32 bit magic FNV-1a prime
 */
@@ -258,7 +266,7 @@ unsigned long inline asfa_swapbytes(unsigned long bytes)
 //|Step 1. Hook |Step 2. Challenge |Step 3. PassThrough.
 void __stdcall DetouredProcessNetworkPacket(const unsigned int binaryAddress, const unsigned short port, const char *data, const int length, void *rakPeer)
 {
-	static char ping[5] = { 8/*ID_PING*/, 0, 0, 0, 0 };
+	static char ping[5] = { 7/*ID_PING*/, 0, 0, 0, 0 };
 	//std::cout << "Packet from: " << std::hex << binaryAddress << std::endl;
 	if (binaryAddress != 0x100007F)
 	{
@@ -271,7 +279,7 @@ void __stdcall DetouredProcessNetworkPacket(const unsigned int binaryAddress, co
 		if (ip_whitelist.find(*(unsigned long long*)ip_data) == ip_whitelist.end())
 		{
 			//if not, check if this is an authentication request, if yes and the correct code is bounced add the ip to the whitelist
-			if (data[0] == 40/*ID_PONG*/ && IsGoodPongLength(length) && (*(unsigned long*)(data + 1)) == _final_security_code(binaryAddress, port))
+			if (data[0] == 39/*ID_PONG*/ && IsGoodPongLength(length) && (*(unsigned long*)(data + 1)) == _final_security_code(binaryAddress, port))
 			{
 				ip_whitelist.insert(*(unsigned long long*)ip_data);
 			}
@@ -518,6 +526,8 @@ public:
 		static_assert (sizeof(long) == 4, "SIZE IS WRONG");
 		static_assert (sizeof(unsigned long long) == 8, "SIZE IS WRONG");
 		static_assert (sizeof(long long) == 8, "SIZE IS WRONG");
+
+		DisableStupidCookieMessages();
 
 		return true;
 	}
