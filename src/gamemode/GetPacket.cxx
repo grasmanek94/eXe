@@ -460,6 +460,7 @@ int __cdecl DetouredProcessQueryPacket(struct in_addr binaryAddress, u_short por
 class GetPacket_Processor : public Extension::Base
 {
 public:
+#ifdef ENABLE_PROTECTIONS
 	/*
 		SA-MP allowed the IP:port to connect, let's make a note of it so we can keep track of which IP's have connected succesfully and which did not
 	
@@ -489,15 +490,18 @@ public:
 		PlayerIPSET[playerid] = 0;
 		return true;
 	}
+#endif
 	bool OnGameModeInit() override
 	{
+		int(*pfn_GetRakServer)(void) = (int(*)(void))global_ppData[PLUGIN_DATA_RAKSERVER];
+		pRakServer = (RakServer*)pfn_GetRakServer();
+
+#ifdef ENABLE_PROTECTIONS
 		Functions::RandomGenerator->SetSeed(Functions::GetTimeSeconds());
 		generate_shuffles(0, 0);
 		sampgdk_SetTimerEx(15000, true, generate_shuffles, nullptr, nullptr);
 		sampgdk_SetTimerEx(60000, true, CleanupUnusedWhitelistSlots, nullptr, nullptr);
 /////////////start antifull		
-		int(*pfn_GetRakServer)(void) = (int(*)(void))global_ppData[PLUGIN_DATA_RAKSERVER];
-		pRakServer = (RakServer*)pfn_GetRakServer();
 		RealProcessNetworkPacket = reinterpret_cast<FPTR_ProcessNetworkPacket>(Detour((unsigned char*)iRealProcessNetworkPacket, (unsigned char*)DetouredProcessNetworkPacket, 7));
 		RealSocketLayerSendTo = reinterpret_cast<FPTR_SocketLayerSendTo>(iSocketLayerSendTo);
 /////////////end antifull
@@ -514,6 +518,9 @@ public:
 		VirtualProtect((LPVOID)&((int*)(*(void**)pRakServer))[10], 4, PAGE_EXECUTE_READWRITE, &temp);
 		((int*)(*(void**)pRakServer))[10] = (int)CHookRakServer::Receive;
 
+		DisableStupidCookieMessages();
+#endif
+
 		static_assert (sizeof(Packet) == 21, "SIZE IS WRONG");
 		static_assert (sizeof(BYTE) == 1, "SIZE IS WRONG");
 		static_assert (sizeof(unsigned char) == 1, "SIZE IS WRONG");
@@ -526,8 +533,6 @@ public:
 		static_assert (sizeof(long) == 4, "SIZE IS WRONG");
 		static_assert (sizeof(unsigned long long) == 8, "SIZE IS WRONG");
 		static_assert (sizeof(long long) == 8, "SIZE IS WRONG");
-
-		DisableStupidCookieMessages();
 
 		return true;
 	}
