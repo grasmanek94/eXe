@@ -62,9 +62,9 @@ const unsigned int iCheckQueryFlood = 0x004952E0;
 
 void DisableStupidCookieMessages()
 {
-	unsigned long dwProtect;
-	VirtualProtect((void*)0x00457405, 0x0C, PAGE_EXECUTE_READWRITE, &dwProtect);
-	memset((void*)0x00457405, 0x90, 0x0C);
+	//unsigned long dwProtect;
+	//VirtualProtect((void*)0x00457405, 0x0C, PAGE_EXECUTE_READWRITE, &dwProtect);
+	//memset((void*)0x00457405, 0x90, 0x0C);
 }
 /*
 * 32 bit magic FNV-1a prime
