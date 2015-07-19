@@ -394,6 +394,7 @@ ZCMD(mjoin, PERMISSION_NONE, RESTRICTION_NOT_IN_MAFIA | RESTRICTION_NOT_IN_A_GAM
 				SendClientMessageF(i, Color::COLOR_INFO3, L_mm_mafia_join_success, true, true, Player[playerid].PlayerName.c_str(), params.c_str());
 			}
 			Player[playerid].PlayerDisconnect(true);
+			Player[playerid].InviteMafia.clear();
 			gtLog(LOG_MAFIA, Functions::string_format("[%d][%s] accepted invite from %s", playerid, Player[playerid].PlayerName.c_str(), params.c_str()));
 			return true;
 		}
