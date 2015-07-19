@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LocalDebuggerCommand>$(SolutionDir)/bin/Svr/samp-server.exe</LocalDebuggerCommand>
@@ -6,7 +6,19 @@
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
     <RemoteDebuggerCommand>S:\samp-server.exe</RemoteDebuggerCommand>
     <RemoteDebuggerWorkingDirectory>S:\</RemoteDebuggerWorkingDirectory>
-    <RemoteDebuggerServerName></RemoteDebuggerServerName>
+    <RemoteDebuggerServerName>
+    </RemoteDebuggerServerName>
+    <RemoteDebuggerAttach>true</RemoteDebuggerAttach>
+    <LocalDebuggerEnvironment>SAMPGDK_LOG +d
+$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release2015|Win32'">
+    <LocalDebuggerCommand>$(SolutionDir)/bin/Svr/samp-server.exe</LocalDebuggerCommand>
+    <LocalDebuggerWorkingDirectory>$(SolutionDir)/bin/Svr/</LocalDebuggerWorkingDirectory>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+    <RemoteDebuggerCommand>S:\samp-server.exe</RemoteDebuggerCommand>
+    <RemoteDebuggerWorkingDirectory>S:\</RemoteDebuggerWorkingDirectory>
+    <RemoteDebuggerServerName />
     <RemoteDebuggerAttach>true</RemoteDebuggerAttach>
     <LocalDebuggerEnvironment>SAMPGDK_LOG +d
 $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
@@ -17,7 +29,8 @@ $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
     <RemoteDebuggerCommand>S:\samp-server.exe</RemoteDebuggerCommand>
     <RemoteDebuggerWorkingDirectory>S:\</RemoteDebuggerWorkingDirectory>
-    <RemoteDebuggerServerName></RemoteDebuggerServerName>
+    <RemoteDebuggerServerName>
+    </RemoteDebuggerServerName>
     <RemoteDebuggerAttach>true</RemoteDebuggerAttach>
     <LocalDebuggerEnvironment>SAMPGDK_LOG +d
 $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
@@ -29,7 +42,19 @@ $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
     <RemoteDebuggerCommand>S:\samp-server.exe</RemoteDebuggerCommand>
     <RemoteDebuggerWorkingDirectory>S:\</RemoteDebuggerWorkingDirectory>
-    <RemoteDebuggerServerName></RemoteDebuggerServerName>
+    <RemoteDebuggerServerName>
+    </RemoteDebuggerServerName>
+    <RemoteDebuggerAttach>true</RemoteDebuggerAttach>
+    <LocalDebuggerEnvironment>SAMPGDK_LOG +d
+$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug2015|Win32'">
+    <LocalDebuggerCommand>$(SolutionDir)/bin/Svr/samp-server.exe</LocalDebuggerCommand>
+    <LocalDebuggerWorkingDirectory>$(SolutionDir)/bin/Svr/</LocalDebuggerWorkingDirectory>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+    <RemoteDebuggerCommand>S:\samp-server.exe</RemoteDebuggerCommand>
+    <RemoteDebuggerWorkingDirectory>S:\</RemoteDebuggerWorkingDirectory>
+    <RemoteDebuggerServerName />
     <RemoteDebuggerAttach>true</RemoteDebuggerAttach>
     <LocalDebuggerEnvironment>SAMPGDK_LOG +d
 $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
@@ -40,7 +65,8 @@ $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
     <RemoteDebuggerCommand>S:\samp-server.exe</RemoteDebuggerCommand>
     <RemoteDebuggerWorkingDirectory>S:\</RemoteDebuggerWorkingDirectory>
-    <RemoteDebuggerServerName></RemoteDebuggerServerName>
+    <RemoteDebuggerServerName>
+    </RemoteDebuggerServerName>
     <RemoteDebuggerAttach>true</RemoteDebuggerAttach>
     <LocalDebuggerEnvironment>SAMPGDK_LOG +d
 $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
