@@ -146,3 +146,4 @@ struct VehicleSpawnInfo
 
 int MakeSpawnInfoVehicle(VehicleSpawnInfo& info);
 void MakeAllSpawnInfoVehicles(std::vector<VehicleSpawnInfo>& vehicles);
+bool IsDisallowedVehicle(int modelid);

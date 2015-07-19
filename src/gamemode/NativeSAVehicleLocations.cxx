@@ -1472,15 +1472,21 @@ void MakeAllNativeVehicles()
 {
 	for (auto i : NoProcessVehicles) /* I liwd, these need a small amount of processing to colour colour correct public service vehicles, I have ONLY included the vehicles in the list */
 	{	
-		std::array<int, 2> iCol;
-		GetGoodColors(i.modelid, iCol);
-		fixCreateVehicle(i.modelid, i.x, i.y, i.z + 2.0, i.a, iCol[0], iCol[1], 3600);
+		if (!IsDisallowedVehicle(i.modelid))
+		{
+			std::array<int, 2> iCol;
+			GetGoodColors(i.modelid, iCol);
+			fixCreateVehicle(i.modelid, i.x, i.y, i.z + 2.0, i.a, iCol[0], iCol[1], 3600);
+		}
 	}
 
 	for (auto i : ProcessVehicles)
 	{
 		int iModel = GetRandomVehicleModel(i.modelid); /* Really is a Group ID */
-		fixCreateVehicle(iModel, i.x, i.y, i.z + 2.0, i.a, -1, -1, 3600);
+		if (!IsDisallowedVehicle(iModel))
+		{
+			fixCreateVehicle(iModel, i.x, i.y, i.z + 2.0, i.a, -1, -1, 3600);
+		}
 	}
 }
 
