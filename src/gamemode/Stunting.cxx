@@ -363,17 +363,3 @@ ZCMD(wyskok, PERMISSION_NONE, RESTRICTION_NOT_IN_A_GAME | RESTRICTION_NOT_AFTER_
 	TeleportPlayer(playerid, -175.4191, -1678.9774, 880.4678, 0.0, true, 0, 0, "", 0, 0, 2.0, 2.0, false, true);
 	return true;
 }
-
-ZCMDF(tpx, PERMISSION_NONE, RESTRICTION_NOT_IN_A_GAME | RESTRICTION_NOT_AFTER_FIGHT, cmd_alias({}), "D")
-{
-	if (parser.Good())
-	{
-		size_t index = (_StuntPark.Objects.size() - 1) - parser.Get<unsigned long>();
-		if (index >= 0)
-		{
-			auto pos = _StuntPark.Objects[index];
-			TeleportPlayer(playerid, pos.x, pos.y, pos.z, pos.rz, true, 0, 0, "", 0, 0, 0.0, 0.0, false, true);
-		}
-	}
-	return true;
-}
