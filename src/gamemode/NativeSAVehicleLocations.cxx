@@ -1442,6 +1442,7 @@ int GetRandomVehicleModel(int iGroup)
 		break;
 	case POPCYCLE_GROUP_GOLFERS:
 		iModel = VEH_TYPE_CADDY;
+		break;
 	case POPCYCLE_GROUP_OUT_OF_TOWN_FACTORY:
 		iModel = OFTF_Vehicles[rand() % OFTF_Vehicles.size()];
 		break;
