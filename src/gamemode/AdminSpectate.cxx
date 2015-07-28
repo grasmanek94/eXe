@@ -40,7 +40,7 @@ bool PlayerSpactatable(int playerid)
 {
 	static int state;
 	state = GetPlayerState(playerid);
-	return (state == PLAYER_STATE_ONFOOT || state == PLAYER_STATE_DRIVER || PLAYER_STATE_PASSENGER);
+	return (state == PLAYER_STATE_ONFOOT || state == PLAYER_STATE_DRIVER || state == PLAYER_STATE_PASSENGER);
 }
 
 bool DisablePlayerSpectate(int playerid, bool doexit = true)
