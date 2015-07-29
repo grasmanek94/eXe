@@ -491,7 +491,7 @@ public:
 	{
 		if (Player[playerid].CurrentVehicle && Player[playerid].CurrentGameID == nullptr)
 		{
-			if ((newkeys == 1 || newkeys == 9 || newkeys == 33) && (oldkeys != 1 || oldkeys != 9 || oldkeys != 33))
+			if ((newkeys == 1 && oldkeys != 1) || (newkeys == 9 && oldkeys != 9) || (newkeys == 33 && oldkeys != 33))
 			{
 				AddVehicleComponent(Player[playerid].CurrentVehicle, 1010);
 			}
