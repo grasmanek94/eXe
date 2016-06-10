@@ -150,6 +150,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ModuleDefinitionFile>main.def</ModuleDefinitionFile>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>notelemetry.obj;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
       <Command>TFS_VERSION.bat &amp;&amp; cd src/gamemode &amp;&amp; copy /b VERSION.cxx +,,</Command>
